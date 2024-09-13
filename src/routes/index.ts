@@ -1,5 +1,28 @@
 import { Router } from 'express';
 import statusRouter from './statusRouter';
+import appointmentRouter from './appointmentRouter';
+import clinicRouter from './clinicRouter';
+import commentRouter from './commentRouter';
+import doctorRouter from './doctorRouter';
+import majorRouter from './majorRouter';
+import postRouter from './postRouter';
+import roleRouter from './roleRouter';
+import scheduleRouter from './scheduleRouter';
+import serviceRouter from './servicesRouter';
+import timeRouter from './timeRouter';
+import userRouter from './userRouter';
 const router = Router();
 router.use('/status', statusRouter);
+router.use('/appointment', appointmentRouter);
+router.use('/clinic', clinicRouter);
+router.use('/comment', commentRouter);
+router.use('/doctor', doctorRouter);
+router.use('/major', majorRouter);
+router.use('/post', postRouter);
+router.use('/role', roleRouter);
+router.use('/schedule', scheduleRouter);
+router.use('/service', serviceRouter);
+router.use('/time', timeRouter);
+router.use('/user', userRouter);
+
 export default router;
