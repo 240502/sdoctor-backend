@@ -3,7 +3,6 @@ export interface Doctor {
     full_name: String;
     clinic_id: Number;
     major_id: Number;
-    title_id: Number;
     description: String;
     image: String;
     email: String;
@@ -12,4 +11,9 @@ export interface Doctor {
     created_at: Date;
     updated_at: Date;
     address: String;
+    gender : String;
+    title: String;
+    fee:Number;
+    examination_object:String;
+
 }
