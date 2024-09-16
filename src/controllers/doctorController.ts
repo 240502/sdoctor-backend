@@ -78,4 +78,14 @@ export class DoctorController {
             res.json({ message: err.message });
         }
     }
+    async getQuantityDoctor(req: Request, res: Response): Promise<void> {
+        try {
+            const data: number = await this.doctorService.getQuantityDoctor();
+            if (data) {
+                res.json({ totalDoctor: data });
+            } else res.status(404).json({ message: 'Không có bác sĩ nào!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

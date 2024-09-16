@@ -73,4 +73,15 @@ export class UserRepository {
             throw new Error(err.message);
         }
     }
+    async getUserById(id: Number): Promise<any> {
+        try {
+            const sql = 'CALL GetUserById(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [id]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

@@ -21,4 +21,9 @@ userRouter.post(
     userController.deleteUser.bind(userController),
 );
 
+userRouter.get(
+    '/getById/:id',
+    authenticate,
+    userController.getUserById.bind(userController),
+);
 export default userRouter;

@@ -20,4 +20,7 @@ export class UserService {
     async deleteUser(id: Number): Promise<any> {
         return this.userRepository.deleteUser(id);
     }
+    async getUserById(id: number): Promise<any> {
+        return this.userRepository.getUserById(id);
+    }
 }

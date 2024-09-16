@@ -60,4 +60,17 @@ export class UserController {
             res.json({ message: err.message });
         }
     }
+    async getUserById(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            const result: User = await this.userService.getUserById(id);
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({ message: 'Bản ghi không tồn tại!' });
+            }
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

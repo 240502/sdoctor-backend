@@ -32,4 +32,7 @@ export class DoctorService {
             location,
         );
     }
+    async getQuantityDoctor(): Promise<any> {
+        return this.doctorRepository.getQuantityDoctor();
+    }
 }
