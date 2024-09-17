@@ -6,7 +6,6 @@ import { Request, Response } from 'express';
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
-    async createAppointment(appointment: Appointment): Promise<void> {}
     async getQuantityRejectedAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -56,6 +55,36 @@ export class AppointmentController {
             const appointment: Appointment = req.body as Appointment;
             await this.appointmentService.orderAppointment(appointment);
             res.json({ message: 'Successfully', result: true });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
+    async viewDetailAppointmentForPatient(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { pageIndex, pageSize, phone, statusId } = req.body;
+            const data =
+                await this.appointmentService.viewDetailAppointmentForPatient(
+                    pageIndex,
+                    pageSize,
+                    phone,
+                    statusId,
+                );
+            if (data) {
+                res.json(data);
+            } else res.status(404).json({ message: 'Không có dữ liệu!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
+    async cancelAppointment(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            await this.appointmentService.cancelAppointment(id);
+
+            res.status(200).json({ message: 'Successfully!' });
         } catch (err: any) {
             res.json({ message: err.message });
         }

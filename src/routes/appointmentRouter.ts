@@ -7,7 +7,7 @@ const appointmentController = container.resolve(AppointmentController);
 
 appointmentRouter.post(
     '/create',
-    appointmentController.createAppointment.bind(appointmentController),
+    appointmentController.orderAppointment.bind(appointmentController),
 );
 appointmentRouter.post(
     '/getQuantityRejectedAppointmentByYearAndMonth',
@@ -25,4 +25,15 @@ appointmentRouter.post(
     ),
 );
 
+appointmentRouter.put(
+    '/cancel/:id',
+    appointmentController.cancelAppointment.bind(appointmentController),
+);
+
+appointmentRouter.post(
+    '/viewForPatient',
+    appointmentController.viewDetailAppointmentForPatient.bind(
+        appointmentController,
+    ),
+);
 export default appointmentRouter;

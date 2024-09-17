@@ -27,4 +27,20 @@ export class AppointmentService {
     async orderAppointment(appointment: Appointment): Promise<any> {
         return this.appointmentRepository.createAppointment(appointment);
     }
+    async viewDetailAppointmentForPatient(
+        pageIndex: number,
+        pageSize: number,
+        phone: string,
+        statusId: number,
+    ): Promise<any> {
+        return this.appointmentRepository.ViewDetailAppointmentForPatient(
+            pageIndex,
+            pageSize,
+            phone,
+            statusId,
+        );
+    }
+    async cancelAppointment(id: number): Promise<any> {
+        return this.appointmentRepository.cancelAppointment(id);
+    }
 }
