@@ -23,4 +23,7 @@ export class UserService {
     async getUserById(id: number): Promise<any> {
         return this.userRepository.getUserById(id);
     }
+    async ViewUser(pageIndex: number, pageSize: number): Promise<any> {
+        return this.userRepository.ViewUser(pageIndex, pageSize);
+    }
 }

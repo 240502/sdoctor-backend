@@ -73,4 +73,24 @@ export class UserController {
             res.json({ message: err.message });
         }
     }
+    async viewUser(req: Request, res: Response): Promise<void> {
+        try {
+            const { pageIndex, pageSize } = req.body;
+            const results = await this.userService.ViewUser(
+                pageIndex,
+                pageSize,
+            );
+            if (results) {
+                res.json({
+                    totalItems: results[0].RecordCount,
+                    page: pageIndex,
+                    pageSize: pageSize,
+                    data: results,
+                    pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                });
+            } else res.json({ message: 'Không tồn tại bản ghi nào!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

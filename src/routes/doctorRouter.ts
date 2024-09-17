@@ -24,5 +24,8 @@ doctorRouter.get(
     '/getById/:id',
     doctorController.getDoctorById.bind(doctorController),
 );
-doctorRouter.post('/', doctorController.getDoctorView.bind(doctorController));
+doctorRouter.post(
+    '/view',
+    doctorController.getDoctorView.bind(doctorController),
+);
 export default doctorRouter;

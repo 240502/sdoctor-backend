@@ -26,4 +26,9 @@ userRouter.get(
     authenticate,
     userController.getUserById.bind(userController),
 );
+userRouter.post(
+    'view',
+    authenticate,
+    userController.viewUser.bind(userController),
+);
 export default userRouter;

@@ -24,4 +24,7 @@ export class AppointmentService {
             month,
         );
     }
+    async orderAppointment(appointment: Appointment): Promise<any> {
+        return this.appointmentRepository.createAppointment(appointment);
+    }
 }
