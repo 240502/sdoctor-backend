@@ -32,8 +32,6 @@ appointmentRouter.put(
 
 appointmentRouter.post(
     '/viewForPatient',
-    appointmentController.viewDetailAppointmentForPatient.bind(
-        appointmentController,
-    ),
+    appointmentController.ViewAppointment.bind(appointmentController),
 );
 export default appointmentRouter;

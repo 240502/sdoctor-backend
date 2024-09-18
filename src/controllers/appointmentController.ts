@@ -5,7 +5,33 @@ import { Request, Response } from 'express';
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
+    async getNumberAppointment(req: Request, res: Response): Promise<void> {
+        try {
+            const { date } = req.body;
+            const data =
+                await this.appointmentService.getNumberAppointmentInDay(date);
+            if (data) {
+                res.json({ totalAppointment: data });
+            } else res.json({ message: 'Không có lịch hẹn nào!' });
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 
+    async getRevenueByMonth(req: Request, res: Response): Promise<void> {
+        try {
+            const { year, month } = req.body;
+            const data = await this.appointmentService.getRevenueByMonth(
+                month,
+                year,
+            );
+            if (data) {
+                res.json({ totalAppointment: data });
+            } else res.json({ message: 'Không có doanh thu!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
     async getQuantityRejectedAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -59,19 +85,15 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-    async viewDetailAppointmentForPatient(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
+    async ViewAppointment(req: Request, res: Response): Promise<void> {
         try {
             const { pageIndex, pageSize, phone, statusId } = req.body;
-            const data =
-                await this.appointmentService.viewDetailAppointmentForPatient(
-                    pageIndex,
-                    pageSize,
-                    phone,
-                    statusId,
-                );
+            const data = await this.appointmentService.ViewAppointment(
+                pageIndex,
+                pageSize,
+                phone,
+                statusId,
+            );
             if (data) {
                 res.json(data);
             } else res.status(404).json({ message: 'Không có dữ liệu!' });
@@ -85,6 +107,27 @@ export class AppointmentController {
             await this.appointmentService.cancelAppointment(id);
 
             res.status(200).json({ message: 'Successfully!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
+    async confirmAppointment(req: Request, res: Response): Promise<any> {
+        try {
+            const id: number = Number(req.params.id);
+            await this.appointmentService.confirmAppointment(id);
+
+            res.status(200).json({ message: 'Successfully!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
+
+    async getAppointmentById(req: Request, res: Response): Promise<any> {
+        try {
+            const id: number = Number(req.params.id);
+            const data = await this.appointmentService.getAppointmentById(id);
+
+            res.status(200).json(data);
         } catch (err: any) {
             res.json({ message: err.message });
         }
