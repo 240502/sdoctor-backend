@@ -4,6 +4,29 @@ import { Appointment } from '../models/appointment';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
+
+    async getRevenueByMonth(month: number, year: number): Promise<any> {
+        try {
+            const sql = 'CALL GetRevenueByMonth(?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [month, year]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0].SumRevenue;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getNumberAppointmentInDay(date: Date): Promise<any> {
+        try {
+            const sql = 'CALL GetCountPatients(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [date]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0].CountPatient;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async cancelAppointment(id: number): Promise<any> {
         try {
             const sql = 'CALL CancelAppointment(?,@err_code,@err_msg)';

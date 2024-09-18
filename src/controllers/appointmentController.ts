@@ -5,7 +5,33 @@ import { Request, Response } from 'express';
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
+    async getNumberAppointment(req: Request, res: Response): Promise<void> {
+        try {
+            const { date } = req.body;
+            const data =
+                await this.appointmentService.getNumberAppointmentInDay(date);
+            if (data) {
+                res.json({ totalAppointment: data });
+            } else res.json({ message: 'Không có lịch hẹn nào!' });
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 
+    async getRevenueByMonth(req: Request, res: Response): Promise<void> {
+        try {
+            const { year, month } = req.body;
+            const data = await this.appointmentService.getRevenueByMonth(
+                month,
+                year,
+            );
+            if (data) {
+                res.json({ totalAppointment: data });
+            } else res.json({ message: 'Không có doanh thu!' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
     async getQuantityRejectedAppointmentByYearAndMonth(
         req: Request,
         res: Response,

@@ -4,4 +4,6 @@ export interface Schedule {
     date: Date;
     created_at: Date;
     updated_at: Date;
+    type: string;
+    time: string;
 }

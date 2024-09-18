@@ -5,6 +5,12 @@ import { Appointment } from '../models/appointment';
 @injectable()
 export class AppointmentService {
     constructor(private appointmentRepository: AppointmentRepository) {}
+    async getRevenueByMonth(month: number, year: number): Promise<any> {
+        return this.appointmentRepository.getRevenueByMonth(month, year);
+    }
+    async getNumberAppointmentInDay(date: Date): Promise<any> {
+        return this.appointmentRepository.getNumberAppointmentInDay(date);
+    }
     async getAllAppointmentByYearAndMonth(
         year: number,
         month: number,
