@@ -1,12 +1,9 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { Appointment } from '../models/appointment';
-import { threadId } from 'worker_threads';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
-
-<<<<<<< HEAD
     async confirmAppointment(id: number): Promise<any> {
         try {
             const sql = 'CALL ConfirmAppointment(?,@err_code,@err_msg)';
@@ -16,8 +13,6 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-=======
->>>>>>> a2316feac08f4c9423e9b60733815892a4312a1a
     async getRevenueByMonth(month: number, year: number): Promise<any> {
         try {
             const sql = 'CALL GetRevenueByMonth(?,?,@err_code,@err_msg)';
