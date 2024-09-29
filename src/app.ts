@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import router from './routes';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
+import path from 'path';
 dotenv.config({ path: '../.env' });
 
 const app = express();
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
