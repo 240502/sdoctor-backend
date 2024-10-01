@@ -89,4 +89,17 @@ export class ClinicController {
             res.json({ message: err.message });
         }
     }
+    async getCommonClinic(req: Request, res: Response): Promise<void> {
+        try {
+            const results: Clinic[] =
+                await this.clinicService.getCommonClinic();
+            if (Array.isArray(results) && results.length > 0) {
+                res.json(results);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi' });
+            }
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

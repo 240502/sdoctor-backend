@@ -11,6 +11,9 @@ import scheduleRouter from './scheduleRouter';
 import serviceRouter from './servicesRouter';
 import timeRouter from './timeRouter';
 import userRouter from './userRouter';
+import homeDirectoryRouter from './home_directoryRouter';
+import homeMenuRouter from './home_menuRouter';
+
 const router = Router();
 router.use('/status', statusRouter);
 router.use('/appointment', appointmentRouter);
@@ -24,5 +27,7 @@ router.use('/schedule', scheduleRouter);
 router.use('/service', serviceRouter);
 router.use('/time', timeRouter);
 router.use('/user', userRouter);
+router.use('/home-directory', homeDirectoryRouter);
+router.use('/home-menu', homeMenuRouter);
 
 export default router;

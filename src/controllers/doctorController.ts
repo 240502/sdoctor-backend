@@ -88,4 +88,14 @@ export class DoctorController {
             res.json({ message: err.message });
         }
     }
+    async getCommonDoctor(req: Request, res: Response): Promise<void> {
+        try {
+            const data: Doctor[] = await this.doctorService.getCommonDoctor();
+            if (Array.isArray(data) && data.length > 0) {
+                res.json(data);
+            }
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

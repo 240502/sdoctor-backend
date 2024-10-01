@@ -28,5 +28,9 @@ clinicRouter.post(
     '/view',
     clinicController.getClinicView.bind(clinicController),
 );
+clinicRouter.get(
+    '/get-common-clinic',
+    clinicController.getCommonClinic.bind(clinicController),
+);
 
 export default clinicRouter;

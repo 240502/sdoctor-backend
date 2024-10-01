@@ -90,5 +90,15 @@ export class ClinicRepository {
             throw new Error(err.message);
         }
     }
-
+    async getCommonClinic(): Promise<any> {
+        try {
+            const sql = 'CALL GetCommonClinic(@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, []);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

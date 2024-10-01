@@ -30,4 +30,7 @@ export class ClinicService {
     async getQuantityClinic(): Promise<any> {
         return this.clinicRepository.getQuantityClinic();
     }
+    async getCommonClinic(): Promise<any> {
+        return this.clinicRepository.getCommonClinic();
+    }
 }
