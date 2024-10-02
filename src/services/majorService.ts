@@ -8,4 +8,7 @@ export class MajorService {
     async getCommonMajor(): Promise<any> {
         return this.majorRepository.getCommonMajor();
     }
+    async getAllMajor(): Promise<any> {
+        return this.majorRepository.getAllMajor();
+    }
 }

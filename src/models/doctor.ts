@@ -11,9 +11,9 @@ export interface Doctor {
     created_at: Date;
     updated_at: Date;
     address: String;
-    gender : String;
+    gender: String;
     title: String;
-    fee:Number;
-    examination_object:String;
-
+    fee: Number;
+    examination_object: String;
+    views: number;
 }

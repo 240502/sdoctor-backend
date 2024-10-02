@@ -28,4 +28,8 @@ doctorRouter.post(
     '/view',
     doctorController.getDoctorView.bind(doctorController),
 );
+doctorRouter.post(
+    '/get-common-doctor',
+    doctorController.getCommonDoctor.bind(doctorController),
+);
 export default doctorRouter;

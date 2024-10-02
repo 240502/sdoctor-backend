@@ -90,10 +90,12 @@ export class DoctorController {
     }
     async getCommonDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const data: Doctor[] = await this.doctorService.getCommonDoctor();
+            const { date }: any = req.body;
+            const data: Doctor[] =
+                await this.doctorService.getCommonDoctor(date);
             if (Array.isArray(data) && data.length > 0) {
                 res.json(data);
-            }
+            } else res.json('Không tồn tại bản ghi nào!');
         } catch (err: any) {
             res.json({ message: err.message });
         }

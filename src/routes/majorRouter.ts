@@ -9,5 +9,9 @@ majorRouter.get(
     '/get-common-major',
     majorController.getCommonMajor.bind(majorController),
 );
+majorRouter.get(
+    '/get-all-major',
+    majorController.getAllMajor.bind(majorController),
+);
 
 export default majorRouter;
