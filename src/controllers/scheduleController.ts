@@ -57,4 +57,31 @@ export class ScheduleController {
             res.json({ message: err.message });
         }
     }
+    async getScheduleByDateAndSubscriberId(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { date, subscriberId } = req.body;
+            const result =
+                await this.scheduleService.getScheduleByDateAndSubscriberId(
+                    date,
+                    subscriberId,
+                );
+            if (result) {
+                res.json({
+                    data: result,
+                    date: date,
+                    subscriberId: subscriberId,
+                });
+            } else
+                res.status(404).json({
+                    message: 'Không tồn tại bản ghi !',
+                    data: { date, subscriberId },
+                    result: result,
+                });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

@@ -35,7 +35,7 @@ export class DoctorService {
     async getQuantityDoctor(): Promise<any> {
         return this.doctorRepository.getQuantityDoctor();
     }
-    async getCommonDoctor(date: Date): Promise<any> {
-        return this.doctorRepository.getCommonDoctor(date);
+    async getCommonDoctor(): Promise<any> {
+        return this.doctorRepository.getCommonDoctor();
     }
 }

@@ -27,4 +27,10 @@ scheduleRouter.post(
     scheduleController.viewSchedule.bind(scheduleController),
 );
 
+scheduleRouter.post(
+    '/get-by-subscriber-id-date',
+    scheduleController.getScheduleByDateAndSubscriberId.bind(
+        scheduleController,
+    ),
+);
 export default scheduleRouter;

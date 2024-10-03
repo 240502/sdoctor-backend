@@ -21,4 +21,13 @@ export class ScheduleService {
     ): Promise<any> {
         return this.scheduleRepository.ViewSchedule(date, pageIndex, pageSize);
     }
+    async getScheduleByDateAndSubscriberId(
+        date: string,
+        subscriberId: number,
+    ): Promise<any> {
+        return this.scheduleRepository.getScheduleByDateAndSubscriberId(
+            date,
+            subscriberId,
+        );
+    }
 }

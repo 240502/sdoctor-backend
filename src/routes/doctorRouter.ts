@@ -28,7 +28,7 @@ doctorRouter.post(
     '/view',
     doctorController.getDoctorView.bind(doctorController),
 );
-doctorRouter.post(
+doctorRouter.get(
     '/get-common-doctor',
     doctorController.getCommonDoctor.bind(doctorController),
 );

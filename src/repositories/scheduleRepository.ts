@@ -55,4 +55,20 @@ export class ScheduleRepository {
             throw new Error(err.message);
         }
     }
+
+    async getScheduleByDateAndSubscriberId(
+        date: string,
+        subscriberId: number,
+    ): Promise<any> {
+        try {
+            const sql =
+                'CALL GetScheduleByDateAndSubscriberId(?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [subscriberId, date]);
+            if (results.length > 0 && Array.isArray(results)) {
+                return results[0];
+            } else return null;
+        } catch (err: any) {
+            console.log(err.message);
+        }
+    }
 }
