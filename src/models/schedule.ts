@@ -6,4 +6,5 @@ export interface Schedule {
     updated_at: Date;
     type: string;
     time: string;
+    available: number;
 }

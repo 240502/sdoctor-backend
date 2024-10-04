@@ -2,9 +2,10 @@ import { Router } from 'express';
 import { container } from 'tsyringe';
 import { AppointmentController } from '../controllers/appointmentController';
 import { authenticate } from '../middlewares/authMiddleware';
+import { Server } from 'socket.io';
+import { AppointmentService } from '../services/appointmentService';
 const appointmentRouter = Router();
 const appointmentController = container.resolve(AppointmentController);
-
 appointmentRouter.post(
     '/create',
     appointmentController.orderAppointment.bind(appointmentController),
@@ -34,4 +35,5 @@ appointmentRouter.post(
     '/viewForPatient',
     appointmentController.ViewAppointment.bind(appointmentController),
 );
+
 export default appointmentRouter;

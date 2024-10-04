@@ -1,10 +1,12 @@
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { AppointmentService } from '../services/appointmentService';
 import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
+import { getSocket } from '../socket';
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
+
     async getNumberAppointment(req: Request, res: Response): Promise<void> {
         try {
             const { date } = req.body;
@@ -76,10 +78,13 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-    async orderAppointment(req: Request, res: Response): Promise<void> {
+    async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: Appointment = req.body as Appointment;
             await this.appointmentService.orderAppointment(appointment);
+            // Gửi thông báo đến tất cả client
+            // const io = getSocket();
+            // io.emit('newAppointment', appointment);
             res.json({ message: 'Successfully', result: true });
         } catch (err: any) {
             res.json({ message: err.message });
