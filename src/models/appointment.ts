@@ -14,4 +14,7 @@ export interface Appointment {
     status_id: Number;
     created_at: Date;
     updated_at: Date;
+    doctor_name: string;
+    time_value: string;
+    fee: number;
 }

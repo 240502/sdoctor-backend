@@ -3,10 +3,16 @@ import { AppointmentService } from '../services/appointmentService';
 import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
+import { Socket } from 'socket.io';
+import { send } from '../mailer';
+import { DoctorService } from '../services/doctorService';
+import { Doctor } from '../models/doctor';
 @injectable()
 export class AppointmentController {
-    constructor(private appointmentService: AppointmentService) {}
-
+    constructor(
+        private appointmentService: AppointmentService,
+        private doctorService: DoctorService,
+    ) {}
     async getNumberAppointment(req: Request, res: Response): Promise<void> {
         try {
             const { date } = req.body;
@@ -81,10 +87,20 @@ export class AppointmentController {
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: Appointment = req.body as Appointment;
-            await this.appointmentService.orderAppointment(appointment);
-            // Gửi thông báo đến tất cả client
-            // const io = getSocket();
-            // io.emit('newAppointment', appointment);
+            // await this.appointmentService.orderAppointment(appointment);
+            const doctor: any = this.doctorService.getDoctorById(
+                Number(appointment.doctor_id),
+            );
+            await send(
+                String(appointment.patient_email),
+                appointment.doctor_name,
+                appointment.time_value,
+                String(appointment.appointment_date),
+                'Chờ xác nhận',
+                appointment.fee,
+            );
+            const io = getSocket();
+            io.emit('newAppointment', appointment);
             res.json({ message: 'Successfully', result: true });
         } catch (err: any) {
             res.json({ message: err.message });

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import statusRouter from './statusRouter';
 import clinicRouter from './clinicRouter';
 import commentRouter from './commentRouter';
@@ -13,6 +13,8 @@ import userRouter from './userRouter';
 import homeDirectoryRouter from './home_directoryRouter';
 import homeMenuRouter from './home_menuRouter';
 import appointmentRouter from './appointmentRouter';
+import scheduleDetailRouter from './schedule_detailRouter';
+import { send } from '../mailer';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -28,5 +30,6 @@ appRouter.use('/time', timeRouter);
 appRouter.use('/user', userRouter);
 appRouter.use('/home-directory', homeDirectoryRouter);
 appRouter.use('/home-menu', homeMenuRouter);
+appRouter.use('/schedule-details', scheduleDetailRouter);
 
 export default appRouter;

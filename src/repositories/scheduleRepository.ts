@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { Schedule } from '../models/schedule';
+import { ScheduleDetails } from '../models/schedule_details';
 @injectable()
 export class ScheduleRepository {
     constructor(private db: Database) {}
@@ -11,7 +12,6 @@ export class ScheduleRepository {
                 schedule.subscriber_id,
                 schedule.date,
                 schedule.type,
-                schedule.time,
             ]);
             return true;
         } catch (err: any) {
@@ -63,9 +63,29 @@ export class ScheduleRepository {
         try {
             const sql =
                 'CALL GetScheduleByDateAndSubscriberId(?,?,@err_code,@err_msg)';
+
             const [results] = await this.db.query(sql, [subscriberId, date]);
             if (results.length > 0 && Array.isArray(results)) {
-                return results[0];
+                const listScheduleDetails: ScheduleDetails[] = [];
+                for (let i = 0; i < results.length; i++) {
+                    let ScheduleDetail: ScheduleDetails = {
+                        id: results[i].schedule_detail_id,
+                        schedule_id: results[i].schedule_id,
+                        time_id: results[i].time_id,
+                        available: results[i].available,
+                    };
+                    listScheduleDetails.push(ScheduleDetail);
+                }
+                const schedule: Schedule = {
+                    id: results[0].id,
+                    subscriber_id: results[0].subscriber_id,
+                    date: results[0].date,
+                    created_at: results[0].created_at,
+                    updated_at: results[0].updated_at,
+                    type: results[0].type,
+                    listScheduleDetails: listScheduleDetails,
+                };
+                return schedule;
             } else return null;
         } catch (err: any) {
             console.log(err.message);

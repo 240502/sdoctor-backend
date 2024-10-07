@@ -14,10 +14,10 @@ export const initSocket = (server: http.Server) => {
 
     io.on('connection', (socket) => {
         console.log('A client connected: ' + socket.id);
-        socket.on('addApp', (data) => {
-            console.log('new appointment');
-            io.emit('newAppointment', data);
-        });
+        // socket.on('addApp', (data) => {
+        //     console.log('new appointment');
+        //     io.emit('newAppointment', data);
+        // });
         socket.on('disconnect', () => {
             console.log('A client disconnected: ' + socket.id);
         });
