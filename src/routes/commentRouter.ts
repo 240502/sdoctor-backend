@@ -6,9 +6,14 @@ const commentRouter = Router();
 const commentController = container.resolve(CommentController);
 
 commentRouter.post(
-    '/create',
+    '/create-for-user',
     authenticate,
-    commentController.createComment.bind(commentController),
+    commentController.createCommentForUser.bind(commentController),
+);
+
+commentRouter.post(
+    '/create-for-patient',
+    commentController.createCommentForPatient.bind(commentController),
 );
 
 export default commentRouter;

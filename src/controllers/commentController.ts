@@ -6,10 +6,20 @@ import { Request, Response } from 'express';
 export class CommentController {
     constructor(private commentService: CommentService) {}
 
-    async createComment(req: Request, res: Response): Promise<void> {
+    async createCommentForUser(req: Request, res: Response): Promise<void> {
         try {
             const comment: Comment = req.body as Comment;
-            await this.commentService.createComment(comment);
+            await this.commentService.createCommentForUser(comment);
+            res.json({ message: 'successfully created ' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
+
+    async createCommentForPatient(req: Request, res: Response): Promise<void> {
+        try {
+            const comment: Comment = req.body as Comment;
+            await this.commentService.createCommentForPatient(comment);
             res.json({ message: 'successfully created ' });
         } catch (err: any) {
             res.json({ message: err.message });
