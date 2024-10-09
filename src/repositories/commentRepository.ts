@@ -20,14 +20,36 @@ export class CommentRepository {
     async createCommentForPatient(comment: Comment): Promise<any> {
         try {
             const sql =
-                'CALL CreateCommentForPatient(?,?,?,?,@err_code,@err_msg)';
+                'CALL CreateCommentForPatient(?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 comment.content,
                 comment.full_name,
                 comment.phone,
                 comment.date_booking,
+                comment.user_id,
             ]);
             return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getCommentByUserId(
+        pageIndex: number,
+        pageSize: number,
+        userId: number,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL GetCommentByUserId(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                userId,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
         } catch (err: any) {
             throw new Error(err.message);
         }

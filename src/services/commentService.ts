@@ -11,4 +11,15 @@ export class CommentService {
     async createCommentForPatient(comment: Comment): Promise<any> {
         return this.commentRepository.createCommentForPatient(comment);
     }
+    async getCommentByUserId(
+        pageIndex: number,
+        pageSize: number,
+        userId: number,
+    ): Promise<any> {
+        return this.commentRepository.getCommentByUserId(
+            pageIndex,
+            pageSize,
+            userId,
+        );
+    }
 }

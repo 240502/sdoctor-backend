@@ -16,4 +16,9 @@ commentRouter.post(
     commentController.createCommentForPatient.bind(commentController),
 );
 
+commentRouter.post(
+    '/get-by-user-id',
+    commentController.getCommentByUserId.bind(commentController),
+);
+
 export default commentRouter;
