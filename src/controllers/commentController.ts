@@ -3,6 +3,7 @@ import { CommentService } from '../services/commentService';
 import { Comment } from '../models/comment';
 import { Request, Response } from 'express';
 import { totalmem } from 'node:os';
+import { getSocket } from '../socket';
 @injectable()
 export class CommentController {
     constructor(private commentService: CommentService) {}
@@ -21,6 +22,8 @@ export class CommentController {
         try {
             const comment: Comment = req.body as Comment;
             await this.commentService.createCommentForPatient(comment);
+            const io = getSocket();
+            io.emit('newComment', comment);
             res.json({ message: 'successfully created ' });
         } catch (err: any) {
             res.json({ message: err.message });
@@ -46,6 +49,7 @@ export class CommentController {
             } else {
                 res.status(404).json({
                     message: 'Không tồn tại bình luận nào',
+                    userId: userId,
                 });
             }
         } catch (err: any) {

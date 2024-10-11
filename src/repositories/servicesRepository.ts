@@ -56,9 +56,11 @@ export class ServicesRepository {
         endPrice: number | null,
         location: string | null,
         clinicId: number | null,
+        name: string | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetServicesView(?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL GetServicesView(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
@@ -67,6 +69,7 @@ export class ServicesRepository {
                 endPrice,
                 location,
                 clinicId,
+                name,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

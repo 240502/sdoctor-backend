@@ -18,4 +18,5 @@ export interface Doctor {
     views: number;
     major_name: String;
     clinic_location: string;
+    introduction: string;
 }

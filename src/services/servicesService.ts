@@ -22,6 +22,7 @@ export class ServicesService {
         endPrice: number,
         location: string,
         clinicId: number,
+        name: any,
     ): Promise<any> {
         return this.servicesRepository.getServiceView(
             pageIndex,
@@ -31,6 +32,7 @@ export class ServicesService {
             endPrice,
             location,
             clinicId,
+            name,
         );
     }
     async getServiceById(id: number): Promise<any> {

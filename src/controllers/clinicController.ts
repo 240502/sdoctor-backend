@@ -44,11 +44,13 @@ export class ClinicController {
     }
     async getClinicView(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, location } = req.body;
+            const { pageIndex, pageSize, location, name } = req.body;
+
             const data = await this.clinicService.getClinicView(
                 pageIndex,
                 pageSize,
                 location ?? null,
+                name ?? null,
             );
             if (Array.isArray(data) && data.length > 0) {
                 res.json({
@@ -58,6 +60,7 @@ export class ClinicController {
                     data: data,
                     pageCount: Math.ceil(data[0].RecordCount / pageSize),
                     location: location,
+                    name: name,
                 });
             } else res.json({ message: 'Không tồn tại bản ghi nào!' });
         } catch (err: any) {

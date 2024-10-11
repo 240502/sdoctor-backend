@@ -54,12 +54,14 @@ export class DoctorController {
                 pageSize: number;
                 majorId: number;
                 location: String;
+                clinicId: number;
             };
             const data = await this.doctorService.getDoctorView(
                 object.pageIndex,
                 object.pageSize,
                 object.majorId ?? null,
                 object.location ?? null,
+                object.clinicId ?? null,
             );
             if (Array.isArray(data) && data.length > 0) {
                 res.status(200).json({
@@ -70,6 +72,7 @@ export class DoctorController {
                     pageCount: Math.ceil(data[0].RecordCount / object.pageSize),
                     majorId: object.majorId,
                     location: object.location,
+                    clinicId: object.clinicId,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
@@ -90,8 +93,7 @@ export class DoctorController {
     }
     async getCommonDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const data: Doctor[] =
-                await this.doctorService.getCommonDoctor();
+            const data: Doctor[] = await this.doctorService.getCommonDoctor();
             if (Array.isArray(data) && data.length > 0) {
                 res.json(data);
             } else res.json('Không tồn tại bản ghi nào!');

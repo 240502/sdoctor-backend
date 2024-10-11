@@ -11,4 +11,7 @@ export class MajorService {
     async getAllMajor(): Promise<any> {
         return this.majorRepository.getAllMajor();
     }
+    async getMajorById(id: number): Promise<any> {
+        return this.majorRepository.getMajorById(id);
+    }
 }

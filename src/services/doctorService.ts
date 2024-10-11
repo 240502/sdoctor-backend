@@ -24,12 +24,14 @@ export class DoctorService {
         pageSize: Number,
         majorId: Number | null,
         location: String | null,
+        clinicId: number | null,
     ): Promise<any> {
         return this.doctorRepository.GetDoctorView(
             pageIndex,
             pageSize,
             majorId,
             location,
+            clinicId,
         );
     }
     async getQuantityDoctor(): Promise<any> {

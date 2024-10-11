@@ -2,7 +2,6 @@ import { injectable } from 'tsyringe';
 import { ScheduleService } from '../services/scheduleService';
 import { Schedule } from '../models/schedule';
 import { Request, Response } from 'express';
-import { totalmem } from 'os';
 @injectable()
 export class ScheduleController {
     constructor(private scheduleService: ScheduleService) {}
@@ -62,23 +61,23 @@ export class ScheduleController {
         res: Response,
     ): Promise<void> {
         try {
-            const { date, subscriberId } = req.body;
+            const { date, subscriberId, type } = req.body;
             const result =
                 await this.scheduleService.getScheduleByDateAndSubscriberId(
                     date,
                     subscriberId,
+                    type,
                 );
             if (result) {
                 res.json({
                     data: result,
                     date: date,
                     subscriberId: subscriberId,
+                    type: type,
                 });
             } else
                 res.status(404).json({
                     message: 'Không tồn tại bản ghi !',
-                    data: { date, subscriberId },
-                    result: result,
                 });
         } catch (err: any) {
             res.json({ message: err.message });

@@ -60,6 +60,7 @@ export class ServicesController {
                 endPrice,
                 location,
                 clinicId,
+                name,
             } = req.body;
             const data = await this.servicesService.getServiceView(
                 pageIndex,
@@ -69,6 +70,7 @@ export class ServicesController {
                 endPrice ?? null,
                 location ?? null,
                 clinicId ?? null,
+                name ?? null,
             );
             if (data) {
                 res.json({
@@ -82,6 +84,7 @@ export class ServicesController {
                     endPrice,
                     location,
                     clinicId,
+                    name,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });

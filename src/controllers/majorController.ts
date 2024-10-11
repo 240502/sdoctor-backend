@@ -27,4 +27,16 @@ export class MajorController {
             res.json({ message: err.message });
         }
     }
+    async getMajorById(req: Request, res: Response): Promise<void> {
+        try {
+            const id = Number(req.params.id);
+            const result = await this.majorService.getMajorById(id);
+            if (result) {
+                res.json(result);
+            } else
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào' });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

@@ -30,7 +30,7 @@ export class DoctorRepository {
     async updateDoctor(doctor: Doctor): Promise<any> {
         try {
             const sql =
-                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
+                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
             await this.db.query(sql, [
                 doctor.id,
                 doctor.full_name,
@@ -46,6 +46,7 @@ export class DoctorRepository {
                 doctor.fee,
                 doctor.created_at,
                 doctor.examination_object,
+                doctor.introduction,
             ]);
             return true;
         } catch (err: any) {
@@ -78,14 +79,16 @@ export class DoctorRepository {
         pageSize: Number,
         majorId: Number | null,
         location: String | null,
+        clinicId: number | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetDoctorView(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL GetDoctorView(?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 majorId,
                 location,
+                clinicId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

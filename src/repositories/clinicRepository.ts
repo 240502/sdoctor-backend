@@ -49,13 +49,15 @@ export class ClinicRepository {
         pageIndex: number,
         pageSize: number,
         location: string | null,
+        name: string | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetClinicView(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL GetClinicView(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 location,
+                name,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

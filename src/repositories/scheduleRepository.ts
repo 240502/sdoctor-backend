@@ -59,12 +59,17 @@ export class ScheduleRepository {
     async getScheduleByDateAndSubscriberId(
         date: string,
         subscriberId: number,
+        type: string,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetScheduleByDateAndSubscriberId(?,?,@err_code,@err_msg)';
+                'CALL GetScheduleByDateAndSubscriberId(?,?,?,@err_code,@err_msg)';
 
-            const [results] = await this.db.query(sql, [subscriberId, date]);
+            const [results] = await this.db.query(sql, [
+                subscriberId,
+                date,
+                type,
+            ]);
             if (results.length > 0 && Array.isArray(results)) {
                 const listScheduleDetails: ScheduleDetails[] = [];
                 for (let i = 0; i < results.length; i++) {

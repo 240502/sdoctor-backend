@@ -24,10 +24,12 @@ export class ScheduleService {
     async getScheduleByDateAndSubscriberId(
         date: string,
         subscriberId: number,
+        type: string,
     ): Promise<any> {
         return this.scheduleRepository.getScheduleByDateAndSubscriberId(
             date,
             subscriberId,
+            type,
         );
     }
 }

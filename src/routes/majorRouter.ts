@@ -13,5 +13,9 @@ majorRouter.get(
     '/get-all-major',
     majorController.getAllMajor.bind(majorController),
 );
+majorRouter.get(
+    '/get-by-id/:id',
+    majorController.getMajorById.bind(majorController),
+);
 
 export default majorRouter;

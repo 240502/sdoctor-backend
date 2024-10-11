@@ -14,7 +14,7 @@ import homeDirectoryRouter from './home_directoryRouter';
 import homeMenuRouter from './home_menuRouter';
 import appointmentRouter from './appointmentRouter';
 import scheduleDetailRouter from './schedule_detailRouter';
-import { send } from '../mailer';
+import categoryServicesRouter from './category_servicesRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -31,5 +31,6 @@ appRouter.use('/user', userRouter);
 appRouter.use('/home-directory', homeDirectoryRouter);
 appRouter.use('/home-menu', homeMenuRouter);
 appRouter.use('/schedule-details', scheduleDetailRouter);
+appRouter.use('/category-services', categoryServicesRouter);
 
 export default appRouter;

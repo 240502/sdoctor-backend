@@ -17,11 +17,13 @@ export class ClinicService {
         pageIndex: number,
         pageSize: number,
         location: string | null,
+        name: string | null,
     ): Promise<any> {
         return this.clinicRepository.getClinicView(
             pageIndex,
             pageSize,
             location,
+            name,
         );
     }
     async getClinicById(id: number): Promise<any> {
