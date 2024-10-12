@@ -47,24 +47,26 @@ export class AppointmentRepository {
     async createAppointment(appointment: Appointment): Promise<any> {
         try {
             const sql =
-                'CALL OrderAppointment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL OrderAppointment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 appointment.doctor_id,
                 appointment.appointment_date,
                 appointment.patient_name,
                 appointment.patient_phone,
                 appointment.patient_email,
-                appointment.year_of_birth,
+                appointment.birthday,
                 appointment.province,
                 appointment.district,
                 appointment.commune,
                 appointment.examination_reason,
                 appointment.time_id,
-                1,
+                appointment.gender,
                 appointment.doctor_name,
+                appointment.price,
                 appointment.time_value,
+                appointment.location,
+                appointment.type,
             ]);
-            const sqlUpdateSchedule = '';
 
             return true;
         } catch (err: any) {

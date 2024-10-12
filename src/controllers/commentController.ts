@@ -14,7 +14,7 @@ export class CommentController {
             await this.commentService.createCommentForUser(comment);
             res.json({ message: 'successfully created ' });
         } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(500).json({ message: err.message });
         }
     }
 
@@ -31,11 +31,12 @@ export class CommentController {
     }
     async getCommentByUserId(req: Request, res: Response): Promise<any> {
         try {
-            const { pageIndex, pageSize, userId } = req.body;
+            const { pageIndex, pageSize, userId, type } = req.body;
             const results = await this.commentService.getCommentByUserId(
                 pageIndex,
                 pageSize,
                 userId,
+                type,
             );
             if (results.length > 0) {
                 res.status(200).json({
@@ -44,6 +45,7 @@ export class CommentController {
                     pageSize: pageSize,
                     userId: userId,
                     data: results,
+                    type: type,
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
                 });
             } else {

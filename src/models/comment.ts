@@ -5,4 +5,5 @@ export interface Comment {
     user_id: Number;
     phone: string;
     full_name: string;
+    type:string
 }

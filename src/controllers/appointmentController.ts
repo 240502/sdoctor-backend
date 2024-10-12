@@ -87,17 +87,16 @@ export class AppointmentController {
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: Appointment = req.body as Appointment;
-            // await this.appointmentService.orderAppointment(appointment);
-            const doctor: any = this.doctorService.getDoctorById(
-                Number(appointment.doctor_id),
-            );
+            await this.appointmentService.orderAppointment(appointment);
+
             await send(
                 String(appointment.patient_email),
                 appointment.doctor_name,
                 appointment.time_value,
                 String(appointment.appointment_date),
+                appointment.location,
                 'Chờ xác nhận',
-                appointment.fee,
+                appointment.price,
             );
             const io = getSocket();
             io.emit('newAppointment', appointment);

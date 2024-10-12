@@ -15,11 +15,13 @@ export class CommentService {
         pageIndex: number,
         pageSize: number,
         userId: number,
+        type: string,
     ): Promise<any> {
         return this.commentRepository.getCommentByUserId(
             pageIndex,
             pageSize,
             userId,
+            type,
         );
     }
 }

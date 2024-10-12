@@ -5,7 +5,7 @@ export interface Appointment {
     patient_name: String;
     patient_phone: String;
     patient_email: String;
-    year_of_birth: String;
+    birthday: Date;
     province: String;
     district: String;
     commune: String;
@@ -16,5 +16,8 @@ export interface Appointment {
     updated_at: Date;
     doctor_name: string;
     time_value: string;
-    fee: number;
+    price: number;
+    location: string;
+    type: string;
+    gender: number;
 }

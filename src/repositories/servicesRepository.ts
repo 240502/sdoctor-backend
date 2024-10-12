@@ -6,7 +6,7 @@ export class ServicesRepository {
     constructor(private db: Database) {}
     async createService(services: Services): Promise<any> {
         try {
-            const sql = 'CALL CreateService(?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL CreateService(?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 services.name,
                 services.description,
@@ -14,6 +14,7 @@ export class ServicesRepository {
                 services.clinic_id,
                 services.category_id,
                 services.image,
+                services.introduction,
             ]);
             return true;
         } catch (err: any) {
@@ -23,7 +24,7 @@ export class ServicesRepository {
     async updateService(services: Services): Promise<any> {
         try {
             const sql =
-                'CALL UpdateService(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL UpdateService(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 services.id,
                 services.name,
@@ -33,6 +34,7 @@ export class ServicesRepository {
                 services.category_id,
                 services.image,
                 services.created_at,
+                services.introduction,
             ]);
             return true;
         } catch (err: any) {

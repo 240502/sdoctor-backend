@@ -14,6 +14,7 @@ export async function send(
     doctorName: string,
     time: string,
     date: string,
+    location: string,
     status: string,
     fee: number,
 ) {
@@ -23,7 +24,7 @@ export async function send(
         to: email, // list of receivers
         subject: 'Xác nhận lịch hẹn', // Subject line
         text: 'Cảm ơn bạn đã tin tưởng đặt lịch hẹn ở hệ thống của chúng tôi!', // plain text body
-        html: `<h1>Thông tin lịch hẹn</h1><h3>Bác sĩ: ${doctorName}</h3><h3>Thời gian: ${time}</h3> <h3>Ngày hẹn: ${date}</h3> <h3>Chi phí: ${fee.toLocaleString(undefined)}</h3><h3>Trạng thái:${status}</h3> </h3>`,
+        html: `<h1>Thông tin lịch hẹn</h1><h3>Bác sĩ: ${doctorName}</h3><h3>Thời gian: ${time}</h3> <h3>Ngày hẹn: ${date}</h3> <h3>Địa điểm: ${location}</h3> <h3>Chi phí: ${fee.toLocaleString(undefined)}</h3><h3>Trạng thái:${status}</h3> </h3>`,
     }),
         (err: any) => {
             if (err) {

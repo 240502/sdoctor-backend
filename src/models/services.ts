@@ -8,4 +8,5 @@ export interface Services {
     created_at: Date;
     updated_at: Date;
     image: String;
+    introduction: string;
 }
