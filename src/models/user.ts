@@ -1,3 +1,5 @@
+import { Functions } from './functions';
+
 export interface User {
     id: Number;
     full_name: String;
@@ -13,4 +15,5 @@ export interface User {
     created_by_user_id: Number;
     birthday: Date;
     token: string;
+    functions: Functions[];
 }

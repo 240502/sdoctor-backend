@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { User } from '../models/user';
+import { Functions } from '../models/functions';
 @injectable()
 export class UserRepository {
     constructor(private db: Database) {}
@@ -11,7 +12,35 @@ export class UserRepository {
             const [results] = await this.db.query(sql, [email, password]);
             if (Array.isArray(results) && results.length > 0) {
                 if (results[0].password === password) {
-                    return results[0];
+                    const functions = [];
+                    for (let i = 0; i < results.length; i++) {
+                        let model: Functions = {
+                            id: Number(results[i].function_id),
+                            function_name: results[i].function_name,
+                            created_at: null,
+                            updated_at: null,
+                            parent_id: null,
+                        };
+                        functions.push(model);
+                    }
+                    const user: User = {
+                        id: results[0].id,
+                        full_name: results[0].full_name,
+                        image: results[0].image,
+                        phone: results[0].phone,
+                        gender: results[0].gender,
+                        address: results[0].address,
+                        email: results[0].email,
+                        password: results[0].password,
+                        role_id: results[0].role_id,
+                        created_at: results[0].created_at,
+                        updated_at: results[0].updated_at,
+                        created_by_user_id: results[0].created_by_user_id,
+                        birthday: results[0].birthday,
+                        functions: functions,
+                        token: '',
+                    };
+                    return user;
                 } else return null;
             } else {
                 return null;
