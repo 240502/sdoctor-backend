@@ -29,7 +29,7 @@ export class PostRepository {
                 post.author_id,
                 post.status,
                 post.category_id,
-                post.public_date
+                post.public_date,
             ]);
             return true;
         } catch (err: any) {
@@ -65,6 +65,17 @@ export class PostRepository {
                 pageIndex,
                 pageSize,
             ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getCommonPost(): Promise<any> {
+        try {
+            const sql = 'CALL GetCommonPost(@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, []);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;

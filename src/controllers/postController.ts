@@ -66,4 +66,16 @@ export class PostController {
             res.json({ message: err.message });
         }
     }
+    async getCommonPost(req: Request, res: Response): Promise<void> {
+        try {
+            const results = await this.postService.getCommonPost();
+            if (results) {
+                res.json(results);
+            } else {
+                res.status(404).json({ message: 'Không có bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

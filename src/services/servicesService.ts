@@ -38,4 +38,7 @@ export class ServicesService {
     async getServiceById(id: number): Promise<any> {
         return this.servicesRepository.getServiceById(id);
     }
+    async getCommonService(): Promise<any> {
+        return this.servicesRepository.getCommonService();
+    }
 }

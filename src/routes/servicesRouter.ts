@@ -30,4 +30,9 @@ serviceRouter.get(
     servicesController.getServiceById.bind(servicesController),
 );
 
+serviceRouter.get(
+    '/get-common-service/',
+    servicesController.getCommonService.bind(servicesController),
+);
+
 export default serviceRouter;

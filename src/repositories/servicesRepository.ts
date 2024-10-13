@@ -91,4 +91,15 @@ export class ServicesRepository {
             throw new Error(err.message);
         }
     }
+    async getCommonService(): Promise<any> {
+        try {
+            const sql = 'CALL getCommonService(@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, []);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

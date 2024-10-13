@@ -24,4 +24,7 @@ export class PostService {
     ): Promise<any> {
         return this.postRepository.viewPost(categoryId, pageIndex, pageSize);
     }
+    async getCommonPost(): Promise<any> {
+        return this.postRepository.getCommonPost();
+    }
 }

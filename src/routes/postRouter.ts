@@ -28,4 +28,9 @@ postRouter.put(
     postController.confirmPost.bind(postController),
 );
 postRouter.post('/view', postController.viewPost.bind(postController));
+
+postRouter.get(
+    '/get-common-post',
+    postController.getCommonPost.bind(postController),
+);
 export default postRouter;
