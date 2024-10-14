@@ -105,4 +105,13 @@ export class ServicesController {
             res.status(500).json({ message: err.message });
         }
     }
+    async updateViewsService(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            await this.servicesService.updateViewsService(id);
+            res.json({ message: 'Successfully updated', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

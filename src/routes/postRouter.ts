@@ -33,4 +33,9 @@ postRouter.get(
     '/get-common-post',
     postController.getCommonPost.bind(postController),
 );
+
+postRouter.put(
+    '/update-views-post/:id',
+    postController.updateViewsPost.bind(postController),
+);
 export default postRouter;

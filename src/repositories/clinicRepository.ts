@@ -19,6 +19,15 @@ export class ClinicRepository {
             throw new Error(err.message);
         }
     }
+    async updateViewsClinic(id: number): Promise<any> {
+        try {
+            const sql = 'CALL UpdateViewsClinic(?,@err_code,@err_msg)';
+            await this.db.query(sql, [id]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async updateClinic(clinic: Clinic): Promise<any> {
         try {
             const sql = 'CALL UpdateClinic(?,?,?,?,?,?,?,@err_code,@err_msg)';

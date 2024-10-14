@@ -27,4 +27,7 @@ export class PostService {
     async getCommonPost(): Promise<any> {
         return this.postRepository.getCommonPost();
     }
+    async updateViewsPost(id: number): Promise<any> {
+        return this.postRepository.updateViewsPost(id);
+    }
 }

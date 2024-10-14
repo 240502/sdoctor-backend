@@ -20,6 +20,7 @@ export class UserRepository {
                             created_at: null,
                             updated_at: null,
                             parent_id: null,
+                            icon:results[i].icon,
                         };
                         functions.push(model);
                     }

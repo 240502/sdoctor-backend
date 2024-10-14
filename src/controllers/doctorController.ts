@@ -101,4 +101,13 @@ export class DoctorController {
             res.json({ message: err.message });
         }
     }
+    async updateViewsDoctor(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            await this.doctorService.updateViewsDoctor(id);
+            res.json({ message: 'Successfully updated', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

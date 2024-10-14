@@ -41,4 +41,7 @@ export class ServicesService {
     async getCommonService(): Promise<any> {
         return this.servicesRepository.getCommonService();
     }
+    async updateViewsService(id: number): Promise<any> {
+        return this.servicesRepository.updateViewsService(id);
+    }
 }

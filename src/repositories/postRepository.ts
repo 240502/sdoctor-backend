@@ -83,4 +83,14 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
+    async updateViewsPost(id: number): Promise<any> {
+        try {
+            const sql = 'CALL UpdateViewsPost(?,@err_code,@err_msg)';
+            await this.db.query(sql, [id]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    
 }

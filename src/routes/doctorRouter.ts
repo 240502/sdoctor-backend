@@ -32,4 +32,9 @@ doctorRouter.get(
     '/get-common-doctor',
     doctorController.getCommonDoctor.bind(doctorController),
 );
+
+doctorRouter.put(
+    '/update-views-doctor/:id',
+    doctorController.updateViewsDoctor.bind(doctorController),
+);
 export default doctorRouter;

@@ -33,4 +33,9 @@ clinicRouter.get(
     clinicController.getCommonClinic.bind(clinicController),
 );
 
+clinicRouter.put(
+    '/update-views-clinic/:id',
+    clinicController.updateViewsClinic.bind(clinicController),
+);
+
 export default clinicRouter;

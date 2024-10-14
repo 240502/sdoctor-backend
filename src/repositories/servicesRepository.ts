@@ -102,4 +102,13 @@ export class ServicesRepository {
             throw new Error(err.message);
         }
     }
+    async updateViewsService(id: number): Promise<any> {
+        try {
+            const sql = 'CALL UpdateViewsService(?,@err_code,@err_msg)';
+            await this.db.query(sql, [id]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

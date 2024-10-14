@@ -105,4 +105,13 @@ export class ClinicController {
             res.json({ message: err.message });
         }
     }
+    async updateViewsClinic(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            await this.clinicService.updateViewsClinic(id);
+            res.json({ message: 'Successfully updated', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

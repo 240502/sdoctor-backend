@@ -35,4 +35,7 @@ export class ClinicService {
     async getCommonClinic(): Promise<any> {
         return this.clinicRepository.getCommonClinic();
     }
+    async updateViewsClinic(id:number): Promise<any> {
+        return this.clinicRepository.updateViewsClinic(id);
+    }
 }

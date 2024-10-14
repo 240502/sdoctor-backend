@@ -78,4 +78,13 @@ export class PostController {
             res.status(500).json({ message: err.message });
         }
     }
+    async updateViewsPost(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            await this.postService.updateViewsPost(id);
+            res.json({ message: 'Successfully updated', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

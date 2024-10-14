@@ -40,4 +40,7 @@ export class DoctorService {
     async getCommonDoctor(): Promise<any> {
         return this.doctorRepository.getCommonDoctor();
     }
+    async updateViewsDoctor(id: number): Promise<any> {
+        return this.doctorRepository.updateViewsDoctor(id);
+    }
 }

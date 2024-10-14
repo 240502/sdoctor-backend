@@ -53,6 +53,15 @@ export class DoctorRepository {
             throw new Error(err.message);
         }
     }
+    async updateViewsDoctor(id:number):Promise<any>{
+        try{
+            const sql = "CALL UpdateViewsDoctor(?,@err_code,@err_msg)";
+            await this.db.query(sql,[id]);
+            return true;
+        }catch(err:any){
+            throw new Error(err.message);
+        }
+    }
     async deleteDoctor(id: Number): Promise<any> {
         try {
             const sql = 'CALL DeleteDoctor(?,@err_code,@err_msg)';
