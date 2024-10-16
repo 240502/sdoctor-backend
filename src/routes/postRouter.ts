@@ -11,6 +11,12 @@ postRouter.post(
     postController.createPost.bind(postController),
 );
 
+postRouter.post(
+    '/view-news-admin',
+    authenticate,
+    postController.viewPostAdmin.bind(postController),
+);
+
 postRouter.put(
     '/update',
     authenticate,

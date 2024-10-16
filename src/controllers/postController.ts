@@ -87,4 +87,30 @@ export class PostController {
             res.status(500).json({ message: err.message });
         }
     }
+    async viewPostAdmin(req: Request, res: Response): Promise<void> {
+        try {
+            const { pageIndex, pageSize, categoryId, status } = req.body;
+            const results = await this.postService.viewPostAdmin(
+                pageIndex,
+                pageSize,
+                categoryId,
+                status,
+            );
+            if (results) {
+                res.json({
+                    totalItems: results[0].RecordCount,
+                    page: pageIndex,
+                    pageSize: pageSize,
+                    data: results,
+                    pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                    categoryId: categoryId,
+                    status: status,
+                });
+            } else {
+                res.status(404).json({ message: 'Không có bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

@@ -8,8 +8,8 @@ export interface Post {
     status: string;
     category_id: number;
     post_image_id: number;
-    image_id: number;
-    position: number;
-    alt_text: string;
-    url: string;
+    featured_image: string;
+    created_at: Date;
+    category_name: string;
+    author_name: string;
 }

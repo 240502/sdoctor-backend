@@ -30,4 +30,17 @@ export class PostService {
     async updateViewsPost(id: number): Promise<any> {
         return this.postRepository.updateViewsPost(id);
     }
+    async viewPostAdmin(
+        pageIndex: number,
+        pageSize: number,
+        categoryId: number | null,
+        status: string,
+    ): Promise<any> {
+        return this.postRepository.viewPostAdmin(
+            pageIndex,
+            pageSize,
+            categoryId,
+            status,
+        );
+    }
 }

@@ -7,12 +7,13 @@ export class PostRepository {
     async createPost(post: Post): Promise<any> {
         try {
             const sql = 'CALL CreatePost(?,?,?,?,?,@err_code,@err_msg)';
+
             await this.db.query(sql, [
                 post.title,
                 post.content,
                 post.author_id,
-                post.status,
                 post.category_id,
+                post.featured_image,
             ]);
             return true;
         } catch (err: any) {
@@ -92,5 +93,25 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
-    
+    async viewPostAdmin(
+        pageIndex: number,
+        pageSize: number,
+        categoryId: number | null,
+        status: string,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL ViewNewsAdmin(?,?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                categoryId,
+                status,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }
