@@ -22,15 +22,13 @@ export class PostRepository {
     }
     async updatePost(post: Post): Promise<any> {
         try {
-            const sql = 'CALL UpdatePost(?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL UpdatePost(?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 post.id,
                 post.title,
                 post.content,
                 post.author_id,
-                post.status,
                 post.category_id,
-                post.public_date,
             ]);
             return true;
         } catch (err: any) {

@@ -7,4 +7,9 @@ timeRouter.get(
     '/get-by-id/:id',
     timeController.getTimeById.bind(timeController),
 );
+
+timeRouter.post(
+    '/get-by-type',
+    timeController.getTimeByTimeType.bind(timeController),
+);
 export default timeRouter;

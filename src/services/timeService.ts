@@ -8,4 +8,7 @@ export class TimeService {
     async getTimeById(id: number): Promise<any> {
         return this.timeRepository.getTimeById(id);
     }
+    async getTimeByTimeType(timeType: string): Promise<any> {
+        return this.timeRepository.getTimeByTimeType(timeType);
+    }
 }
