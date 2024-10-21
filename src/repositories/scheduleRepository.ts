@@ -12,6 +12,7 @@ export class ScheduleRepository {
                 schedule.subscriber_id,
                 schedule.date,
                 schedule.type,
+                JSON.stringify(schedule.listScheduleDetails),
             ]);
             return true;
         } catch (err: any) {
