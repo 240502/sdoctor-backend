@@ -18,5 +18,18 @@ scheduleDetailRouter.put(
         scheduleDetailsController,
     ),
 );
+scheduleDetailRouter.post(
+    '/create',
+    scheduleDetailsController.createScheduleDetails.bind(
+        scheduleDetailsController,
+    ),
+);
+
+scheduleDetailRouter.post(
+    '/delete',
+    scheduleDetailsController.deleteScheduleDetails.bind(
+        scheduleDetailsController,
+    ),
+);
 
 export default scheduleDetailRouter;

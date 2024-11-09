@@ -42,6 +42,7 @@ export class UserRepository {
                         birthday: results[0].birthday,
                         functions: functions,
                         token: '',
+                        object_id: results[0].object_id,
                     };
                     return user;
                 } else return null;

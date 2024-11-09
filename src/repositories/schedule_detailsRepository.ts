@@ -5,6 +5,29 @@ import { Database } from '../config/database';
 @injectable()
 export class ScheduleDetailsRepository {
     constructor(private db: Database) {}
+
+    async createScheduleDetails(
+        scheduleId: number,
+        scheduleDetails: ScheduleDetails[],
+    ): Promise<any> {
+        try {
+            const sql = 'CALL CreateScheduleDetails(?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [scheduleId, scheduleDetails]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async deleteScheduleDetails(
+        scheduleDetails: ScheduleDetails[],
+    ): Promise<any> {
+        try {
+            const sql = 'CALL DeleteScheduleDetails(?,@err_code,@err_msg)';
+            await this.db.query(sql, [scheduleDetails]);
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async getScheduleDetailsByScheduleId(scheduleId: number): Promise<any> {
         try {
             const sql =

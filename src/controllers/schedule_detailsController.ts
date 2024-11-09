@@ -5,6 +5,36 @@ import { Request, Response } from 'express';
 @injectable()
 export class ScheduleDetailsController {
     constructor(private _scheduleDetailsService: ScheduleDetailsService) {}
+    async createScheduleDetails(req: Request, res: Response): Promise<void> {
+        try {
+            const { scheduleId, scheduleDetails } = req.body;
+            await this._scheduleDetailsService.createScheduleDetails(
+                scheduleId,
+                scheduleDetails,
+            );
+            res.json({
+                message: 'Created successfully',
+                scheduleDetails: scheduleDetails,
+                scheduleId: scheduleId,
+            });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async deleteScheduleDetails(req: Request, res: Response): Promise<void> {
+        try {
+            const { scheduleDetails } = req.body;
+            await this._scheduleDetailsService.deleteScheduleDetails(
+                scheduleDetails,
+            );
+            res.json({
+                message: 'Deleted successfully',
+                scheduleDetails: scheduleDetails,
+            });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
     async getScheduleDetailsByScheduleId(
         req: Request,
         res: Response,

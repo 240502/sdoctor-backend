@@ -16,4 +16,20 @@ export class ScheduleDetailsService {
             scheduleDetailId,
         );
     }
+    async createScheduleDetails(
+        scheduleId: number,
+        scheduleDetails: ScheduleDetails[],
+    ): Promise<any> {
+        return this.scheduleDetailsRepository.createScheduleDetails(
+            scheduleId,
+            scheduleDetails,
+        );
+    }
+    async deleteScheduleDetails(
+        scheduleDetails: ScheduleDetails[],
+    ): Promise<any> {
+        return this.scheduleDetailsRepository.deleteScheduleDetails(
+            scheduleDetails,
+        );
+    }
 }
