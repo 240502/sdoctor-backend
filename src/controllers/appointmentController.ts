@@ -90,6 +90,8 @@ export class AppointmentController {
             await this.appointmentService.orderAppointment(appointment);
 
             res.json({ message: 'Successfully', result: true });
+            const io = getSocket();
+            io.emit('newAppointment', appointment);
             await send(
                 String(appointment.patient_email),
                 appointment.doctor_name,
@@ -99,8 +101,6 @@ export class AppointmentController {
                 'Chờ xác nhận',
                 appointment.price,
             );
-            const io = getSocket();
-            io.emit('newAppointment', appointment);
         } catch (err: any) {
             res.json({ message: err.message });
         }
