@@ -19,7 +19,7 @@ patientProfileRouter.put(
     ),
 );
 patientProfileRouter.delete(
-    '/delete/:id',
+    '/delete/:phone',
     patientProfileController.deletePatientProfile.bind(
         patientProfileController,
     ),

@@ -44,10 +44,10 @@ export class PatientProfileRepository {
             throw new Error(err.message);
         }
     }
-    async deletePatientProfile(id: number): Promise<any> {
+    async deletePatientProfile(phone: string): Promise<any> {
         try {
             const sql = 'CALL DeletePatientProfile(?,@err_code,@err_msg)';
-            await this.db.query(sql, [id]);
+            await this.db.query(sql, [phone]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
