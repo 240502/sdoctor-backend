@@ -10,4 +10,5 @@ export interface PatientProfile {
     commune: string;
     created_at: Date;
     updated_at: Date;
+    uuid: string;
 }

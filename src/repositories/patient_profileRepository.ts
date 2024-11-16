@@ -8,7 +8,7 @@ export class PatientProfileRepository {
     async createPatientProfile(profile: PatientProfile): Promise<any> {
         try {
             const sql =
-                'CALL CreatePatientProfile(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL CreatePatientProfile(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 profile.patient_name,
                 profile.gender,
@@ -18,6 +18,7 @@ export class PatientProfileRepository {
                 profile.province,
                 profile.district,
                 profile.commune,
+                profile.uuid,
             ]);
             return true;
         } catch (err: any) {
@@ -29,7 +30,6 @@ export class PatientProfileRepository {
             const sql =
                 'CALL UpdatePatientProfile(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                profile.id,
                 profile.patient_name,
                 profile.gender,
                 profile.patient_phone,
@@ -38,16 +38,17 @@ export class PatientProfileRepository {
                 profile.province,
                 profile.district,
                 profile.commune,
+                profile.uuid,
             ]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
         }
     }
-    async deletePatientProfile(phone: string): Promise<any> {
+    async deletePatientProfile(uuid: string): Promise<any> {
         try {
             const sql = 'CALL DeletePatientProfile(?,@err_code,@err_msg)';
-            await this.db.query(sql, [phone]);
+            await this.db.query(sql, [uuid]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
