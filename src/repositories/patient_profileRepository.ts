@@ -54,4 +54,15 @@ export class PatientProfileRepository {
             throw new Error(err.message);
         }
     }
+    async getPatientProfileByUuid(uuid: string): Promise<any> {
+        try {
+            const sql = 'CALL GetPatientProfileByUuid(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [uuid]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

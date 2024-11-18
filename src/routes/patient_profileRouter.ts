@@ -24,4 +24,10 @@ patientProfileRouter.delete(
         patientProfileController,
     ),
 );
+patientProfileRouter.get(
+    '/get-by-uuid/:uuid',
+    patientProfileController.getPatientProfileByUuid.bind(
+        patientProfileController,
+    ),
+);
 export default patientProfileRouter;

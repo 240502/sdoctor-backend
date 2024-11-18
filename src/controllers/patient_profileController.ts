@@ -36,4 +36,17 @@ export class PatientProfileController {
             res.status(500).json({ message: err.message });
         }
     }
+    async getPatientProfileByUuid(req: Request, res: Response): Promise<void> {
+        try {
+            const uuid = req.params.uuid;
+            const profile: PatientProfile =
+                await this.patientProfileService.getPatientProfileByUuid(uuid);
+            if (profile) {
+                res.json(profile);
+            } else
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

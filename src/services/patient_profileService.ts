@@ -14,4 +14,7 @@ export class PatientProfileService {
     async deletePatientProfile(uuid: string): Promise<any> {
         return this.patientProfileRepository.deletePatientProfile(uuid);
     }
+    async getPatientProfileByUuid(uuid: string): Promise<any> {
+        return this.patientProfileRepository.getPatientProfileByUuid(uuid);
+    }
 }
