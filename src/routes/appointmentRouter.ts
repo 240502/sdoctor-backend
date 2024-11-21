@@ -6,6 +6,32 @@ import { Server } from 'socket.io';
 import { AppointmentService } from '../services/appointmentService';
 const appointmentRouter = Router();
 const appointmentController = container.resolve(AppointmentController);
+
+appointmentRouter.post(
+    '/get-total-price-by-week',
+    authenticate,
+    appointmentController.getTotalPriceAppointmentByWeek.bind(
+        appointmentController,
+    ),
+);
+
+appointmentRouter.post(
+    '/get-total-appointment-by-week',
+    authenticate,
+    appointmentController.getTotalAppointmentByWeek.bind(appointmentController),
+);
+
+appointmentRouter.get(
+    '/get-recent-patient-ordered',
+    authenticate,
+    appointmentController.getRecentPatientOrdered.bind(appointmentController),
+);
+appointmentRouter.get(
+    '/get-recent-patient-examined',
+    authenticate,
+    appointmentController.getRecentPatientExamined.bind(appointmentController),
+);
+
 appointmentRouter.post(
     '/create',
     appointmentController.orderAppointment.bind(appointmentController),

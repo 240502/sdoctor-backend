@@ -5,6 +5,32 @@ import { Appointment } from '../models/appointment';
 @injectable()
 export class AppointmentService {
     constructor(private appointmentRepository: AppointmentRepository) {}
+
+    async getTotalPriceAppointmentByWeek(
+        startWeek: Date,
+        endWeek: Date,
+    ): Promise<any> {
+        return this.appointmentRepository.getTotalPriceAppointmentByWeek(
+            startWeek,
+            endWeek,
+        );
+    }
+    async getTotalAppointmentByWeek(
+        startWeek: Date,
+        endWeek: Date,
+    ): Promise<any> {
+        return this.appointmentRepository.getTotalAppointmentByWeek(
+            startWeek,
+            endWeek,
+        );
+    }
+    async getRecentPatientExamined(): Promise<any> {
+        return this.appointmentRepository.getRecentPatientExamined();
+    }
+    async getRecentPatientOrdered(): Promise<any> {
+        return this.appointmentRepository.getRecentPatientOrdered();
+    }
+
     async getRevenueByMonth(month: number, year: number): Promise<any> {
         return this.appointmentRepository.getRevenueByMonth(month, year);
     }

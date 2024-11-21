@@ -17,7 +17,11 @@ export interface Appointment {
     doctor_name: string;
     time_value: string;
     price: number;
-    location: string;
     type: string;
     gender: number;
+    location: string;
+}
+
+export interface AppointmentViewPatient extends Appointment {
+    status_name: string;
 }

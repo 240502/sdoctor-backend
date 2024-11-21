@@ -9,10 +9,75 @@ import { DoctorService } from '../services/doctorService';
 import { Doctor } from '../models/doctor';
 @injectable()
 export class AppointmentController {
-    constructor(
-        private appointmentService: AppointmentService,
-        private doctorService: DoctorService,
-    ) {}
+    constructor(private appointmentService: AppointmentService) {}
+
+    async getTotalPriceAppointmentByWeek(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startWeek, endWeek } = req.body;
+            const results =
+                await this.appointmentService.getTotalPriceAppointmentByWeek(
+                    startWeek,
+                    endWeek,
+                );
+            if (results.length > 0 && Array.isArray(results)) {
+                res.json(results);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
+    async getTotalAppointmentByWeek(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startWeek, endWeek } = req.body;
+            const results =
+                await this.appointmentService.getTotalAppointmentByWeek(
+                    startWeek,
+                    endWeek,
+                );
+            if (results.length > 0 && Array.isArray(results)) {
+                res.json(results);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async getRecentPatientExamined(req: Request, res: Response): Promise<void> {
+        try {
+            const results =
+                await this.appointmentService.getRecentPatientExamined();
+            if (results.length > 0 && Array.isArray(results)) {
+                res.json(results);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async getRecentPatientOrdered(req: Request, res: Response): Promise<void> {
+        try {
+            const results =
+                await this.appointmentService.getRecentPatientOrdered();
+            if (results.length > 0 && Array.isArray(results)) {
+                res.json(results);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
     async getNumberAppointment(req: Request, res: Response): Promise<void> {
         try {
             const { date } = req.body;
@@ -114,8 +179,17 @@ export class AppointmentController {
                 phone,
                 statusId,
             );
+            console.log({ pageIndex, pageSize, phone, statusId });
             if (data) {
-                res.json(data);
+                res.json({
+                    totalItems: data[0].RecordCount,
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    data: data,
+                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                    phone: phone,
+                    statusId: statusId,
+                });
             } else res.status(404).json({ message: 'Không có dữ liệu!' });
         } catch (err: any) {
             res.json({ message: err.message });

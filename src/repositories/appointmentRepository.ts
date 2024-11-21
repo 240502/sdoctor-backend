@@ -4,6 +4,69 @@ import { Appointment } from '../models/appointment';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
+
+    async getTotalPriceAppointmentByWeek(
+        startWeek: Date,
+        endWeek: Date,
+    ): Promise<any> {
+        try {
+            const sql =
+                'CALL GetTotalPriceAppointmentByWeek(?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [startWeek, endWeek]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+
+    async getTotalAppointmentByWeek(
+        startWeek: Date,
+        endWeek: Date,
+    ): Promise<any> {
+        try {
+            const sql =
+                'CALL GetTotalAppointmentByWeek(?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [startWeek, endWeek]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getRecentPatientExamined(): Promise<any> {
+        try {
+            const sql = 'CALL GetRecentPatientExamined(@err_code, @err_msg)';
+            const [results] = await this.db.query(sql, []);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getRecentPatientOrdered(): Promise<any> {
+        try {
+            const sql = 'CALL GetRecentPatientOrdered(@err_code, @err_msg)';
+            const [results] = await this.db.query(sql, []);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+
     async confirmAppointment(id: number): Promise<any> {
         try {
             const sql = 'CALL ConfirmAppointment(?,@err_code,@err_msg)';
@@ -64,8 +127,8 @@ export class AppointmentRepository {
                 appointment.doctor_name,
                 appointment.price,
                 appointment.time_value,
-                appointment.location,
                 appointment.type,
+                appointment.location,
             ]);
 
             return true;
