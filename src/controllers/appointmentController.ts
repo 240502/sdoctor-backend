@@ -223,9 +223,8 @@ export class AppointmentController {
 
     async cancelAppointment(req: Request, res: Response): Promise<void> {
         try {
-            const id: number = Number(req.params.id);
-            await this.appointmentService.cancelAppointment(id);
-
+            const { id, reason } = req.body;
+            await this.appointmentService.cancelAppointment(id, reason);
             res.status(200).json({ message: 'Successfully!' });
         } catch (err: any) {
             res.json({ message: err.message });

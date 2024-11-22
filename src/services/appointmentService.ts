@@ -85,8 +85,8 @@ export class AppointmentService {
             statusId,
         );
     }
-    async cancelAppointment(id: number): Promise<any> {
-        return this.appointmentRepository.cancelAppointment(id);
+    async cancelAppointment(id: number, reason: string): Promise<any> {
+        return this.appointmentRepository.cancelAppointment(id, reason);
     }
     async getAppointmentById(id: number): Promise<any> {
         return this.appointmentRepository.getAppointmentById(id);

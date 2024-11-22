@@ -130,10 +130,10 @@ export class AppointmentRepository {
         }
     }
 
-    async cancelAppointment(id: number): Promise<any> {
+    async cancelAppointment(id: number, reason: string): Promise<any> {
         try {
-            const sql = 'CALL CancelAppointment(?,@err_code,@err_msg)';
-            await this.db.query(sql, [id]);
+            const sql = 'CALL CancelAppointment(?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [id, reason]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
