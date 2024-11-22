@@ -11,6 +11,58 @@ import { Doctor } from '../models/doctor';
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async getTotalPatientInDay(req: Request, res: Response): Promise<any> {
+        try {
+            const data = await this.appointmentService.getTotalPatientInDay();
+            if (data) {
+                res.json(data);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async getAppointmentInDay(req: Request, res: Response): Promise<any> {
+        try {
+            const { pageIndex, pageSize } = req.body;
+            const data = await this.appointmentService.getAppointmentInDay(
+                pageIndex,
+                pageSize,
+            );
+            if (data) {
+                res.json({
+                    totalItems: data[0].RecordCount,
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    data: data,
+                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                });
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
+    async getTotalPatientExaminedInDay(
+        req: Request,
+        res: Response,
+    ): Promise<any> {
+        try {
+            const data =
+                await this.appointmentService.getTotalPatientExaminedInDay();
+            if (data) {
+                res.json(data);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
     async getTotalPriceAppointmentByWeek(
         req: Request,
         res: Response,
@@ -32,26 +84,6 @@ export class AppointmentController {
         }
     }
 
-    async getTotalAppointmentByWeek(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startWeek, endWeek } = req.body;
-            const results =
-                await this.appointmentService.getTotalAppointmentByWeek(
-                    startWeek,
-                    endWeek,
-                );
-            if (results.length > 0 && Array.isArray(results)) {
-                res.json(results);
-            } else {
-                res.status(404);
-            }
-        } catch (err: any) {
-            res.status(500).json({ message: err.message });
-        }
-    }
     async getRecentPatientExamined(req: Request, res: Response): Promise<void> {
         try {
             const results =
@@ -65,6 +97,7 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
+
     async getRecentPatientOrdered(req: Request, res: Response): Promise<void> {
         try {
             const results =
@@ -76,18 +109,6 @@ export class AppointmentController {
             }
         } catch (err: any) {
             res.status(500).json({ message: err.message });
-        }
-    }
-    async getNumberAppointment(req: Request, res: Response): Promise<void> {
-        try {
-            const { date } = req.body;
-            const data =
-                await this.appointmentService.getNumberAppointmentInDay(date);
-            if (data) {
-                res.json({ totalAppointment: data });
-            } else res.json({ message: 'Không có lịch hẹn nào!' });
-        } catch (err: any) {
-            throw new Error(err.message);
         }
     }
 
@@ -105,6 +126,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async getQuantityRejectedAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -127,6 +149,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async getAllAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -149,6 +172,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: Appointment = req.body as Appointment;
@@ -170,6 +194,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async ViewAppointment(req: Request, res: Response): Promise<void> {
         try {
             const { pageIndex, pageSize, phone, statusId } = req.body;
@@ -195,6 +220,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async cancelAppointment(req: Request, res: Response): Promise<void> {
         try {
             const id: number = Number(req.params.id);
@@ -205,6 +231,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async confirmAppointment(req: Request, res: Response): Promise<any> {
         try {
             const id: number = Number(req.params.id);

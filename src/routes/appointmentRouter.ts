@@ -2,10 +2,32 @@ import { Router } from 'express';
 import { container } from 'tsyringe';
 import { AppointmentController } from '../controllers/appointmentController';
 import { authenticate } from '../middlewares/authMiddleware';
-import { Server } from 'socket.io';
-import { AppointmentService } from '../services/appointmentService';
 const appointmentRouter = Router();
 const appointmentController = container.resolve(AppointmentController);
+
+appointmentRouter.put(
+    '/confirm/:id',
+    appointmentController.confirmAppointment.bind(appointmentController),
+);
+appointmentRouter.post(
+    '/get-appointment-in-day',
+    authenticate,
+    appointmentController.getAppointmentInDay.bind(appointmentController),
+);
+
+appointmentRouter.get(
+    '/get-total-patient-in-day',
+    authenticate,
+    appointmentController.getTotalPatientInDay.bind(appointmentController),
+);
+
+appointmentRouter.get(
+    '/get-total-patient-examined-in-day',
+    authenticate,
+    appointmentController.getTotalPatientExaminedInDay.bind(
+        appointmentController,
+    ),
+);
 
 appointmentRouter.post(
     '/get-total-price-by-week',
@@ -13,12 +35,6 @@ appointmentRouter.post(
     appointmentController.getTotalPriceAppointmentByWeek.bind(
         appointmentController,
     ),
-);
-
-appointmentRouter.post(
-    '/get-total-appointment-by-week',
-    authenticate,
-    appointmentController.getTotalAppointmentByWeek.bind(appointmentController),
 );
 
 appointmentRouter.get(

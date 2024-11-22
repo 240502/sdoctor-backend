@@ -5,6 +5,48 @@ import { Appointment } from '../models/appointment';
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
+    async getAppointmentInDay(
+        pageIndex: number,
+        pageSize: number,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL GetAppointmentInDay(?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [pageIndex, pageSize]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getTotalPatientInDay(): Promise<any> {
+        try {
+            const sql = 'CALL GetTotalPatientInDay(@err_code,@err_msg)';
+            const result = await this.db.query(sql, []);
+            if (Array.isArray(result) && result.length > 0) {
+                return result[0];
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getTotalPatientExaminedInDay(): Promise<any> {
+        try {
+            const sql = 'CALL GetTotalPatientExaminedInDay(@err_code,@err_msg)';
+            const result = await this.db.query(sql, []);
+            if (Array.isArray(result) && result.length > 0) {
+                return result[0];
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async getTotalPriceAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
@@ -87,17 +129,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getNumberAppointmentInDay(date: Date): Promise<any> {
-        try {
-            const sql = 'CALL GetCountPatients(?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [date]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results[0].CountPatient;
-            } else return null;
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
+
     async cancelAppointment(id: number): Promise<any> {
         try {
             const sql = 'CALL CancelAppointment(?,@err_code,@err_msg)';
