@@ -8,10 +8,15 @@ export class AppointmentRepository {
     async getAppointmentInDay(
         pageIndex: number,
         pageSize: number,
+        doctorId: number,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetAppointmentInDay(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [pageIndex, pageSize]);
+            const sql = 'CALL GetAppointmentInDay(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                doctorId,
+            ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
@@ -21,10 +26,10 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getTotalPatientInDay(): Promise<any> {
+    async getTotalPatientInDay(id: number): Promise<any> {
         try {
-            const sql = 'CALL GetTotalPatientInDay(@err_code,@err_msg)';
-            const result = await this.db.query(sql, []);
+            const sql = 'CALL GetTotalPatientInDay(?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [id]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
             } else {
@@ -34,10 +39,11 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getTotalPatientExaminedInDay(): Promise<any> {
+    async getTotalPatientExaminedInDay(id: number): Promise<any> {
         try {
-            const sql = 'CALL GetTotalPatientExaminedInDay(@err_code,@err_msg)';
-            const result = await this.db.query(sql, []);
+            const sql =
+                'CALL GetTotalPatientExaminedInDay(?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [id]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
             } else {

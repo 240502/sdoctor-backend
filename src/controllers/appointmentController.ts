@@ -13,7 +13,8 @@ export class AppointmentController {
 
     async getTotalPatientInDay(req: Request, res: Response): Promise<any> {
         try {
-            const data = await this.appointmentService.getTotalPatientInDay();
+            const id = Number(req.params.id);
+            const data = await this.appointmentService.getTotalPatientInDay(id);
             if (data) {
                 res.json(data);
             } else {
@@ -25,10 +26,11 @@ export class AppointmentController {
     }
     async getAppointmentInDay(req: Request, res: Response): Promise<any> {
         try {
-            const { pageIndex, pageSize } = req.body;
+            const { pageIndex, pageSize, doctorId } = req.body;
             const data = await this.appointmentService.getAppointmentInDay(
                 pageIndex,
                 pageSize,
+                doctorId,
             );
             if (data) {
                 res.json({
@@ -37,6 +39,7 @@ export class AppointmentController {
                     pageSize: pageSize,
                     data: data,
                     pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                    doctorId: doctorId,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
@@ -51,8 +54,9 @@ export class AppointmentController {
         res: Response,
     ): Promise<any> {
         try {
+            const id = Number(req.params.id);
             const data =
-                await this.appointmentService.getTotalPatientExaminedInDay();
+                await this.appointmentService.getTotalPatientExaminedInDay(id);
             if (data) {
                 res.json(data);
             } else {
@@ -227,7 +231,7 @@ export class AppointmentController {
                 appointment.id,
                 appointment.rejectionReason,
             );
-            console.log(appointment, requirementObject);                
+            console.log(appointment, requirementObject);
             res.status(200).json({ message: 'Successfully!' });
             await sendRejection(
                 appointment.patient_email,

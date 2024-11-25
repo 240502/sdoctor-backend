@@ -8,17 +8,19 @@ export class AppointmentService {
     async getAppointmentInDay(
         pageIndex: number,
         pageSize: number,
+        doctorId: number,
     ): Promise<any> {
         return this.appointmentRepository.getAppointmentInDay(
             pageIndex,
             pageSize,
+            doctorId,
         );
     }
-    async getTotalPatientInDay(): Promise<any> {
-        return this.appointmentRepository.getTotalPatientInDay();
+    async getTotalPatientInDay(id: number): Promise<any> {
+        return this.appointmentRepository.getTotalPatientInDay(id);
     }
-    async getTotalPatientExaminedInDay(): Promise<any> {
-        return this.appointmentRepository.getTotalPatientExaminedInDay();
+    async getTotalPatientExaminedInDay(id: number): Promise<any> {
+        return this.appointmentRepository.getTotalPatientExaminedInDay(id);
     }
 
     async getTotalPriceAppointmentByWeek(
