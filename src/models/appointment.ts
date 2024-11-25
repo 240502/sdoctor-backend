@@ -1,5 +1,5 @@
 export interface Appointment {
-    id: Number;
+    id: number;
     doctor_id: Number;
     appointment_date: Date;
     patient_name: String;
@@ -20,6 +20,7 @@ export interface Appointment {
     type: string;
     gender: number;
     location: string;
+    rejectionReason: string;
 }
 
 export interface AppointmentViewPatient extends Appointment {

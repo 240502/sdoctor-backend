@@ -4,7 +4,7 @@ import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
 import { Socket } from 'socket.io';
-import { send } from '../mailer';
+import { sendConfirm, sendRejection } from '../mailer';
 import { DoctorService } from '../services/doctorService';
 import { Doctor } from '../models/doctor';
 @injectable()
@@ -181,7 +181,7 @@ export class AppointmentController {
             res.json({ message: 'Successfully', result: true });
             const io = getSocket();
             io.emit('newAppointment', appointment);
-            await send(
+            await sendConfirm(
                 String(appointment.patient_email),
                 appointment.doctor_name,
                 appointment.time_value,
@@ -204,7 +204,6 @@ export class AppointmentController {
                 phone,
                 statusId,
             );
-            console.log({ pageIndex, pageSize, phone, statusId });
             if (data) {
                 res.json({
                     totalItems: data[0].RecordCount,
@@ -223,9 +222,22 @@ export class AppointmentController {
 
     async cancelAppointment(req: Request, res: Response): Promise<void> {
         try {
-            const { id, reason } = req.body;
-            await this.appointmentService.cancelAppointment(id, reason);
+            const { appointment, requirementObject } = req.body;
+            await this.appointmentService.cancelAppointment(
+                appointment.id,
+                appointment.rejectionReason,
+            );
+            console.log(appointment, requirementObject);                
             res.status(200).json({ message: 'Successfully!' });
+            await sendRejection(
+                appointment.patient_email,
+                appointment.doctor_name,
+                appointment.patient_name,
+                appointment.time_value,
+                appointment.appointment_date,
+                appointment.rejectionReason,
+                requirementObject,
+            );
         } catch (err: any) {
             res.json({ message: err.message });
         }

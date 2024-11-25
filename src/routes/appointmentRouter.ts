@@ -69,7 +69,7 @@ appointmentRouter.post(
 );
 
 appointmentRouter.put(
-    '/cancel/:id',
+    '/cancel',
     appointmentController.cancelAppointment.bind(appointmentController),
 );
 
