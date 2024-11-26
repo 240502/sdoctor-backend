@@ -26,19 +26,23 @@ export class AppointmentService {
     async getTotalPriceAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
+        doctorId: number,
     ): Promise<any> {
         return this.appointmentRepository.getTotalPriceAppointmentByWeek(
             startWeek,
             endWeek,
+            doctorId,
         );
     }
     async getTotalAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
+        doctorId: number,
     ): Promise<any> {
         return this.appointmentRepository.getTotalAppointmentByWeek(
             startWeek,
             endWeek,
+            doctorId,
         );
     }
     async getRecentPatientExamined(): Promise<any> {

@@ -72,11 +72,33 @@ export class AppointmentController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startWeek, endWeek } = req.body;
+            const { startWeek, endWeek, doctorId } = req.body;
             const results =
                 await this.appointmentService.getTotalPriceAppointmentByWeek(
                     startWeek,
                     endWeek,
+                    doctorId,
+                );
+            if (results.length > 0 && Array.isArray(results)) {
+                res.json(results);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async getTotalAppointmentByWeek(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startWeek, endWeek, doctorId } = req.body;
+            const results =
+                await this.appointmentService.getTotalAppointmentByWeek(
+                    startWeek,
+                    endWeek,
+                    doctorId,
                 );
             if (results.length > 0 && Array.isArray(results)) {
                 res.json(results);

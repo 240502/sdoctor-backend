@@ -10,6 +10,7 @@ const connectionConfig = {
     user: config.db.username,
     password: config.db.password,
     database: config.db.database,
+    timezone: 'Z', // Sử dụng UTC (Z) hoặc +07:00 nếu bạn muốn múi giờ cụ thể
 };
 
 @injectable()

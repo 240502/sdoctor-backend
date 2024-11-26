@@ -5,6 +5,10 @@ import { PatientProfileRepository } from '../repositories/patient_profileReposit
 @injectable()
 export class PatientProfileService {
     constructor(private patientProfileRepository: PatientProfileRepository) {}
+
+    async getRecentPatient(): Promise<PatientProfile | null> {
+        return this.patientProfileRepository.getRecentPatient();
+    }
     async createPatientProfile(profile: PatientProfile): Promise<any> {
         return this.patientProfileRepository.createPatientProfile(profile);
     }

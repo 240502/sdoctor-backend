@@ -8,10 +8,46 @@ import { captureRejectionSymbol } from 'events';
 export class PatientProfileController {
     constructor(private patientProfileService: PatientProfileService) {}
 
+    async getRecentPatient(req: Request, res: Response): Promise<void> {
+        try {
+            const patient = await this.patientProfileService.getRecentPatient();
+            if (patient) {
+                res.json(patient);
+            } else res.status(404);
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
     async createPatientProfile(req: Request, res: Response): Promise<void> {
         try {
             const profile: PatientProfile = req.body as PatientProfile;
-            await this.patientProfileService.createPatientProfile(profile);
+            const recentPatient: PatientProfile | null =
+                await this.patientProfileService.getRecentPatient();
+            if (recentPatient) {
+                const recentPatientId = recentPatient.id;
+                const recentPatientIdNumber = Number(
+                    recentPatientId.slice(1, recentPatient.id.length),
+                );
+                const newPatientIdNumber = recentPatientIdNumber + 1;
+                let newPatientId = newPatientIdNumber.toString();
+                if (newPatientId.length < 3) {
+                    for (let i = 0; i <= 3 - newPatientId.length; i++) {
+                        newPatientId = '0' + newPatientId;
+                    }
+                }
+                newPatientId = 'P' + newPatientId;
+                const newProfile = { ...profile, id: newPatientId };
+
+                await this.patientProfileService.createPatientProfile(
+                    newProfile,
+                );
+            } else {
+                const newProfile = { ...profile, id: 'P001' };
+                await this.patientProfileService.createPatientProfile(
+                    newProfile,
+                );
+            }
             res.json({ message: 'Created successfully' });
         } catch (err: any) {
             res.status(500).json({ message: err.message });
@@ -30,6 +66,7 @@ export class PatientProfileController {
     async deletePatientProfile(req: Request, res: Response): Promise<void> {
         try {
             const uuid = req.params.uuid;
+            console.log('uuid', uuid);
             await this.patientProfileService.deletePatientProfile(uuid);
             res.json({ message: 'Deleted successfully' });
         } catch (err: any) {

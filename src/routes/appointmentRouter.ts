@@ -36,6 +36,11 @@ appointmentRouter.post(
         appointmentController,
     ),
 );
+appointmentRouter.post(
+    '/get-total-appointment-by-week',
+    authenticate,
+    appointmentController.getTotalAppointmentByWeek.bind(appointmentController),
+);
 
 appointmentRouter.get(
     '/get-recent-patient-ordered',

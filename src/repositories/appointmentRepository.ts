@@ -56,11 +56,17 @@ export class AppointmentRepository {
     async getTotalPriceAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
+        doctorId: number,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetTotalPriceAppointmentByWeek(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [startWeek, endWeek]);
+                'CALL GetTotalPriceAppointmentByWeek(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                startWeek,
+                endWeek,
+                doctorId,
+            ]);
+            console.log(startWeek, endWeek);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
@@ -74,11 +80,16 @@ export class AppointmentRepository {
     async getTotalAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
+        doctorId: number,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetTotalAppointmentByWeek(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [startWeek, endWeek]);
+                'CALL GetTotalAppointmentByWeek(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                startWeek,
+                endWeek,
+                doctorId,
+            ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
