@@ -6,6 +6,13 @@ import { PatientProfileRepository } from '../repositories/patient_profileReposit
 export class PatientProfileService {
     constructor(private patientProfileRepository: PatientProfileRepository) {}
 
+    async getProfileByPhoneOrEmail(
+        searchContent: string,
+    ): Promise<PatientProfile | null> {
+        return this.patientProfileRepository.getProfileByPhoneOrEmail(
+            searchContent,
+        );
+    }
     async getRecentPatient(): Promise<PatientProfile | null> {
         return this.patientProfileRepository.getRecentPatient();
     }

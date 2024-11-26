@@ -2,11 +2,27 @@ import { injectable } from 'tsyringe';
 import { PatientProfile } from '../models/patient_profile';
 import { PatientProfileService } from '../services/patient_profileService';
 import { Request, Response } from 'express';
-import { captureRejectionSymbol } from 'events';
 
 @injectable()
 export class PatientProfileController {
     constructor(private patientProfileService: PatientProfileService) {}
+
+    async getProfileByPhoneOrEmail(req: Request, res: Response): Promise<void> {
+        try {
+            const { searchContent } = req.body;
+            const profile: PatientProfile | null =
+                await this.patientProfileService.getProfileByPhoneOrEmail(
+                    searchContent,
+                );
+            if (profile) {
+                res.json(profile);
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 
     async getRecentPatient(req: Request, res: Response): Promise<void> {
         try {

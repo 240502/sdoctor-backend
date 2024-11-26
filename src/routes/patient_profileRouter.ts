@@ -12,6 +12,13 @@ patientProfileRouter.post(
     ),
 );
 
+patientProfileRouter.post(
+    '/get-by-phone-or-email',
+    patientProfileController.getProfileByPhoneOrEmail.bind(
+        patientProfileController,
+    ),
+);
+
 patientProfileRouter.put(
     '/update',
     patientProfileController.updatePatientProfile.bind(

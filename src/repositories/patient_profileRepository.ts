@@ -6,6 +6,19 @@ import { PatientProfile } from '../models/patient_profile';
 export class PatientProfileRepository {
     constructor(private db: Database) {}
 
+    async getProfileByPhoneOrEmail(
+        searchContent: string,
+    ): Promise<PatientProfile | null> {
+        try {
+            const sql = 'CALL GetProfileByPhoneOrEmail(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [searchContent]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async getRecentPatient(): Promise<PatientProfile | null> {
         try {
             const sql = 'CALL GetRecentPatient(@err_code,@err_msg)';
