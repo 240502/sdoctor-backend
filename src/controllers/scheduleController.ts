@@ -56,18 +56,37 @@ export class ScheduleController {
             res.json({ message: err.message });
         }
     }
-    async getScheduleByDateAndSubscriberId(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
+    async viewScheduleForClient(req: Request, res: Response): Promise<void> {
         try {
             const { date, subscriberId, type } = req.body;
-            const result =
-                await this.scheduleService.getScheduleByDateAndSubscriberId(
-                    date,
-                    subscriberId,
-                    type,
-                );
+            const result = await this.scheduleService.viewScheduleForClient(
+                date,
+                subscriberId,
+                type,
+            );
+            if (result) {
+                res.json({
+                    data: result,
+                    date: date,
+                    subscriberId: subscriberId,
+                    type: type,
+                });
+            } else
+                res.status(404).json({
+                    message: 'Không tồn tại bản ghi !',
+                });
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
+    async viewScheduleForDoctor(req: Request, res: Response): Promise<void> {
+        try {
+            const { date, subscriberId, type } = req.body;
+            const result = await this.scheduleService.viewScheduleForDoctor(
+                date,
+                subscriberId,
+                type,
+            );
             if (result) {
                 res.json({
                     data: result,

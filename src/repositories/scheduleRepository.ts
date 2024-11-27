@@ -57,14 +57,52 @@ export class ScheduleRepository {
         }
     }
 
-    async getScheduleByDateAndSubscriberId(
+    async viewScheduleForClient(
         date: string,
         subscriberId: number,
         type: string,
     ): Promise<any> {
         try {
-            const sql =
-                'CALL GetScheduleByDateAndSubscriberId(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewScheduleForClient(?,?,?,@err_code,@err_msg)';
+
+            const [results] = await this.db.query(sql, [
+                subscriberId,
+                date,
+                type,
+            ]);
+            if (results.length > 0 && Array.isArray(results)) {
+                const listScheduleDetails: ScheduleDetails[] = [];
+                for (let i = 0; i < results.length; i++) {
+                    let ScheduleDetail: ScheduleDetails = {
+                        id: results[i].schedule_detail_id,
+                        schedule_id: results[i].schedule_id,
+                        time_id: results[i].time_id,
+                        available: results[i].available,
+                    };
+                    listScheduleDetails.push(ScheduleDetail);
+                }
+                const schedule: Schedule = {
+                    id: results[0].id,
+                    subscriber_id: results[0].subscriber_id,
+                    date: results[0].date,
+                    created_at: results[0].created_at,
+                    updated_at: results[0].updated_at,
+                    type: results[0].type,
+                    listScheduleDetails: listScheduleDetails,
+                };
+                return schedule;
+            } else return null;
+        } catch (err: any) {
+            console.log(err.message);
+        }
+    }
+    async viewScheduleForDoctor(
+        date: string,
+        subscriberId: number,
+        type: string,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL ViewScheduleForDoctor(?,?,?,@err_code,@err_msg)';
 
             const [results] = await this.db.query(sql, [
                 subscriberId,

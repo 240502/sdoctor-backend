@@ -24,6 +24,7 @@ export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
                             console.log(
                                 `Successfully uploaded: ${result.secure_url}`,
                             );
+
                             resolve(result);
                         } else {
                             reject('No result from Cloudinary');
@@ -40,3 +41,23 @@ export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
         throw new Error('Cloudinary upload failed');
     }
 });
+
+// export const deleteImage = asyncHandler(async (req: Request, res: Response) => {
+//     const { publicId } = req.body;
+//     if (!publicId) {
+//         res.status(404);
+//     }
+//     try {
+//         const result = await cloudinary.uploader.destroy(publicId);
+
+//         if (result.result !== 'ok') {
+//             throw new Error('Failed to delete image');
+//         }
+
+//         res.status(200).json({ message: 'Image deleted successfully' });
+//     } catch (error) {
+//         console.error('Cloudinary Delete Error:', error);
+//         res.status(500);
+//         throw new Error('Cloudinary delete failed');
+//     }
+// });

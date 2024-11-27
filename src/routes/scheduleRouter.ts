@@ -28,9 +28,12 @@ scheduleRouter.post(
 );
 
 scheduleRouter.post(
-    '/get-by-subscriber-id-date',
-    scheduleController.getScheduleByDateAndSubscriberId.bind(
-        scheduleController,
-    ),
+    '/view-for-client',
+    scheduleController.viewScheduleForClient.bind(scheduleController),
+);
+
+scheduleRouter.post(
+    '/view-for-doctor',
+    scheduleController.viewScheduleForDoctor.bind(scheduleController),
 );
 export default scheduleRouter;
