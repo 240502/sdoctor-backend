@@ -16,8 +16,9 @@ export class ScheduleController {
     }
     async updateSchedule(req: Request, res: Response): Promise<void> {
         try {
-            const { id, time } = req.body;
-            await this.scheduleService.updateSchedule(id, time);
+            const { id, scheduleDetails } = req.body;
+
+            await this.scheduleService.updateSchedule(id, scheduleDetails);
             res.json({ message: 'Updated successfully', result: true });
         } catch (err: any) {
             res.json({ message: err.message });

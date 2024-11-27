@@ -19,10 +19,10 @@ export class ScheduleRepository {
             throw new Error(err.message);
         }
     }
-    async updateSchedule(id: number, time: string): Promise<any> {
+    async updateSchedule(id: number, scheduleDetails: string): Promise<any> {
         try {
             const sql = 'CALL UpdateSchedule(?,?,@err_code,@err_msg)';
-            this.db.query(sql, [id, time]);
+            this.db.query(sql, [id, JSON.stringify(scheduleDetails)]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);

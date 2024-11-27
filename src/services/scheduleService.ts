@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
 import { ScheduleRepository } from '../repositories/scheduleRepository';
 import { Schedule } from '../models/schedule';
+import { ScheduleDetails } from '../models/schedule_details';
 
 @injectable()
 export class ScheduleService {
@@ -8,8 +9,8 @@ export class ScheduleService {
     async createSchedule(schedule: Schedule): Promise<any> {
         return this.scheduleRepository.createSchedule(schedule);
     }
-    async updateSchedule(id: number, time: string): Promise<any> {
-        return this.scheduleRepository.updateSchedule(id, time);
+    async updateSchedule(id: number, scheduleDetails: string): Promise<any> {
+        return this.scheduleRepository.updateSchedule(id, scheduleDetails);
     }
     async deleteSchedule(id: number) {
         return this.scheduleRepository.deleteSchedule(id);
