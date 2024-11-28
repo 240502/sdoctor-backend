@@ -5,12 +5,11 @@ import { cloudinary, UploadApiResponse } from '../config/cloudinaryConfig';
 
 export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
     if (!req.file) {
-        res.status(400);
-        throw new Error('No file uploaded');
+        res.status(400).json({ message: 'No file uploaded' });
     }
 
     const file = req.file as Express.Multer.File;
-
+    console.log(file);
     try {
         const result: UploadApiResponse = await new Promise(
             (resolve, reject) => {
