@@ -5,6 +5,11 @@ import { authenticate } from '../middlewares/authMiddleware';
 const appointmentRouter = Router();
 const appointmentController = container.resolve(AppointmentController);
 
+appointmentRouter.post(
+    '/get-by-type',
+    appointmentController.getAppointmentByType.bind(appointmentController),
+);
+
 appointmentRouter.put(
     '/confirm/:id',
     appointmentController.confirmAppointment.bind(appointmentController),

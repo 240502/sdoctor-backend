@@ -89,12 +89,14 @@ export class PostController {
     }
     async viewPostAdmin(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, categoryId, status } = req.body;
+            const { pageIndex, pageSize, categoryId, status, authorId } =
+                req.body;
             const results = await this.postService.viewPostAdmin(
                 pageIndex,
                 pageSize,
                 categoryId,
                 status,
+                authorId,
             );
             if (results) {
                 res.json({

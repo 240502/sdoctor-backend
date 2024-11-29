@@ -5,6 +5,30 @@ import { Appointment } from '../models/appointment';
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
+    async getAppointmentByType(
+        pageIndex: number,
+        pageSize: number,
+        doctorId: number,
+        type: number,
+    ): Promise<any> {
+        try {
+            const sql =
+                'CALL GetAppointmentByType(?,,?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                doctorId,
+                type,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async getAppointmentInDay(
         pageIndex: number,
         pageSize: number,
@@ -26,6 +50,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getTotalPatientInDay(id: number): Promise<any> {
         try {
             const sql = 'CALL GetTotalPatientInDay(?,@err_code,@err_msg)';
@@ -39,6 +64,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getTotalPatientExaminedInDay(id: number): Promise<any> {
         try {
             const sql =
@@ -53,6 +79,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getTotalPriceAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
@@ -99,6 +126,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getRecentPatientExamined(): Promise<any> {
         try {
             const sql = 'CALL GetRecentPatientExamined(@err_code, @err_msg)';
@@ -112,6 +140,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getRecentPatientOrdered(): Promise<any> {
         try {
             const sql = 'CALL GetRecentPatientOrdered(@err_code, @err_msg)';
@@ -135,6 +164,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getRevenueByMonth(month: number, year: number): Promise<any> {
         try {
             const sql = 'CALL GetRevenueByMonth(?,?,@err_code,@err_msg)';
@@ -156,6 +186,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async createAppointment(appointment: Appointment): Promise<any> {
         try {
             const sql =
@@ -200,6 +231,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getAllAppointmentByYearAndMonth(
         year: number,
         month: number,

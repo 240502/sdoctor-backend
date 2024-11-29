@@ -96,14 +96,16 @@ export class PostRepository {
         pageSize: number,
         categoryId: number | null,
         status: string,
+        authorId:number
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewNewsAdmin(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewNewsAdmin(?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 categoryId,
                 status,
+                authorId
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

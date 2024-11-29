@@ -11,6 +11,33 @@ import { Doctor } from '../models/doctor';
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async getAppointmentByType(req: Request, res: Response): Promise<void> {
+        try {
+            const { pageIndex, pageSize, doctorId, type } = req.body;
+            const result = await this.appointmentService.getAppointmentByType(
+                pageIndex,
+                pageSize,
+                doctorId,
+                type,
+            );
+            if (result) {
+                res.json({
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    totalItems: result.RecordCount,
+                    data: result,
+                    doctorId: doctorId,
+                    type: type,
+                    pageCount: Math.ceil(result.RecordCount / pageSize),
+                });
+            } else {
+                res.status(404).json({ message: 'Không có bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
     async getTotalPatientInDay(req: Request, res: Response): Promise<any> {
         try {
             const id = Number(req.params.id);
@@ -24,6 +51,7 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
+
     async getAppointmentInDay(req: Request, res: Response): Promise<any> {
         try {
             const { pageIndex, pageSize, doctorId } = req.body;
@@ -88,6 +116,7 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
+
     async getTotalAppointmentByWeek(
         req: Request,
         res: Response,

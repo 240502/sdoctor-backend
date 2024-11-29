@@ -35,12 +35,14 @@ export class PostService {
         pageSize: number,
         categoryId: number | null,
         status: string,
+        authorId: number,
     ): Promise<any> {
         return this.postRepository.viewPostAdmin(
             pageIndex,
             pageSize,
             categoryId,
             status,
+            authorId,
         );
     }
 }

@@ -5,6 +5,21 @@ import { Appointment } from '../models/appointment';
 @injectable()
 export class AppointmentService {
     constructor(private appointmentRepository: AppointmentRepository) {}
+
+    async getAppointmentByType(
+        pageIndex: number,
+        pageSize: number,
+        doctorId: number,
+        type: number,
+    ): Promise<any> {
+        return this.appointmentRepository.getAppointmentByType(
+            pageIndex,
+            pageSize,
+            doctorId,
+            type,
+        );
+    }
+
     async getAppointmentInDay(
         pageIndex: number,
         pageSize: number,
@@ -16,9 +31,11 @@ export class AppointmentService {
             doctorId,
         );
     }
+
     async getTotalPatientInDay(id: number): Promise<any> {
         return this.appointmentRepository.getTotalPatientInDay(id);
     }
+
     async getTotalPatientExaminedInDay(id: number): Promise<any> {
         return this.appointmentRepository.getTotalPatientExaminedInDay(id);
     }
@@ -34,6 +51,7 @@ export class AppointmentService {
             doctorId,
         );
     }
+
     async getTotalAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
@@ -45,9 +63,11 @@ export class AppointmentService {
             doctorId,
         );
     }
+
     async getRecentPatientExamined(): Promise<any> {
         return this.appointmentRepository.getRecentPatientExamined();
     }
+
     async getRecentPatientOrdered(): Promise<any> {
         return this.appointmentRepository.getRecentPatientOrdered();
     }
@@ -75,9 +95,11 @@ export class AppointmentService {
             month,
         );
     }
+
     async orderAppointment(appointment: Appointment): Promise<any> {
         return this.appointmentRepository.createAppointment(appointment);
     }
+
     async ViewAppointment(
         pageIndex: number,
         pageSize: number,
@@ -91,9 +113,11 @@ export class AppointmentService {
             statusId,
         );
     }
+
     async cancelAppointment(id: number, reason: string): Promise<any> {
         return this.appointmentRepository.cancelAppointment(id, reason);
     }
+
     async getAppointmentById(id: number): Promise<any> {
         return this.appointmentRepository.getAppointmentById(id);
     }
