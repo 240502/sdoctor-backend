@@ -9,7 +9,7 @@ export class ScheduleService {
     async createSchedule(schedule: Schedule): Promise<any> {
         return this.scheduleRepository.createSchedule(schedule);
     }
-    async updateSchedule(id: number, scheduleDetails: string): Promise<any> {
+    async updateSchedule(id: number, scheduleDetails: any): Promise<any> {
         return this.scheduleRepository.updateSchedule(id, scheduleDetails);
     }
     async deleteSchedule(id: number) {

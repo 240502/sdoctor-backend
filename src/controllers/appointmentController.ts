@@ -24,11 +24,11 @@ export class AppointmentController {
                 res.json({
                     pageIndex: pageIndex,
                     pageSize: pageSize,
-                    totalItems: result.RecordCount,
+                    totalItems: result[0].RecordCount,
                     data: result,
                     doctorId: doctorId,
                     type: type,
-                    pageCount: Math.ceil(result.RecordCount / pageSize),
+                    pageCount: Math.ceil(result[0].RecordCount / pageSize),
                 });
             } else {
                 res.status(404).json({ message: 'Không có bản ghi nào!' });

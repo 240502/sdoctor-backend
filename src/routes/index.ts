@@ -18,6 +18,7 @@ import categoryServicesRouter from './category_servicesRouter';
 import postCategoryRouter from './post_category';
 import uploadRouter from './upload';
 import patientProfileRouter from './patient_profileRouter';
+import appointmentStatusRouter from './appointment_statusRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -38,4 +39,6 @@ appRouter.use('/category-services', categoryServicesRouter);
 appRouter.use('/post-category', postCategoryRouter);
 appRouter.use('/', uploadRouter);
 appRouter.use('/patient-profile', patientProfileRouter);
+appRouter.use('/appointment-status', appointmentStatusRouter);
+
 export default appRouter;

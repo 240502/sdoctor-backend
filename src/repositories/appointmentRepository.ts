@@ -12,14 +12,14 @@ export class AppointmentRepository {
         type: number,
     ): Promise<any> {
         try {
-            const sql =
-                'CALL GetAppointmentByType(?,,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL GetAppointmentByType(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 doctorId,
                 type,
             ]);
+            console.log({ pageIndex, pageSize, doctorId, type });
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
