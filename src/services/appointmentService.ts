@@ -114,15 +114,19 @@ export class AppointmentService {
         );
     }
 
-    async cancelAppointment(id: number, reason: string): Promise<any> {
-        return this.appointmentRepository.cancelAppointment(id, reason);
+    async updateAppointmentStatus(
+        id: number,
+        status: number,
+        reason: string,
+    ): Promise<any> {
+        return this.appointmentRepository.updateAppointmentStatus(
+            id,
+            status,
+            reason,
+        );
     }
 
     async getAppointmentById(id: number): Promise<any> {
         return this.appointmentRepository.getAppointmentById(id);
-    }
-
-    async confirmAppointment(id: number): Promise<any> {
-        return this.appointmentRepository.confirmAppointment(id);
     }
 }

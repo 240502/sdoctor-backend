@@ -10,10 +10,6 @@ appointmentRouter.post(
     appointmentController.getAppointmentByType.bind(appointmentController),
 );
 
-appointmentRouter.put(
-    '/confirm/:id',
-    appointmentController.confirmAppointment.bind(appointmentController),
-);
 appointmentRouter.post(
     '/get-appointment-in-day',
     authenticate,
@@ -79,8 +75,8 @@ appointmentRouter.post(
 );
 
 appointmentRouter.put(
-    '/cancel',
-    appointmentController.cancelAppointment.bind(appointmentController),
+    '/update-appointment-status',
+    appointmentController.updateAppointmentStatus.bind(appointmentController),
 );
 
 appointmentRouter.post(

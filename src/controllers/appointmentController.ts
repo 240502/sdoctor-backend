@@ -275,37 +275,28 @@ export class AppointmentController {
         }
     }
 
-    async cancelAppointment(req: Request, res: Response): Promise<void> {
+    async updateAppointmentStatus(req: Request, res: Response): Promise<void> {
         try {
             const { appointment, requirementObject } = req.body;
-            await this.appointmentService.cancelAppointment(
+            await this.appointmentService.updateAppointmentStatus(
                 appointment.id,
+                appointment.status_id,
                 appointment.rejectionReason,
             );
-            console.log(appointment, requirementObject);
             res.status(200).json({ message: 'Successfully!' });
-            await sendRejection(
-                appointment.patient_email,
-                appointment.doctor_name,
-                appointment.patient_name,
-                appointment.time_value,
-                appointment.appointment_date,
-                appointment.rejectionReason,
-                requirementObject,
-            );
+            if (appointment?.rejectionReason) {
+                await sendRejection(
+                    appointment.patient_email,
+                    appointment.doctor_name,
+                    appointment.patient_name,
+                    appointment.time_value,
+                    appointment.appointment_date,
+                    appointment.rejectionReason,
+                    requirementObject,
+                );
+            }
         } catch (err: any) {
-            res.json({ message: err.message });
-        }
-    }
-
-    async confirmAppointment(req: Request, res: Response): Promise<any> {
-        try {
-            const id: number = Number(req.params.id);
-            await this.appointmentService.confirmAppointment(id);
-
-            res.status(200).json({ message: 'Successfully!' });
-        } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(500).json({ message: err.message });
         }
     }
 

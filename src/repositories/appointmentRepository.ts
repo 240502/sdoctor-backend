@@ -19,7 +19,6 @@ export class AppointmentRepository {
                 doctorId,
                 type,
             ]);
-            console.log({ pageIndex, pageSize, doctorId, type });
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
@@ -155,10 +154,15 @@ export class AppointmentRepository {
         }
     }
 
-    async confirmAppointment(id: number): Promise<any> {
+    async updateAppointmentStatus(
+        id: number,
+        status: number,
+        reason: string,
+    ): Promise<any> {
         try {
-            const sql = 'CALL ConfirmAppointment(?,@err_code,@err_msg)';
-            await this.db.query(sql, [id]);
+            const sql =
+                'CALL UpdateAppointmentStatus(?,?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [id, status, reason]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
@@ -172,16 +176,6 @@ export class AppointmentRepository {
             if (Array.isArray(results) && results.length > 0) {
                 return results[0].SumRevenue;
             } else return null;
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
-
-    async cancelAppointment(id: number, reason: string): Promise<any> {
-        try {
-            const sql = 'CALL CancelAppointment(?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [id, reason]);
-            return true;
         } catch (err: any) {
             throw new Error(err.message);
         }
