@@ -53,14 +53,14 @@ export class DoctorController {
                 pageIndex: number;
                 pageSize: number;
                 majorId: number;
-                location: String;
+                name: string;
                 clinicId: number;
             };
             const data = await this.doctorService.getDoctorView(
                 object.pageIndex,
                 object.pageSize,
                 object.majorId ?? null,
-                object.location ?? null,
+                object.name ?? null,
                 object.clinicId ?? null,
             );
             if (Array.isArray(data) && data.length > 0) {
@@ -71,7 +71,7 @@ export class DoctorController {
                     data: data,
                     pageCount: Math.ceil(data[0].RecordCount / object.pageSize),
                     majorId: object.majorId,
-                    location: object.location,
+                    location: object.name,
                     clinicId: object.clinicId,
                 });
             } else {

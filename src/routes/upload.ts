@@ -12,7 +12,7 @@ uploadRouter.post('/upload', upload.single('file'), uploadImage);
 // uploadRouter.post('/upload', upload.array('files', 10), uploadImages);
 
 uploadRouter.post(
-    '/upload-doctor-image',
+    '/upload-image',
     upload.single('file'),
     async (req: Request, res: Response) => {
         if (!req.file) {

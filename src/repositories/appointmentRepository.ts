@@ -92,7 +92,6 @@ export class AppointmentRepository {
                 endWeek,
                 doctorId,
             ]);
-            console.log(startWeek, endWeek);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {

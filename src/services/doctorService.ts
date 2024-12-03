@@ -23,14 +23,14 @@ export class DoctorService {
         pageIndex: Number,
         pageSize: Number,
         majorId: Number | null,
-        location: String | null,
+        name: string | null,
         clinicId: number | null,
     ): Promise<any> {
         return this.doctorRepository.GetDoctorView(
             pageIndex,
             pageSize,
             majorId,
-            location,
+            name,
             clinicId,
         );
     }

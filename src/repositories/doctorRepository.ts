@@ -87,7 +87,7 @@ export class DoctorRepository {
         pageIndex: Number,
         pageSize: Number,
         majorId: Number | null,
-        location: String | null,
+        name: string | null,
         clinicId: number | null,
     ): Promise<any> {
         try {
@@ -96,7 +96,7 @@ export class DoctorRepository {
                 pageIndex,
                 pageSize,
                 majorId,
-                location,
+                name,
                 clinicId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
