@@ -1,6 +1,5 @@
 import { injectable } from 'tsyringe';
 import { MajorRepository } from '../repositories/majorRepository';
-import { Major } from '../models/major';
 
 @injectable()
 export class MajorService {
@@ -13,5 +12,8 @@ export class MajorService {
     }
     async getMajorById(id: number): Promise<any> {
         return this.majorRepository.getMajorById(id);
+    }
+    async viewMajor(pageIndex: number, pageSize: number): Promise<any> {
+        return this.majorRepository.viewMajor(pageIndex, pageSize);
     }
 }

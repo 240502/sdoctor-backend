@@ -17,6 +17,11 @@ postRouter.post(
     postController.viewPostAdmin.bind(postController),
 );
 
+postRouter.post(
+    '/view-news-client',
+    postController.viewPost.bind(postController),
+);
+
 postRouter.put(
     '/update',
     authenticate,
@@ -39,7 +44,8 @@ postRouter.get(
     '/get-common-post',
     postController.getCommonPost.bind(postController),
 );
-
+postRouter.get('/get-by-id', postController.getPostById.bind(postController));
+postRouter.get('/get-new-post', postController.getNewPost.bind(postController));
 postRouter.put(
     '/update-views-post/:id',
     postController.updateViewsPost.bind(postController),

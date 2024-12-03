@@ -27,6 +27,9 @@ export class PostService {
     async getCommonPost(): Promise<any> {
         return this.postRepository.getCommonPost();
     }
+    async getNewPost(): Promise<any> {
+        return this.postRepository.getNewPosts();
+    }
     async updateViewsPost(id: number): Promise<any> {
         return this.postRepository.updateViewsPost(id);
     }
@@ -44,5 +47,8 @@ export class PostService {
             status,
             authorId,
         );
+    }
+    async getPostById(id: number): Promise<any> {
+        return this.postRepository.getPostById(id);
     }
 }

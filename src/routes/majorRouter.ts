@@ -17,5 +17,5 @@ majorRouter.get(
     '/get-by-id/:id',
     majorController.getMajorById.bind(majorController),
 );
-
+majorRouter.post('/view', majorController.viewMajor.bind(majorController));
 export default majorRouter;

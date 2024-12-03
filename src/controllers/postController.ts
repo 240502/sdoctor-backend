@@ -78,6 +78,18 @@ export class PostController {
             res.status(500).json({ message: err.message });
         }
     }
+    async getNewPost(req: Request, res: Response): Promise<void> {
+        try {
+            const results = await this.postService.getNewPost();
+            if (results) {
+                res.json(results);
+            } else {
+                res.status(404).json({ message: 'Không có bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
     async updateViewsPost(req: Request, res: Response): Promise<void> {
         try {
             const id: number = Number(req.params.id);
@@ -110,6 +122,19 @@ export class PostController {
                 });
             } else {
                 res.status(404).json({ message: 'Không có bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async getPostById(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            const result = await this.postService.getPostById(id);
+            if (result) {
+                res.json(result);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào' });
             }
         } catch (err: any) {
             res.status(500).json({ message: err.message });

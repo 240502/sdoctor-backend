@@ -39,4 +39,26 @@ export class MajorController {
             res.json({ message: err.message });
         }
     }
+    async viewMajor(req: Request, res: Response): Promise<void> {
+        try {
+            const { pageIndex, pageSize } = req.body;
+            const results = await this.majorService.viewMajor(
+                pageIndex,
+                pageSize,
+            );
+            if (results) {
+                res.json({
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    data: results,
+                    totalItems: results[0].RecordCount,
+                    pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                });
+            } else {
+                res.status(404);
+            }
+        } catch (err: any) {
+            res.json({ message: err.message });
+        }
+    }
 }

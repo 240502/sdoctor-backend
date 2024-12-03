@@ -82,6 +82,18 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
+
+    async getNewPosts(): Promise<any> {
+        try {
+            const sql = 'CALL GetNewPosts(@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, []);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async updateViewsPost(id: number): Promise<any> {
         try {
             const sql = 'CALL UpdateViewsPost(?,@err_code,@err_msg)';
@@ -96,7 +108,7 @@ export class PostRepository {
         pageSize: number,
         categoryId: number | null,
         status: string,
-        authorId:number
+        authorId: number,
     ): Promise<any> {
         try {
             const sql = 'CALL ViewNewsAdmin(?,?,?,?,?,@err_code,@err_msg)';
@@ -105,11 +117,24 @@ export class PostRepository {
                 pageSize,
                 categoryId,
                 status,
-                authorId
+                authorId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async getPostById(id: number): Promise<any> {
+        try {
+            const sql = 'CALL GetPostById(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [id]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else {
+                return null;
+            }
         } catch (err: any) {
             throw new Error(err.message);
         }
