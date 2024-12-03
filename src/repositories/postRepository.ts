@@ -139,4 +139,18 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
+
+    async getRelatedPost(id: number, categoryId: number): Promise<any> {
+        try {
+            const sql = 'CALL GetRelatedPost(?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [id, categoryId]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

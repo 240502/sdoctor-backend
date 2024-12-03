@@ -22,6 +22,10 @@ postRouter.post(
     postController.viewPost.bind(postController),
 );
 
+postRouter.post(
+    '/get-related',
+    postController.getRelatedPost.bind(postController),
+);
 postRouter.put(
     '/update',
     authenticate,
@@ -44,7 +48,10 @@ postRouter.get(
     '/get-common-post',
     postController.getCommonPost.bind(postController),
 );
-postRouter.get('/get-by-id', postController.getPostById.bind(postController));
+postRouter.get(
+    '/get-by-id/:id',
+    postController.getPostById.bind(postController),
+);
 postRouter.get('/get-new-post', postController.getNewPost.bind(postController));
 postRouter.put(
     '/update-views-post/:id',

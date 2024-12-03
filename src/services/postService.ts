@@ -51,4 +51,7 @@ export class PostService {
     async getPostById(id: number): Promise<any> {
         return this.postRepository.getPostById(id);
     }
+    async getRelatedPost(id: number, categoryId: number): Promise<any> {
+        return this.postRepository.getRelatedPost(id, categoryId);
+    }
 }

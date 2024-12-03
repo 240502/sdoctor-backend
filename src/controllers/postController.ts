@@ -140,4 +140,20 @@ export class PostController {
             res.status(500).json({ message: err.message });
         }
     }
+    async getRelatedPost(req: Request, res: Response): Promise<void> {
+        try {
+            const { id, categoryId } = req.body;
+            const result = await this.postService.getRelatedPost(
+                id,
+                categoryId,
+            );
+            if (result) {
+                res.json(result);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }
