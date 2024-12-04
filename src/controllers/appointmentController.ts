@@ -237,6 +237,7 @@ export class AppointmentController {
             const io = getSocket();
             io.emit('newAppointment', appointment);
             await sendConfirm(
+                String(appointment.patient_name),
                 String(appointment.patient_email),
                 appointment.doctor_name,
                 appointment.time_value,

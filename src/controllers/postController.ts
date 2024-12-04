@@ -100,16 +100,17 @@ export class PostController {
             res.status(500).json({ message: err.message });
         }
     }
-    async viewPostAdmin(req: Request, res: Response): Promise<void> {
+    async viewPostDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, categoryId, status, authorId } =
+            const { pageIndex, pageSize, categoryId, status, authorId, title } =
                 req.body;
-            const results = await this.postService.viewPostAdmin(
+            const results = await this.postService.viewPostDoctor(
                 pageIndex,
                 pageSize,
                 categoryId,
                 status,
                 authorId,
+                title,
             );
             if (results) {
                 res.json({
@@ -120,6 +121,7 @@ export class PostController {
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
                     categoryId: categoryId,
                     status: status,
+                    title: title,
                 });
             } else {
                 res.status(404).json({ message: 'Không có bản ghi nào!' });

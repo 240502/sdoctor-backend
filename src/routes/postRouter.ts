@@ -12,9 +12,9 @@ postRouter.post(
 );
 
 postRouter.post(
-    '/view-news-admin',
+    '/view-news-doctor',
     authenticate,
-    postController.viewPostAdmin.bind(postController),
+    postController.viewPostDoctor.bind(postController),
 );
 
 postRouter.post(

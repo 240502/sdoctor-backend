@@ -39,19 +39,21 @@ export class PostService {
     async updateViewsPost(id: number): Promise<any> {
         return this.postRepository.updateViewsPost(id);
     }
-    async viewPostAdmin(
+    async viewPostDoctor(
         pageIndex: number,
         pageSize: number,
         categoryId: number | null,
         status: string,
         authorId: number,
+        title: string,
     ): Promise<any> {
-        return this.postRepository.viewPostAdmin(
+        return this.postRepository.viewPostDoctor(
             pageIndex,
             pageSize,
             categoryId,
             status,
             authorId,
+            title,
         );
     }
     async getPostById(id: number): Promise<any> {

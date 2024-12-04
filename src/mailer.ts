@@ -12,6 +12,7 @@ const transporter = nodemailer.createTransport({
 
 // async..await is not allowed in global scope, must use a wrapper
 export async function sendConfirm(
+    patientName: string,
     email: string,
     doctorName: string,
     time: string,
@@ -26,7 +27,25 @@ export async function sendConfirm(
         to: email, // list of receivers
         subject: 'Xác nhận lịch hẹn', // Subject line
         text: 'Cảm ơn bạn đã tin tưởng đặt lịch hẹn ở hệ thống của chúng tôi!', // plain text body
-        html: `<h1>Thông tin lịch hẹn</h1><h3>Bác sĩ: ${doctorName}</h3><h3>Thời gian: ${time}</h3> <h3>Ngày hẹn: ${date}</h3> <h3>Địa điểm: ${location}</h3> <h3>Chi phí: ${fee.toLocaleString(undefined)}</h3><h3>Trạng thái:${status}</h3> </h3>`,
+        html: `<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <h2>Xác nhận lịch hẹn</h2>
+        <p>Kính gửi <strong>${patientName}</strong>,</p>
+        <p>Chúng tôi xin thông báo rằng lịch hẹn của quý khách đã đặt lịch hẹn thành công thông tin chi tiết như sau:</p>
+        <ul>
+            <li><strong>Bác sĩ:</strong>${doctorName}</li>
+            <li><strong>Ngày hẹn:</strong> ${date.slice(0, 10)}</li>
+            <li><strong>Thời gian:</strong> ${time}</li>
+            <li><strong>Địa điểm:</strong>${location}</li>
+            <li><strong>Phí khám:</strong> ${fee}</li>
+            <li><strong>Trạng thái:</strong> ${status}</li>
+           
+        </ul>
+        <p>Nếu quý khách có bất kỳ thắc mắc nào hoặc cần thay đổi lịch hẹn, vui lòng liên hệ với chúng tôi qua số <strong>0777435783</strong> hoặc email <strong>sanghip200@gmail.com</strong>.</p>
+        <p>Chúng tôi rất mong được phục vụ quý khách và cảm ơn quý khách đã tin tưởng sử dụng dịch vụ của chúng tôi.</p>
+        <p>Trân trọng,</p>
+        <p><strong>SDOCTOR</strong><br>
+    </div>
+`,
     }),
         (err: any) => {
             if (err) {
