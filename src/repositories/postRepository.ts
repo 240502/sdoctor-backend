@@ -53,13 +53,15 @@ export class PostRepository {
         }
     }
     async viewPost(
+        searchContent: string,
         categoryId: number,
         pageIndex: number,
         pageSize: number,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewPost(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewPost(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
+                searchContent,
                 categoryId,
                 pageIndex,
                 pageSize,
@@ -140,16 +142,27 @@ export class PostRepository {
         }
     }
 
-    async getRelatedPost(id: number, categoryId: number): Promise<any> {
+    async getRelatedPost(
+        id: number,
+        categoryId: number,
+        pageIndex: number,
+        pageSize: number,
+    ): Promise<any> {
         try {
-            const sql = 'CALL GetRelatedPost(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [id, categoryId]);
+            const sql = 'CALL GetRelatedPost(?,?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                id,
+                categoryId,
+                pageIndex,
+                pageSize,
+            ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
                 return null;
             }
         } catch (err: any) {
+            console.log(err);
             throw new Error(err.message);
         }
     }

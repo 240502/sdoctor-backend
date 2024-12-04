@@ -18,11 +18,17 @@ export class PostService {
         return this.postRepository.confirmPost(id);
     }
     async viewPost(
+        searchContent: string,
         categoryId: number,
         pageIndex: number,
         pageSize: number,
     ): Promise<any> {
-        return this.postRepository.viewPost(categoryId, pageIndex, pageSize);
+        return this.postRepository.viewPost(
+            searchContent,
+            categoryId,
+            pageIndex,
+            pageSize,
+        );
     }
     async getCommonPost(): Promise<any> {
         return this.postRepository.getCommonPost();
@@ -51,7 +57,17 @@ export class PostService {
     async getPostById(id: number): Promise<any> {
         return this.postRepository.getPostById(id);
     }
-    async getRelatedPost(id: number, categoryId: number): Promise<any> {
-        return this.postRepository.getRelatedPost(id, categoryId);
+    async getRelatedPost(
+        id: number,
+        categoryId: number,
+        pageIndex: number,
+        pageSize: number,
+    ): Promise<any> {
+        return this.postRepository.getRelatedPost(
+            id,
+            categoryId,
+            pageIndex,
+            pageSize,
+        );
     }
 }

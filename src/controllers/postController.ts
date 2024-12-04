@@ -44,8 +44,9 @@ export class PostController {
     }
     async viewPost(req: Request, res: Response): Promise<void> {
         try {
-            const { categoryId, pageIndex, pageSize } = req.body;
+            const { searchContent, categoryId, pageIndex, pageSize } = req.body;
             const data = await this.postService.viewPost(
+                searchContent,
                 categoryId,
                 pageIndex,
                 pageSize,
@@ -142,18 +143,31 @@ export class PostController {
     }
     async getRelatedPost(req: Request, res: Response): Promise<void> {
         try {
-            const { id, categoryId } = req.body;
-            const result = await this.postService.getRelatedPost(
+            const { categoryId, id, pageIndex, pageSize } = req.body;
+            const results = await this.postService.getRelatedPost(
                 id,
                 categoryId,
+                pageIndex,
+                pageSize,
             );
-            if (result) {
-                res.json(result);
+            console.log(results);
+            if (Array.isArray(results) && results.length > 0) {
+                res.status(200).json({
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    data: results,
+                    totalItems: results[0].RecordCount,
+                    pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào' });
             }
         } catch (err: any) {
-            res.status(500).json({ message: err.message });
+            console.log(err);
+            res.status(500).json({
+                message: 'Đã xảy ra lỗi khi lấy bài viết liên quan',
+                error: err.message,
+            });
         }
     }
 }
