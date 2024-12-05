@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { ScheduleDetails } from '../models/schedule_details';
+import { DoctorScheduleDetail } from '../models/doctor_schedule_detail';
 import { Database } from '../config/database';
 
 @injectable()
@@ -8,7 +8,7 @@ export class ScheduleDetailsRepository {
 
     async createScheduleDetails(
         scheduleId: number,
-        scheduleDetails: ScheduleDetails[],
+        scheduleDetails: DoctorScheduleDetail[],
     ): Promise<any> {
         try {
             const sql = 'CALL CreateScheduleDetails(?,?,@err_code,@err_msg)';
@@ -19,7 +19,7 @@ export class ScheduleDetailsRepository {
         }
     }
     async deleteScheduleDetails(
-        scheduleDetails: ScheduleDetails[],
+        scheduleDetails: DoctorScheduleDetail[],
     ): Promise<any> {
         try {
             const sql = 'CALL DeleteScheduleDetails(?,@err_code,@err_msg)';

@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
-import { ScheduleDetailsService } from '../services/schedule_detailsService';
-import { ScheduleDetails } from '../models/schedule_details';
+import { ScheduleDetailsService } from '../services/doctorScheduleDetailService';
+import { DoctorScheduleDetail } from '../models/doctor_schedule_detail';
 import { Request, Response } from 'express';
 @injectable()
 export class ScheduleDetailsController {

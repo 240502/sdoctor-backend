@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
-import { ScheduleDetailsRepository } from '../repositories/schedule_detailsRepository';
-import { ScheduleDetails } from '../models/schedule_details';
+import { ScheduleDetailsRepository } from '../repositories/doctorScheduleDetailsRepository';
+import { DoctorScheduleDetail } from '../models/doctor_schedule_detail';
 @injectable()
 export class ScheduleDetailsService {
     constructor(private scheduleDetailsRepository: ScheduleDetailsRepository) {}
@@ -18,7 +18,7 @@ export class ScheduleDetailsService {
     }
     async createScheduleDetails(
         scheduleId: number,
-        scheduleDetails: ScheduleDetails[],
+        scheduleDetails: DoctorScheduleDetail[],
     ): Promise<any> {
         return this.scheduleDetailsRepository.createScheduleDetails(
             scheduleId,
@@ -26,7 +26,7 @@ export class ScheduleDetailsService {
         );
     }
     async deleteScheduleDetails(
-        scheduleDetails: ScheduleDetails[],
+        scheduleDetails: DoctorScheduleDetail[],
     ): Promise<any> {
         return this.scheduleDetailsRepository.deleteScheduleDetails(
             scheduleDetails,

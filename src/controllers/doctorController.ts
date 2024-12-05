@@ -1,13 +1,13 @@
 import { injectable } from 'tsyringe';
 import { DoctorService } from '../services/doctorService';
-import { Doctor } from '../models/doctor';
+import { Doctor, DoctorInfo } from '../models/doctor';
 import { Request, Response } from 'express';
 @injectable()
 export class DoctorController {
     constructor(private doctorService: DoctorService) {}
     async createDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const doctor = req.body as Doctor;
+            const doctor = req.body as DoctorInfo;
             await this.doctorService.createDoctor(doctor);
             res.json({ message: 'Successfully created', result: true });
         } catch (err: any) {
@@ -16,7 +16,7 @@ export class DoctorController {
     }
     async updateDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const doctor = req.body as Doctor;
+            const doctor = req.body as DoctorInfo;
             await this.doctorService.updateDoctor(doctor);
             res.json({ message: 'Successfully updated', result: true });
         } catch (err: any) {

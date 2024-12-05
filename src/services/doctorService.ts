@@ -1,14 +1,14 @@
 import { injectable } from 'tsyringe';
 import { DoctorRepository } from '../repositories/doctorRepository';
-import { Doctor } from '../models/doctor';
+import { Doctor, DoctorInfo } from '../models/doctor';
 
 @injectable()
 export class DoctorService {
     constructor(private doctorRepository: DoctorRepository) {}
-    async createDoctor(doctor: Doctor): Promise<any> {
+    async createDoctor(doctor: DoctorInfo): Promise<any> {
         return this.doctorRepository.createDoctor(doctor);
     }
-    async updateDoctor(doctor: Doctor): Promise<any> {
+    async updateDoctor(doctor: DoctorInfo): Promise<any> {
         return this.doctorRepository.updateDoctor(doctor);
     }
     async deleteDoctor(id: Number): Promise<any> {
@@ -41,6 +41,6 @@ export class DoctorService {
         return this.doctorRepository.getCommonDoctor();
     }
     async updateViewsDoctor(id: number): Promise<any> {
-        return this.doctorRepository.updateViewsDoctor(id);
+        return this.doctorRepository.updateViewDoctor(id);
     }
 }

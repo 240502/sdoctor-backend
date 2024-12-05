@@ -21,13 +21,9 @@ userRouter.post(
     userController.deleteUser.bind(userController),
 );
 
-userRouter.get(
-    '/getById/:id',
-    authenticate,
-    userController.getUserById.bind(userController),
-);
+userRouter.get('/getById/:id', userController.getUserById.bind(userController));
 userRouter.post(
-    'view',
+    '/view',
     authenticate,
     userController.viewUser.bind(userController),
 );

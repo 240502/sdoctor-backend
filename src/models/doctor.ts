@@ -1,22 +1,36 @@
+import { User } from './user';
+
 export interface Doctor {
-    id: Number;
-    full_name: String;
-    clinic_id: Number;
-    major_id: Number;
-    description: String;
-    image: String;
-    email: String;
-    phone: String;
-    password: String;
+    doctor_id: number;
+    clinic_id: number;
+    major_id: number;
+    summary: number;
     created_at: Date;
     updated_at: Date;
-    address: String;
-    gender: String;
-    title: String;
-    fee: Number;
-    examination_object: String;
+    title: string;
+    fee: number;
     views: number;
-    major_name: String;
-    clinic_location: string;
     introduction: string;
+    user_id: number;
+}
+
+export interface DoctorInfo {
+    doctor_id: number;
+    user_id: number;
+    clinic_id: number;
+    major_id: number;
+    summary: number;
+    created_at: Date;
+    updated_at: Date;
+    title: string;
+    fee: number;
+    views: number;
+    introduction: string;
+    full_name: string;
+    image: string;
+    phone: string;
+    gender: string;
+    address: string;
+    email: string;
+    birthday: Date;
 }

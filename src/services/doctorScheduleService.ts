@@ -1,12 +1,12 @@
 import { injectable } from 'tsyringe';
-import { ScheduleRepository } from '../repositories/scheduleRepository';
-import { Schedule } from '../models/schedule';
-import { ScheduleDetails } from '../models/schedule_details';
+import { DoctorScheduleRepository } from '../repositories/doctorScheduleRepository';
+import { DoctorSchedule } from '../models/doctor_schedule';
+import { DoctorScheduleDetail } from '../models/doctor_schedule_detail';
 
 @injectable()
-export class ScheduleService {
-    constructor(private scheduleRepository: ScheduleRepository) {}
-    async createSchedule(schedule: Schedule): Promise<any> {
+export class DoctorScheduleService {
+    constructor(private scheduleRepository: DoctorScheduleRepository) {}
+    async createSchedule(schedule: DoctorSchedule): Promise<any> {
         return this.scheduleRepository.createSchedule(schedule);
     }
     async updateSchedule(id: number, scheduleDetails: any): Promise<any> {
@@ -35,13 +35,11 @@ export class ScheduleService {
     }
     async viewScheduleForDoctor(
         date: string,
-        subscriberId: number,
-        type: string,
+        doctor_id: number,
     ): Promise<any> {
         return this.scheduleRepository.viewScheduleForDoctor(
             date,
-            subscriberId,
-            type,
+            doctor_id,
         );
     }
 }

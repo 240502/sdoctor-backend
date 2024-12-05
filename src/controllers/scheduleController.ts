@@ -1,13 +1,13 @@
 import { injectable } from 'tsyringe';
-import { ScheduleService } from '../services/scheduleService';
-import { Schedule } from '../models/schedule';
+import { DoctorScheduleService } from '../services/doctorScheduleService';
+import { DoctorSchedule } from '../models/doctor_schedule';
 import { Request, Response } from 'express';
 @injectable()
-export class ScheduleController {
-    constructor(private scheduleService: ScheduleService) {}
+export class DoctorScheduleController {
+    constructor(private scheduleService: DoctorScheduleService) {}
     async createSchedule(req: Request, res: Response): Promise<void> {
         try {
-            const schedule: Schedule = req.body as Schedule;
+            const schedule: DoctorSchedule = req.body as DoctorSchedule;
             await this.scheduleService.createSchedule(schedule);
             res.json({ message: 'Created successfully', result: true });
         } catch (err: any) {
@@ -82,18 +82,16 @@ export class ScheduleController {
     }
     async viewScheduleForDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const { date, subscriberId, type } = req.body;
+            const { date, doctor_id } = req.body;
             const result = await this.scheduleService.viewScheduleForDoctor(
                 date,
-                subscriberId,
-                type,
+                doctor_id,
             );
             if (result) {
                 res.json({
                     data: result,
                     date: date,
-                    subscriberId: subscriberId,
-                    type: type,
+                    doctor_id: doctor_id,
                 });
             } else
                 res.status(404).json({

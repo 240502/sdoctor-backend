@@ -1,15 +1,15 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Schedule } from '../models/schedule';
-import { ScheduleDetails } from '../models/schedule_details';
+import { DoctorSchedule } from '../models/doctor_schedule';
+import { DoctorScheduleDetail } from '../models/doctor_schedule_detail';
 @injectable()
-export class ScheduleRepository {
+export class DoctorScheduleRepository {
     constructor(private db: Database) {}
-    async createSchedule(schedule: Schedule): Promise<any> {
+    async createSchedule(schedule: DoctorSchedule): Promise<any> {
         try {
             const sql = 'CALL CreateSchedule(?,?,?,?,@err_code,@err_msg)';
             this.db.query(sql, [
-                schedule.subscriber_id,
+                schedule.doctor_id,
                 schedule.date,
                 schedule.type,
                 JSON.stringify(schedule.listScheduleDetails),
@@ -59,21 +59,17 @@ export class ScheduleRepository {
 
     async viewScheduleForClient(
         date: string,
-        subscriberId: number,
+        doctor_id: number,
         type: string,
     ): Promise<any> {
         try {
             const sql = 'CALL ViewScheduleForClient(?,?,?,@err_code,@err_msg)';
 
-            const [results] = await this.db.query(sql, [
-                subscriberId,
-                date,
-                type,
-            ]);
+            const [results] = await this.db.query(sql, [doctor_id, date, type]);
             if (results.length > 0 && Array.isArray(results)) {
-                const listScheduleDetails: ScheduleDetails[] = [];
+                const listScheduleDetails: DoctorScheduleDetail[] = [];
                 for (let i = 0; i < results.length; i++) {
-                    let ScheduleDetail: ScheduleDetails = {
+                    let ScheduleDetail: DoctorScheduleDetail = {
                         id: results[i].schedule_detail_id,
                         schedule_id: results[i].schedule_id,
                         time_id: results[i].time_id,
@@ -81,9 +77,9 @@ export class ScheduleRepository {
                     };
                     listScheduleDetails.push(ScheduleDetail);
                 }
-                const schedule: Schedule = {
+                const schedule: DoctorSchedule = {
                     id: results[0].id,
-                    subscriber_id: results[0].subscriber_id,
+                    doctor_id: results[0].doctor_id,
                     date: results[0].date,
                     created_at: results[0].created_at,
                     updated_at: results[0].updated_at,
@@ -96,23 +92,15 @@ export class ScheduleRepository {
             console.log(err.message);
         }
     }
-    async viewScheduleForDoctor(
-        date: string,
-        subscriberId: number,
-        type: string,
-    ): Promise<any> {
+    async viewScheduleForDoctor(date: string, doctor_id: number): Promise<any> {
         try {
-            const sql = 'CALL ViewScheduleForDoctor(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewScheduleForDoctor(?,?,@err_code,@err_msg)';
 
-            const [results] = await this.db.query(sql, [
-                subscriberId,
-                date,
-                type,
-            ]);
+            const [results] = await this.db.query(sql, [doctor_id, date]);
             if (results.length > 0 && Array.isArray(results)) {
-                const listScheduleDetails: ScheduleDetails[] = [];
+                const listScheduleDetails: DoctorScheduleDetail[] = [];
                 for (let i = 0; i < results.length; i++) {
-                    let ScheduleDetail: ScheduleDetails = {
+                    let ScheduleDetail: DoctorScheduleDetail = {
                         id: results[i].schedule_detail_id,
                         schedule_id: results[i].schedule_id,
                         time_id: results[i].time_id,
@@ -120,9 +108,9 @@ export class ScheduleRepository {
                     };
                     listScheduleDetails.push(ScheduleDetail);
                 }
-                const schedule: Schedule = {
+                const schedule: DoctorSchedule = {
                     id: results[0].id,
-                    subscriber_id: results[0].subscriber_id,
+                    doctor_id: results[0].doctor_id,
                     date: results[0].date,
                     created_at: results[0].created_at,
                     updated_at: results[0].updated_at,

@@ -1,39 +1,39 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { ScheduleController } from '../controllers/scheduleController';
+import { DoctorScheduleController } from '../controllers/scheduleController';
 import { authenticate } from '../middlewares/authMiddleware';
-const scheduleRouter = Router();
-const scheduleController = container.resolve(ScheduleController);
+const doctorScheduleRouter = Router();
+const scheduleController = container.resolve(DoctorScheduleController);
 
-scheduleRouter.post(
+doctorScheduleRouter.post(
     '/create',
     authenticate,
     scheduleController.createSchedule.bind(scheduleController),
 );
 
-scheduleRouter.put(
+doctorScheduleRouter.put(
     '/update',
     authenticate,
     scheduleController.updateSchedule.bind(scheduleController),
 );
 
-scheduleRouter.delete(
+doctorScheduleRouter.delete(
     '/delete/:id',
     authenticate,
     scheduleController.deleteSchedule.bind(scheduleController),
 );
-scheduleRouter.post(
+doctorScheduleRouter.post(
     '/view',
     scheduleController.viewSchedule.bind(scheduleController),
 );
 
-scheduleRouter.post(
+doctorScheduleRouter.post(
     '/view-for-client',
     scheduleController.viewScheduleForClient.bind(scheduleController),
 );
 
-scheduleRouter.post(
+doctorScheduleRouter.post(
     '/view-for-doctor',
     scheduleController.viewScheduleForDoctor.bind(scheduleController),
 );
-export default scheduleRouter;
+export default doctorScheduleRouter;

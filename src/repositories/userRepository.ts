@@ -38,11 +38,10 @@ export class UserRepository {
                         role_id: results[0].role_id,
                         created_at: results[0].created_at,
                         updated_at: results[0].updated_at,
-                        created_by_user_id: results[0].created_by_user_id,
                         birthday: results[0].birthday,
                         functions: functions,
                         token: '',
-                        object_id: results[0].object_id,
+                        doctor_id: results[0].doctor_id,
                     };
                     return user;
                 } else return null;
@@ -66,7 +65,6 @@ export class UserRepository {
                 user.email,
                 user.password,
                 user.role_id,
-                user.created_by_user_id,
                 user.birthday,
             ]);
             return true;
@@ -89,7 +87,6 @@ export class UserRepository {
                 user.password,
                 user.role_id,
                 user.created_at,
-                user.created_by_user_id,
                 user.birthday,
             ]);
             return true;
