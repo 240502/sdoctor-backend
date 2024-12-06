@@ -16,4 +16,5 @@ export interface User {
     token: string;
     functions: Functions[];
     doctor_id: number;
+    active: number;
 }

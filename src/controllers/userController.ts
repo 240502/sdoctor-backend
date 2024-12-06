@@ -21,7 +21,7 @@ export class UserController {
                 });
             }
         } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(500).json({ message: err.message });
         }
     }
     async createUser(req: Request, res: Response): Promise<void> {
@@ -36,6 +36,49 @@ export class UserController {
             res.json({ message: err.message });
         }
     }
+    async createAccount(req: Request, res: Response): Promise<void> {
+        try {
+            const formData = req.body as { userId: number; password: string };
+            await this.userService.createAccount(
+                formData.userId,
+                formData.password,
+            );
+            res.status(200).json({
+                message: 'created successfully',
+                result: true,
+            });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async updateUserActiveStatus(req: Request, res: Response): Promise<void> {
+        try {
+            const formData = req.body as { userId: number; active: number };
+            await this.userService.updateUserActiveStatus(
+                formData.userId,
+                formData.active,
+            );
+            res.status(200).json({
+                message: 'Updated successfully',
+                result: true,
+            });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async resetPassword(req: Request, res: Response): Promise<void> {
+        try {
+            const formData = req.body as { userId: number };
+            await this.userService.resetPassword(formData.userId);
+            res.status(200).json({
+                message: 'Updated successfully',
+                result: true,
+            });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
     async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const user = req.body as User;
@@ -75,10 +118,11 @@ export class UserController {
     }
     async viewUser(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize } = req.body;
+            const { pageIndex, pageSize, active } = req.body;
             const results = await this.userService.ViewUser(
                 pageIndex,
                 pageSize,
+                active,
             );
             if (results) {
                 res.json({
@@ -87,6 +131,7 @@ export class UserController {
                     pageSize: pageSize,
                     data: results,
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                    active: active,
                 });
             } else res.json({ message: 'Không tồn tại bản ghi nào!' });
         } catch (err: any) {

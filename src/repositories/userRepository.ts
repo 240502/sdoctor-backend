@@ -42,12 +42,31 @@ export class UserRepository {
                         functions: functions,
                         token: '',
                         doctor_id: results[0].doctor_id,
+                        active: results[0].active,
                     };
                     return user;
                 } else return null;
             } else {
                 return null;
             }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async createAccount(userId: number, password: string): Promise<any> {
+        try {
+            const sql = 'CALL CreateAccount(?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [userId, password]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async updateUserActiveStatus(userId: number, active: number): Promise<any> {
+        try {
+            const sql = 'CALL UpdateUserActiveStatus(?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [userId, active]);
+            return true;
         } catch (err: any) {
             throw new Error(err.message);
         }
@@ -114,10 +133,27 @@ export class UserRepository {
             throw new Error(err.message);
         }
     }
-    async ViewUser(pageIndex: number, pageSize: number): Promise<any> {
+    async ResetPassword(userId: number, password: string): Promise<any> {
         try {
-            const sql = 'CALL ViewUser(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [pageIndex, pageSize]);
+            const sql = 'ResetPassword(?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [userId, password]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async ViewUser(
+        pageIndex: number,
+        pageSize: number,
+        active: number,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL ViewUser(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                active,
+            ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;

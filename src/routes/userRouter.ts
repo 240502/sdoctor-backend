@@ -27,4 +27,19 @@ userRouter.post(
     authenticate,
     userController.viewUser.bind(userController),
 );
+userRouter.post(
+    '/create-account',
+    authenticate,
+    userController.createAccount.bind(userController),
+);
+userRouter.put(
+    '/update-active',
+    authenticate,
+    userController.updateUserActiveStatus.bind(userController),
+);
+userRouter.put(
+    '/reset-password',
+    authenticate,
+    userController.resetPassword.bind(userController),
+);
 export default userRouter;
