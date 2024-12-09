@@ -234,6 +234,7 @@ export class AppointmentController {
             await this.appointmentService.orderAppointment(appointment);
 
             res.json({ message: 'Successfully', result: true });
+
             const io = getSocket();
             io.emit('newAppointment', appointment);
             await sendConfirm(

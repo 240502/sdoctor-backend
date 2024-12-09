@@ -63,9 +63,9 @@ export class DoctorScheduleRepository {
         type: string,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewScheduleForClient(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewScheduleForClient(?,?,@err_code,@err_msg)';
 
-            const [results] = await this.db.query(sql, [doctor_id, date, type]);
+            const [results] = await this.db.query(sql, [doctor_id, date]);
             if (results.length > 0 && Array.isArray(results)) {
                 const listScheduleDetails: DoctorScheduleDetail[] = [];
                 for (let i = 0; i < results.length; i++) {

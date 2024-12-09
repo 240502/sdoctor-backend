@@ -17,7 +17,6 @@ export interface Appointment {
     doctor_name: string;
     time_value: string;
     price: number;
-    type: string;
     gender: number;
     location: string;
     rejectionReason: string;

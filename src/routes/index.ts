@@ -20,6 +20,7 @@ import uploadRouter from './upload';
 import patientProfileRouter from './patient_profileRouter';
 import appointmentStatusRouter from './appointment_statusRouter';
 import doctorScheduleRouter from './doctorScheduleRouter';
+import notificationRouter from './notificationRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -41,5 +42,6 @@ appRouter.use('/post-category', postCategoryRouter);
 appRouter.use('/', uploadRouter);
 appRouter.use('/patient-profile', patientProfileRouter);
 appRouter.use('/appointment-status', appointmentStatusRouter);
+appRouter.use('/notification', notificationRouter);
 
 export default appRouter;
