@@ -20,6 +20,8 @@ export interface Appointment {
     gender: number;
     location: string;
     rejectionReason: string;
+    service_id: number;
+    service_name: string;
 }
 
 export interface AppointmentViewPatient extends Appointment {

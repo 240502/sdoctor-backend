@@ -8,10 +8,12 @@ export interface Doctor {
     created_at: Date;
     updated_at: Date;
     title: string;
-    fee: number;
+    price: number;
     views: number;
     introduction: string;
     user_id: number;
+    service_name: string;
+    service_id: number;
 }
 
 export interface DoctorInfo {
@@ -23,7 +25,7 @@ export interface DoctorInfo {
     created_at: Date;
     updated_at: Date;
     title: string;
-    fee: number;
+    price: number;
     views: number;
     introduction: string;
     full_name: string;
@@ -33,4 +35,6 @@ export interface DoctorInfo {
     address: string;
     email: string;
     birthday: Date;
+    service_name: string;
+    service_id: number;
 }

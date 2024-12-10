@@ -13,7 +13,6 @@ export class DoctorRepository {
                 doctor.major_id,
                 doctor.summary,
                 doctor.title,
-                doctor.fee,
                 doctor.introduction,
                 doctor.email,
                 doctor.gender,
@@ -22,6 +21,7 @@ export class DoctorRepository {
                 doctor.image,
                 doctor.full_name,
                 doctor.birthday,
+                doctor.service_id,
             ]);
             return true;
         } catch (err: any) {
@@ -46,9 +46,9 @@ export class DoctorRepository {
                 doctor.address,
                 doctor.gender,
                 doctor.title,
-                doctor.fee,
                 doctor.introduction,
                 doctor.birthday,
+                doctor.service_id,
             ]);
             return true;
         } catch (err: any) {

@@ -250,6 +250,7 @@ export class AppointmentController {
                 appointment.location,
                 'Chờ xác nhận',
                 appointment.price,
+                appointment.service_name,
             );
         } catch (err: any) {
             res.json({ message: err.message });

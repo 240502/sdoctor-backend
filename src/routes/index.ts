@@ -21,6 +21,8 @@ import patientProfileRouter from './patient_profileRouter';
 import appointmentStatusRouter from './appointment_statusRouter';
 import doctorScheduleRouter from './doctorScheduleRouter';
 import notificationRouter from './notificationRouter';
+import invoiceRouter from './invoicesRouter';
+import doctorServiceRouter from './doctorServiceRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -43,5 +45,6 @@ appRouter.use('/', uploadRouter);
 appRouter.use('/patient-profile', patientProfileRouter);
 appRouter.use('/appointment-status', appointmentStatusRouter);
 appRouter.use('/notification', notificationRouter);
-
+appRouter.use('/invoice', invoiceRouter);
+appRouter.use('doctor-service', doctorServiceRouter);
 export default appRouter;

@@ -20,6 +20,7 @@ export async function sendConfirm(
     location: string,
     status: string,
     fee: number,
+    serviceName: string,
 ) {
     // send mail with defined transport object
     await transporter.sendMail({
@@ -36,7 +37,8 @@ export async function sendConfirm(
             <li><strong>Ngày hẹn:</strong> ${date.slice(0, 10)}</li>
             <li><strong>Thời gian:</strong> ${time}</li>
             <li><strong>Địa điểm:</strong>${location}</li>
-            <li><strong>Phí khám:</strong> ${fee}</li>
+            <li><strong>Dịch vụ:</strong> ${serviceName}</li>
+            <li><strong>Phí khám:</strong> ${fee.toLocaleString(undefined)}</li>
             <li><strong>Trạng thái:</strong> ${status}</li>
            
         </ul>
