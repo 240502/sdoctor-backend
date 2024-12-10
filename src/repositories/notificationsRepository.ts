@@ -38,12 +38,12 @@ export class NotificationsRepository {
     async createNotification(notification: Notifications): Promise<any> {
         try {
             const sql = 'CALL CreateNotification(?,?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [
+            const [result] = await this.db.query(sql, [
                 notification.user_id,
                 notification.message,
                 notification.appointment_id,
             ]);
-            return true;
+            return result[0];
         } catch (err: any) {
             throw new Error(err.message);
         }

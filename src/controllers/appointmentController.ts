@@ -40,8 +40,9 @@ export class AppointmentController {
 
     async getTotalPatientInDay(req: Request, res: Response): Promise<any> {
         try {
-            const id = Number(req.params.id);
-            const data = await this.appointmentService.getTotalPatientInDay(id);
+            const doctorId = Number(req.params.doctorId);
+            const data =
+                await this.appointmentService.getTotalPatientInDay(doctorId);
             if (data) {
                 res.json(data);
             } else {
@@ -82,9 +83,11 @@ export class AppointmentController {
         res: Response,
     ): Promise<any> {
         try {
-            const id = Number(req.params.id);
+            const doctorId = Number(req.params.doctorId);
             const data =
-                await this.appointmentService.getTotalPatientExaminedInDay(id);
+                await this.appointmentService.getTotalPatientExaminedInDay(
+                    doctorId,
+                );
             if (data) {
                 res.json(data);
             } else {

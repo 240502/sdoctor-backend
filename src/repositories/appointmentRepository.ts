@@ -50,10 +50,10 @@ export class AppointmentRepository {
         }
     }
 
-    async getTotalPatientInDay(id: number): Promise<any> {
+    async getTotalPatientInDay(doctorId: number): Promise<any> {
         try {
             const sql = 'CALL GetTotalPatientInDay(?,@err_code,@err_msg)';
-            const result = await this.db.query(sql, [id]);
+            const result = await this.db.query(sql, [doctorId]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
             } else {
@@ -64,11 +64,11 @@ export class AppointmentRepository {
         }
     }
 
-    async getTotalPatientExaminedInDay(id: number): Promise<any> {
+    async getTotalPatientExaminedInDay(doctorId: number): Promise<any> {
         try {
             const sql =
                 'CALL GetTotalPatientExaminedInDay(?,@err_code,@err_msg)';
-            const result = await this.db.query(sql, [id]);
+            const result = await this.db.query(sql, [doctorId]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
             } else {

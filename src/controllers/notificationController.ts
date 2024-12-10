@@ -47,13 +47,16 @@ export class NotificationController {
     async createNotification(req: Request, res: Response): Promise<void> {
         try {
             const notification: Notifications = req.body as Notifications;
-            await this._notificationsService.createNotification(notification);
-            res.json({ message: 'Successfully', result: true });
+            const result =
+                await this._notificationsService.createNotification(
+                    notification,
+                );
+            res.json({ message: 'Successfully', result: result });
             console.log(notification.user_id);
             const io = getSocket();
             io.to(`doctor_${notification.user_id}`).emit(
                 'newNotification',
-                notification,
+                result,
             );
         } catch (err: any) {
             res.status(500).json({ message: err.message });

@@ -32,12 +32,14 @@ export class AppointmentService {
         );
     }
 
-    async getTotalPatientInDay(id: number): Promise<any> {
-        return this.appointmentRepository.getTotalPatientInDay(id);
+    async getTotalPatientInDay(doctorId: number): Promise<any> {
+        return this.appointmentRepository.getTotalPatientInDay(doctorId);
     }
 
-    async getTotalPatientExaminedInDay(id: number): Promise<any> {
-        return this.appointmentRepository.getTotalPatientExaminedInDay(id);
+    async getTotalPatientExaminedInDay(doctorId: number): Promise<any> {
+        return this.appointmentRepository.getTotalPatientExaminedInDay(
+            doctorId,
+        );
     }
 
     async getTotalPriceAppointmentByWeek(

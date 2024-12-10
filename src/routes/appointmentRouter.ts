@@ -17,13 +17,13 @@ appointmentRouter.post(
 );
 
 appointmentRouter.get(
-    '/get-total-patient-in-day/:id',
+    '/get-total-patient-in-day/:doctorId',
     authenticate,
     appointmentController.getTotalPatientInDay.bind(appointmentController),
 );
 
 appointmentRouter.get(
-    '/get-total-patient-examined-in-day/:id',
+    '/get-total-patient-examined-in-day/:doctorId',
     authenticate,
     appointmentController.getTotalPatientExaminedInDay.bind(
         appointmentController,
