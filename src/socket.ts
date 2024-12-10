@@ -14,12 +14,17 @@ export const initSocket = (server: http.Server) => {
 
     io.on('connection', (socket) => {
         console.log('A client connected: ' + socket.id);
-        // socket.on('addApp', (data) => {
-        //     console.log('new appointment');
-        //     io.emit('newAppointment', data);
-        // });
+        socket.on('join', (userId: number) => {
+            socket.join(`doctor_${userId}`);
+            console.log(`client ${socket.id} joined room doctor_${userId}.`);
+        });
         socket.on('disconnect', () => {
             console.log('A client disconnected: ' + socket.id);
+        });
+        // Loại bỏ client khỏi room
+        socket.on('leave', (room) => {
+            socket.leave(room);
+            console.log(`Socket ${socket.id} left room: ${room}`);
         });
     });
 };

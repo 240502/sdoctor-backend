@@ -27,7 +27,7 @@ export class UserRepository {
                         functions.push(model);
                     }
                     const user: User = {
-                        id: results[0].id,
+                        user_id: results[0].user_id,
                         full_name: results[0].full_name,
                         image: results[0].image,
                         phone: results[0].phone,
@@ -96,7 +96,7 @@ export class UserRepository {
             const sql =
                 'CALL UpdateUser(?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                user.id,
+                user.user_id,
                 user.full_name,
                 user.image,
                 user.phone,

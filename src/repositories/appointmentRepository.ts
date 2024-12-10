@@ -184,7 +184,7 @@ export class AppointmentRepository {
         try {
             const sql =
                 'CALL OrderAppointment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [
+            const [result] = await this.db.query(sql, [
                 appointment.doctor_id,
                 appointment.appointment_date,
                 appointment.patient_name,
@@ -202,8 +202,11 @@ export class AppointmentRepository {
                 appointment.time_value,
                 appointment.location,
             ]);
-
-            return true;
+            if (Array.isArray(result) && result.length > 0) {
+                return result[0];
+            } else {
+                return null;
+            }
         } catch (err: any) {
             throw new Error(err.message);
         }

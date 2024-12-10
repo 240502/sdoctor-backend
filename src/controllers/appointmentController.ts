@@ -231,12 +231,13 @@ export class AppointmentController {
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: Appointment = req.body as Appointment;
-            await this.appointmentService.orderAppointment(appointment);
-
-            res.json({ message: 'Successfully', result: true });
-
+            const result =
+                await this.appointmentService.orderAppointment(appointment);
             const io = getSocket();
-            io.emit('newAppointment', appointment);
+            if (result) {
+                res.json({ message: 'Successfully', result: result });
+            }
+            io.emit('newAppointment', result);
             await sendConfirm(
                 String(appointment.patient_name),
                 String(appointment.patient_email),
