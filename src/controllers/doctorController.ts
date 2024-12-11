@@ -11,7 +11,8 @@ export class DoctorController {
             await this.doctorService.createDoctor(doctor);
             res.json({ message: 'Successfully created', result: true });
         } catch (err: any) {
-            res.json({ message: err.message });
+            console.log(err);
+            res.status(500).json({ message: err.message });
         }
     }
     async updateDoctor(req: Request, res: Response): Promise<void> {
@@ -93,9 +94,18 @@ export class DoctorController {
     }
     async getCommonDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const data: Doctor[] = await this.doctorService.getCommonDoctor();
+            const { pageIndex, pageSize } = req.body;
+            const data = await this.doctorService.getCommonDoctor(
+                pageIndex,
+                pageSize,
+            );
             if (Array.isArray(data) && data.length > 0) {
-                res.json(data);
+                res.json({
+                    data: data,
+                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                });
             } else res.json('Không tồn tại bản ghi nào!');
         } catch (err: any) {
             res.json({ message: err.message });

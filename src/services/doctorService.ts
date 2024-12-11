@@ -37,8 +37,8 @@ export class DoctorService {
     async getQuantityDoctor(): Promise<any> {
         return this.doctorRepository.getQuantityDoctor();
     }
-    async getCommonDoctor(): Promise<any> {
-        return this.doctorRepository.getCommonDoctor();
+    async getCommonDoctor(pageIndex: number, pageSize: number): Promise<any> {
+        return this.doctorRepository.getCommonDoctor(pageIndex, pageSize);
     }
     async updateViewsDoctor(id: number): Promise<any> {
         return this.doctorRepository.updateViewDoctor(id);

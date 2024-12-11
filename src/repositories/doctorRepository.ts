@@ -30,7 +30,6 @@ export class DoctorRepository {
     }
     async updateDoctor(doctor: DoctorInfo): Promise<any> {
         try {
-            console.log(doctor);
             const sql =
                 'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
             await this.db.query(sql, [
@@ -57,7 +56,7 @@ export class DoctorRepository {
     }
     async updateViewDoctor(doctor_id: number): Promise<any> {
         try {
-            const sql = 'CALL UpdateViewDoctor(?,@err_code,@err_msg)';
+            const sql = 'CALL UpdateViewsDoctor(?,@err_code,@err_msg)';
             await this.db.query(sql, [doctor_id]);
             return true;
         } catch (err: any) {
@@ -121,10 +120,10 @@ export class DoctorRepository {
             throw new Error(err.message);
         }
     }
-    async getCommonDoctor(): Promise<any> {
+    async getCommonDoctor(pageIndex: number, pageSize: number): Promise<any> {
         try {
-            const sql = 'CALL GetCommonDoctor(@err_code, @err_msg)';
-            const [results] = await this.db.query(sql, []);
+            const sql = 'CALL GetCommonDoctor(?,?,@err_code, @err_msg)';
+            const [results] = await this.db.query(sql, [pageIndex, pageSize]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;

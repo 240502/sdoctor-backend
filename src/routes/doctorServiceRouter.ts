@@ -6,9 +6,8 @@ const doctorServiceRouter = Router();
 const doctorServiceController = container.resolve(DoctorServiceController);
 
 doctorServiceRouter.get(
-    'get-all',
+    '/get-all',
     doctorServiceController.getAllDoctorServices.bind(doctorServiceController),
 );
-
 
 export default doctorServiceRouter;

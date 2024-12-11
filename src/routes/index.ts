@@ -46,5 +46,5 @@ appRouter.use('/patient-profile', patientProfileRouter);
 appRouter.use('/appointment-status', appointmentStatusRouter);
 appRouter.use('/notification', notificationRouter);
 appRouter.use('/invoice', invoiceRouter);
-appRouter.use('doctor-service', doctorServiceRouter);
+appRouter.use('/doctor-service', doctorServiceRouter);
 export default appRouter;
