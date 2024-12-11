@@ -10,15 +10,13 @@ appointmentRouter.post(
     appointmentController.getAppointmentByType.bind(appointmentController),
 );
 
-appointmentRouter.post(
-    '/get-appointment-in-day',
-    authenticate,
+appointmentRouter.get(
+    '/get-appointment-in-day/:doctorId',
     appointmentController.getAppointmentInDay.bind(appointmentController),
 );
 
 appointmentRouter.get(
     '/get-total-patient-in-day/:doctorId',
-    authenticate,
     appointmentController.getTotalPatientInDay.bind(appointmentController),
 );
 
@@ -30,13 +28,6 @@ appointmentRouter.get(
     ),
 );
 
-appointmentRouter.post(
-    '/get-total-price-by-week',
-    authenticate,
-    appointmentController.getTotalPriceAppointmentByWeek.bind(
-        appointmentController,
-    ),
-);
 appointmentRouter.post(
     '/get-total-appointment-by-week',
     authenticate,

@@ -41,4 +41,37 @@ export class InvoicesRepository {
             throw new Error(err);
         }
     }
+    async getRecentInvoice(): Promise<any> {
+        try {
+            const sql = 'CALL GetRecentInvoice(@err_code, @err_msg)';
+            const [results] = await this.db.query(sql, []);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+    async getTotalRevenueByDateInNowWeek(
+        startWeek: Date,
+        endWeek: Date,
+        doctorId: number,
+    ): Promise<any> {
+        try {
+            const sql =
+                'CALL GetTotalRevenueByDateInNowWeek(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                startWeek,
+                endWeek,
+                doctorId,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

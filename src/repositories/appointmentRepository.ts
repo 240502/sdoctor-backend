@@ -28,18 +28,10 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getAppointmentInDay(
-        pageIndex: number,
-        pageSize: number,
-        doctorId: number,
-    ): Promise<any> {
+    async getAppointmentInDay(doctorId: number): Promise<any> {
         try {
-            const sql = 'CALL GetAppointmentInDay(?,?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [
-                pageIndex,
-                pageSize,
-                doctorId,
-            ]);
+            const sql = 'CALL GetAppointmentInDay(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [doctorId]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {
@@ -71,29 +63,6 @@ export class AppointmentRepository {
             const result = await this.db.query(sql, [doctorId]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
-            } else {
-                return null;
-            }
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
-
-    async getTotalPriceAppointmentByWeek(
-        startWeek: Date,
-        endWeek: Date,
-        doctorId: number,
-    ): Promise<any> {
-        try {
-            const sql =
-                'CALL GetTotalPriceAppointmentByWeek(?,?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [
-                startWeek,
-                endWeek,
-                doctorId,
-            ]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
             } else {
                 return null;
             }

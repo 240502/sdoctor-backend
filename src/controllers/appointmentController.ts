@@ -1,12 +1,9 @@
-import { injectable, inject } from 'tsyringe';
+import { injectable } from 'tsyringe';
 import { AppointmentService } from '../services/appointmentService';
 import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
-import { Socket } from 'socket.io';
 import { sendConfirm, sendRejection } from '../mailer';
-import { DoctorService } from '../services/doctorService';
-import { Doctor } from '../models/doctor';
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
@@ -55,21 +52,11 @@ export class AppointmentController {
 
     async getAppointmentInDay(req: Request, res: Response): Promise<any> {
         try {
-            const { pageIndex, pageSize, doctorId } = req.body;
-            const data = await this.appointmentService.getAppointmentInDay(
-                pageIndex,
-                pageSize,
-                doctorId,
-            );
+            const doctorId = Number(req.params.doctorId);
+            const data =
+                await this.appointmentService.getAppointmentInDay(doctorId);
             if (data) {
-                res.json({
-                    totalItems: data[0].RecordCount,
-                    pageIndex: pageIndex,
-                    pageSize: pageSize,
-                    data: data,
-                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
-                    doctorId: doctorId,
-                });
+                res.json(data);
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
             }
@@ -90,28 +77,6 @@ export class AppointmentController {
                 );
             if (data) {
                 res.json(data);
-            } else {
-                res.status(404);
-            }
-        } catch (err: any) {
-            res.status(500).json({ message: err.message });
-        }
-    }
-
-    async getTotalPriceAppointmentByWeek(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startWeek, endWeek, doctorId } = req.body;
-            const results =
-                await this.appointmentService.getTotalPriceAppointmentByWeek(
-                    startWeek,
-                    endWeek,
-                    doctorId,
-                );
-            if (results.length > 0 && Array.isArray(results)) {
-                res.json(results);
             } else {
                 res.status(404);
             }
@@ -237,10 +202,11 @@ export class AppointmentController {
             const result =
                 await this.appointmentService.orderAppointment(appointment);
             const io = getSocket();
+            io.emit('newAppointment', result);
+
             if (result) {
                 res.json({ message: 'Successfully', result: result });
             }
-            io.emit('newAppointment', result);
             await sendConfirm(
                 String(appointment.patient_name),
                 String(appointment.patient_email),

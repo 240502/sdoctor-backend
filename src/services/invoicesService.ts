@@ -13,4 +13,18 @@ export class InvoicesService {
     async deleteInvoice(id: number): Promise<any> {
         return this.invoicesRepository.deleteInvoice(id);
     }
+    async getRecentInvoice(): Promise<any> {
+        return this.invoicesRepository.getRecentInvoice();
+    }
+    async getTotalRevenueByDateInNowWeek(
+        startWeek: Date,
+        endWeek: Date,
+        doctorId: number,
+    ): Promise<any> {
+        return this.invoicesRepository.getTotalRevenueByDateInNowWeek(
+            startWeek,
+            endWeek,
+            doctorId,
+        );
+    }
 }

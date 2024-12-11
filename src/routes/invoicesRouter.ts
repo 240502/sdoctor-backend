@@ -17,5 +17,13 @@ invoiceRouter.delete(
     '/delete/:id',
     invoiceController.deleteInvoice.bind(invoiceController),
 );
+invoiceRouter.get(
+    '/get-recent',
+    invoiceController.getRecentInvoice.bind(invoiceController),
+);
+invoiceRouter.post(
+    '/get-total-revenue-by-date-in-now-week',
+    invoiceController.getTotalRevenueByDateInNowWeek.bind(invoiceController),
+);
 
 export default invoiceRouter;
