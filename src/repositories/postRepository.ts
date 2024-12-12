@@ -123,14 +123,7 @@ export class PostRepository {
                 authorId,
                 title,
             ]);
-            console.log(
-                pageIndex,
-                pageSize,
-                categoryId,
-                status,
-                authorId,
-                title,
-            );
+
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;

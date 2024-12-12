@@ -3,7 +3,11 @@ import { AppointmentService } from '../services/appointmentService';
 import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
-import { sendConfirm, sendRejection } from '../mailer';
+import {
+    sendBookingSuccess,
+    sendRejection,
+    sendConfirmSuccess,
+} from '../mailer';
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
@@ -207,7 +211,7 @@ export class AppointmentController {
             if (result) {
                 res.json({ message: 'Successfully', result: result });
             }
-            await sendConfirm(
+            await sendBookingSuccess(
                 String(appointment.patient_name),
                 String(appointment.patient_email),
                 appointment.doctor_name,
@@ -268,6 +272,19 @@ export class AppointmentController {
                     requirementObject,
                 );
             }
+            if (appointment?.status_id === 2) {
+                await sendConfirmSuccess(
+                    String(appointment.patient_name),
+                    String(appointment.patient_email),
+                    appointment.doctor_name,
+                    appointment.time_value,
+                    String(appointment.appointment_date),
+                    appointment.location,
+                    'Đã xác nhận',
+                    appointment.price,
+                    appointment.service_name,
+                );
+            }
         } catch (err: any) {
             res.status(500).json({ message: err.message });
         }
@@ -281,6 +298,26 @@ export class AppointmentController {
             res.status(200).json(data);
         } catch (err: any) {
             res.json({ message: err.message });
+        }
+    }
+
+    async getAppointmentAtInvoice(req: Request, res: Response): Promise<void> {
+        try {
+            const { patientName, doctorName, patientPhone, appointmentDate } =
+                req.body;
+            const data = await this.appointmentService.getAppointmentAtInvoice(
+                patientName,
+                doctorName,
+                patientPhone,
+                appointmentDate,
+            );
+            if (data) {
+                res.json(data);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
         }
     }
 }

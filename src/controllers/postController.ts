@@ -152,7 +152,6 @@ export class PostController {
                 pageIndex,
                 pageSize,
             );
-            console.log(results);
             if (Array.isArray(results) && results.length > 0) {
                 res.status(200).json({
                     pageIndex: pageIndex,
@@ -165,7 +164,6 @@ export class PostController {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào' });
             }
         } catch (err: any) {
-            console.log(err);
             res.status(500).json({
                 message: 'Đã xảy ra lỗi khi lấy bài viết liên quan',
                 error: err.message,

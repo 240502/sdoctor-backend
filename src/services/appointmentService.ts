@@ -111,4 +111,17 @@ export class AppointmentService {
     async getAppointmentById(id: number): Promise<any> {
         return this.appointmentRepository.getAppointmentById(id);
     }
+    async getAppointmentAtInvoice(
+        patientName: string,
+        doctorName: string,
+        patientPhone: string,
+        appointmentDate: Date,
+    ): Promise<any> {
+        return this.appointmentRepository.getAppointmentAtInvoice(
+            patientName,
+            doctorName,
+            patientPhone,
+            appointmentDate,
+        );
+    }
 }

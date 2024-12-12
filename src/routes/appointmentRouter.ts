@@ -80,4 +80,9 @@ appointmentRouter.post(
     appointmentController.ViewAppointment.bind(appointmentController),
 );
 
+appointmentRouter.post(
+    '/get-appointment-at-invoice',
+    appointmentController.getAppointmentAtInvoice.bind(appointmentController),
+);
+
 export default appointmentRouter;

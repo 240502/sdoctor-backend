@@ -37,11 +37,7 @@ postRouter.delete(
     postController.deletePost.bind(postController),
 );
 
-postRouter.put(
-    '/confirm/:id',
-    authenticate,
-    postController.confirmPost.bind(postController),
-);
+postRouter.put('/confirm/:id', postController.confirmPost.bind(postController));
 postRouter.post('/view', postController.viewPost.bind(postController));
 
 postRouter.get(

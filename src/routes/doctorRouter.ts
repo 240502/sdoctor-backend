@@ -37,4 +37,8 @@ doctorRouter.put(
     '/update-views-doctor/:id',
     doctorController.updateViewsDoctor.bind(doctorController),
 );
+doctorRouter.get(
+    '/get-by-user-id/:userId',
+    doctorController.getDoctorByUserId.bind(doctorController),
+);
 export default doctorRouter;

@@ -5,6 +5,11 @@ import { Doctor, DoctorInfo } from '../models/doctor';
 @injectable()
 export class DoctorService {
     constructor(private doctorRepository: DoctorRepository) {}
+
+    async getDoctorByUserId(userId: number): Promise<any> {
+        return this.doctorRepository.getDoctorByUserId(userId);
+    }
+
     async createDoctor(doctor: DoctorInfo): Promise<any> {
         return this.doctorRepository.createDoctor(doctor);
     }

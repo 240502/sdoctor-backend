@@ -245,4 +245,28 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+    async getAppointmentAtInvoice(
+        patientName: string,
+        doctorName: string,
+        patientPhone: string,
+        appointmentDate: Date,
+    ): Promise<any> {
+        try {
+            const sql =
+                'CALL GetAppointmentAtInvoice(?,?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                patientName,
+                doctorName,
+                patientPhone,
+                appointmentDate,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
 }

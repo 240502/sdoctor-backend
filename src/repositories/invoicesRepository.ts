@@ -7,13 +7,15 @@ export class InvoicesRepository {
     constructor(private db: Database) {}
     async createInvoice(invoice: Invoices): Promise<any> {
         try {
-            const sql = 'CALL CreateInvoices(?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL CreateInvoices(?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 invoice.appointment_id,
                 invoice.doctor_id,
                 invoice.service_id,
                 invoice.amount,
                 invoice.payment_method,
+                invoice.patient_name,
+                invoice.patient_phone,
             ]);
             return true;
         } catch (err: any) {
@@ -22,13 +24,15 @@ export class InvoicesRepository {
     }
     async updateInvoice(invoice: Invoices): Promise<any> {
         try {
-            const sql = 'CALL UpdateInvoices(?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL UpdateInvoices(?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 invoice.id,
                 invoice.service_id,
                 invoice.amount,
                 invoice.status,
                 invoice.payment_method,
+                invoice.patient_name,
+                invoice.patient_phone,
             ]);
             return true;
         } catch (err: any) {

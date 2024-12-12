@@ -9,4 +9,6 @@ export interface Invoices {
     updated_at: Date;
     payment_date: Date;
     payment_method: number;
+    patient_name: string;
+    patient_phone: string;
 }

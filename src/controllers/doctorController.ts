@@ -5,6 +5,22 @@ import { Request, Response } from 'express';
 @injectable()
 export class DoctorController {
     constructor(private doctorService: DoctorService) {}
+
+    async getDoctorByUserId(req: Request, res: Response): Promise<void> {
+        try {
+            const data = await this.doctorService.getDoctorByUserId(
+                Number(req.params.userId),
+            );
+            if (data) {
+                res.json(data);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
     async createDoctor(req: Request, res: Response): Promise<void> {
         try {
             const doctor = req.body as DoctorInfo;

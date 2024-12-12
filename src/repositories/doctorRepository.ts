@@ -4,6 +4,21 @@ import { Doctor, DoctorInfo } from '../models/doctor';
 @injectable()
 export class DoctorRepository {
     constructor(private db: Database) {}
+
+    async getDoctorByUserId(userId: number): Promise<any> {
+        try {
+            const sql = 'CALL GetDoctorByUserId(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [userId]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+
     async createDoctor(doctor: DoctorInfo): Promise<any> {
         try {
             const sql =

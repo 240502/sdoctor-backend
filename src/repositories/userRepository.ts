@@ -2,6 +2,7 @@ import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { User } from '../models/user';
 import { Functions } from '../models/functions';
+import md5 from 'md5';
 @injectable()
 export class UserRepository {
     constructor(private db: Database) {}
@@ -9,7 +10,8 @@ export class UserRepository {
     async login(email: String, password: String): Promise<any> {
         try {
             const sql = 'CALL Login(?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [email, password]);
+            const [results] = await this.db.query(sql, [email]);
+            console.log(email);
             if (Array.isArray(results) && results.length > 0) {
                 if (results[0].password === password) {
                     const functions = [];
