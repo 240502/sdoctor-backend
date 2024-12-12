@@ -7,12 +7,13 @@ export class InvoicesRepository {
     constructor(private db: Database) {}
     async createInvoice(invoice: Invoices): Promise<any> {
         try {
-            const sql = 'CALL CreateInvoices(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL CreateInvoices(?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 invoice.appointment_id,
                 invoice.doctor_id,
                 invoice.service_id,
                 invoice.amount,
+                invoice.payment_method,
             ]);
             return true;
         } catch (err: any) {
@@ -21,11 +22,13 @@ export class InvoicesRepository {
     }
     async updateInvoice(invoice: Invoices): Promise<any> {
         try {
-            const sql = 'CALL UpdateInvoices(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL UpdateInvoices(?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 invoice.id,
                 invoice.service_id,
                 invoice.amount,
+                invoice.status,
+                invoice.payment_method,
             ]);
             return true;
         } catch (err: any) {
@@ -70,6 +73,34 @@ export class InvoicesRepository {
             } else {
                 return null;
             }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async viewInvoice(
+        pageIndex: number,
+        pageSize: number,
+        status: string,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL ViewInvoice(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                status,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else return null;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
+    async updateInvoiceStatus(id: number, status: string) {
+        try {
+            const sql = 'CALL UpdateInvoiceStatus(?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [id, status]);
+            return true;
         } catch (err: any) {
             throw new Error(err.message);
         }

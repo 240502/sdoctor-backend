@@ -236,7 +236,7 @@ export class AppointmentRepository {
     }
     async getAppointmentById(id: number): Promise<any> {
         try {
-            const sql = 'CALL GetAppointmentById(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL GetAppointmentById(?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [id]);
             if (Array.isArray(results) && results.length > 0) {
                 return results[0];

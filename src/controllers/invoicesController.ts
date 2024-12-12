@@ -66,4 +66,36 @@ export class InvoiceController {
             res.status(500).json({ message: err.message });
         }
     }
+    async viewInvoice(req: Request, res: Response): Promise<void> {
+        try {
+            const { pageIndex, pageSize, status } = req.body;
+            const data = await this.invoicesService.viewInvoice(
+                pageIndex,
+                pageSize,
+                status,
+            );
+            if (data) {
+                res.status(200).json({
+                    pageIndex: pageIndex,
+                    data: data,
+                    pageSize: pageSize,
+                    totalItems: data[0].RecordCount,
+                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                });
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async updateInvoiceStatus(req: Request, res: Response): Promise<void> {
+        try {
+            const { id, status } = req.body;
+            await this.invoicesService.updateInvoiceStatus(id, status);
+            res.json({ message: 'Success', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

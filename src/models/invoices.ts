@@ -7,4 +7,6 @@ export interface Invoices {
     status: string;
     created_at: Date;
     updated_at: Date;
+    payment_date: Date;
+    payment_method: number;
 }

@@ -27,4 +27,14 @@ export class InvoicesService {
             doctorId,
         );
     }
+    async viewInvoice(
+        pageIndex: number,
+        pageSize: number,
+        status: string,
+    ): Promise<any> {
+        return this.invoicesRepository.viewInvoice(pageIndex, pageSize, status);
+    }
+    async updateInvoiceStatus(id: number, status: string): Promise<any> {
+        return this.invoicesRepository.updateInvoiceStatus(id, status);
+    }
 }
