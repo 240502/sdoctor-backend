@@ -19,7 +19,7 @@ postRouter.post(
 
 postRouter.post(
     '/view-news-client',
-    postController.viewPost.bind(postController),
+    postController.viewPostForClient.bind(postController),
 );
 
 postRouter.post(
@@ -38,7 +38,6 @@ postRouter.delete(
 );
 
 postRouter.put('/confirm/:id', postController.confirmPost.bind(postController));
-postRouter.post('/view', postController.viewPost.bind(postController));
 
 postRouter.get(
     '/get-common-post',

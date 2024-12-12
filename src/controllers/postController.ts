@@ -42,10 +42,10 @@ export class PostController {
             res.json({ message: err.message });
         }
     }
-    async viewPost(req: Request, res: Response): Promise<void> {
+    async viewPostForClient(req: Request, res: Response): Promise<void> {
         try {
             const { searchContent, categoryId, pageIndex, pageSize } = req.body;
-            const data = await this.postService.viewPost(
+            const data = await this.postService.viewPostForClient(
                 searchContent,
                 categoryId,
                 pageIndex,

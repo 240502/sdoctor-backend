@@ -17,13 +17,13 @@ export class PostService {
     async confirmPost(id: number): Promise<any> {
         return this.postRepository.confirmPost(id);
     }
-    async viewPost(
+    async viewPostForClient(
         searchContent: string,
         categoryId: number,
         pageIndex: number,
         pageSize: number,
     ): Promise<any> {
-        return this.postRepository.viewPost(
+        return this.postRepository.viewPostForClient(
             searchContent,
             categoryId,
             pageIndex,

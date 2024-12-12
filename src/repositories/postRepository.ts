@@ -52,14 +52,14 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
-    async viewPost(
+    async viewPostForClient(
         searchContent: string,
         categoryId: number,
         pageIndex: number,
         pageSize: number,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewPost(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewPostForClient(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 searchContent,
                 categoryId,
