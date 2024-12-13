@@ -43,4 +43,17 @@ export class UserService {
     ): Promise<any> {
         return this.userRepository.ViewUser(pageIndex, pageSize, active);
     }
+    async changePassword(
+        id: number,
+        currentPassword: string,
+        newPassword: string,
+    ): Promise<any> {
+        const md5CurrentPassword = md5(currentPassword);
+        const md5NewPassword = md5(newPassword);
+        return this.userRepository.changePassword(
+            id,
+            md5CurrentPassword,
+            md5NewPassword,
+        );
+    }
 }

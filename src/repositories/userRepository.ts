@@ -167,4 +167,17 @@ export class UserRepository {
             throw new Error(err.message);
         }
     }
+    async changePassword(
+        id: number,
+        currentPassword: string,
+        newPassword: string,
+    ): Promise<any> {
+        try {
+            const sql = 'CALL ChangePassword(?,?,?,@err_code,@err_msg)';
+            await this.db.query(sql, [id, currentPassword, newPassword]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

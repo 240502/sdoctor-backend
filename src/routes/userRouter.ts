@@ -11,6 +11,12 @@ userRouter.post(
     authenticate,
     userController.updateUser.bind(userController),
 );
+userRouter.put(
+    '/change-password',
+    authenticate,
+    userController.changePassword.bind(userController),
+);
+
 userRouter.post(
     '/delete/:id',
     authenticate,

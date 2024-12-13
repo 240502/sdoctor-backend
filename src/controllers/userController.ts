@@ -7,6 +7,20 @@ const md5 = require('md5');
 @injectable()
 export class UserController {
     constructor(private userService: UserService) {}
+
+    async changePassword(req: Request, res: Response) {
+        try {
+            const { id, currentPassword, newPassword } = req.body;
+            await this.userService.changePassword(
+                id,
+                currentPassword,
+                newPassword,
+            );
+            res.json({ message: 'Suuccess', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
     async login(req: Request, res: Response): Promise<void> {
         try {
             const { email, password } = req.body;
