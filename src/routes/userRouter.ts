@@ -5,11 +5,7 @@ import { authenticate } from '../middlewares/authMiddleware';
 const userRouter = Router();
 const userController = container.resolve(UserController);
 userRouter.post('/login', userController.login.bind(userController));
-userRouter.post(
-    '/create',
-    authenticate,
-    userController.createUser.bind(userController),
-);
+userRouter.post('/create', userController.createUser.bind(userController));
 userRouter.post(
     '/update',
     authenticate,

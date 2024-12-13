@@ -34,7 +34,9 @@ export class UserRepository {
                         image: results[0].image,
                         phone: results[0].phone,
                         gender: results[0].gender,
-                        address: results[0].address,
+                        city: results[0].city,
+                        district: results[0].district,
+                        commune: results[0].commune,
                         email: results[0].email,
                         password: results[0].password,
                         role_id: results[0].role_id,
@@ -76,17 +78,19 @@ export class UserRepository {
     async createUser(user: User): Promise<any> {
         try {
             const sql =
-                'CALL CreateUser(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL CreateUser(?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                user.full_name,
-                user.image,
-                user.phone,
-                user.gender,
-                user.address,
-                user.email,
                 user.password,
                 user.role_id,
+                user.email,
+                user.gender,
+                user.phone,
+                user.image,
+                user.full_name,
                 user.birthday,
+                user.city,
+                user.district,
+                user.commune,
             ]);
             return true;
         } catch (err: any) {
@@ -103,7 +107,7 @@ export class UserRepository {
                 user.image,
                 user.phone,
                 user.gender,
-                user.address,
+                user.city,
                 user.email,
                 user.password,
                 user.role_id,

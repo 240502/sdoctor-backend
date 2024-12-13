@@ -32,7 +32,9 @@ export interface DoctorInfo {
     image: string;
     phone: string;
     gender: string;
-    address: string;
+    city: string;
+    district: string;
+    commune: string;
     email: string;
     birthday: Date;
     service_name: string;

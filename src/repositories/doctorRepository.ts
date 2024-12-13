@@ -22,7 +22,7 @@ export class DoctorRepository {
     async createDoctor(doctor: DoctorInfo): Promise<any> {
         try {
             const sql =
-                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
+                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 doctor.clinic_id,
                 doctor.major_id,
@@ -31,12 +31,14 @@ export class DoctorRepository {
                 doctor.introduction,
                 doctor.email,
                 doctor.gender,
-                doctor.address,
                 doctor.phone,
                 doctor.image,
                 doctor.full_name,
                 doctor.birthday,
                 doctor.service_id,
+                doctor.city,
+                doctor.district,
+                doctor.commune,
             ]);
             return true;
         } catch (err: any) {
@@ -46,7 +48,7 @@ export class DoctorRepository {
     async updateDoctor(doctor: DoctorInfo): Promise<any> {
         try {
             const sql =
-                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
+                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
             await this.db.query(sql, [
                 doctor.doctor_id,
                 doctor.user_id,
@@ -57,13 +59,16 @@ export class DoctorRepository {
                 doctor.image,
                 doctor.email,
                 doctor.phone,
-                doctor.address,
                 doctor.gender,
                 doctor.title,
                 doctor.introduction,
                 doctor.birthday,
                 doctor.service_id,
+                doctor.city,
+                doctor.district,
+                doctor.commune,
             ]);
+            console.log(doctor);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
