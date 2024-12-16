@@ -48,12 +48,21 @@ export class ServiceController {
     }
     async viewService(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, clinicId, categoryId } = req.body;
+            const {
+                pageIndex,
+                pageSize,
+                clinicId,
+                categoryId,
+                startPrice,
+                endPrice,
+            } = req.body;
             const result = await this.serviceService.viewService(
                 pageIndex,
                 pageSize,
                 clinicId,
                 categoryId,
+                startPrice,
+                endPrice,
             );
             if (result) {
                 res.status(200).json({
@@ -64,6 +73,8 @@ export class ServiceController {
                     pageCount: Math.ceil(result[0].RecordCount / pageSize),
                     clinicId: clinicId,
                     categoryId: categoryId,
+                    startPrice: startPrice,
+                    endPrice: endPrice,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });

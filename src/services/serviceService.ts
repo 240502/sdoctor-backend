@@ -22,12 +22,16 @@ export class ServiceService {
         pageSize: number,
         clinicId: number,
         categoryId: number,
+        startPrice: number,
+        endPrice: number,
     ): Promise<any> {
         return this.serviceRepository.viewService(
             pageIndex,
             pageSize,
             clinicId,
             categoryId,
+            startPrice,
+            endPrice,
         );
     }
 }

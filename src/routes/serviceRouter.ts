@@ -17,7 +17,7 @@ serviceRouter.put(
     serviceController.updateService.bind(serviceController),
 );
 serviceRouter.delete(
-    '/delete',
+    '/delete/:id',
     authenticate,
     serviceController.deleteService.bind(serviceController),
 );
