@@ -1,15 +1,13 @@
 import { injectable } from 'tsyringe';
 import { CategoryServicesService } from '../services/category_servicesService';
-import { CategoryService } from '../models/category_service';
 import { Request, Response } from 'express';
 
 @injectable()
 export class CategoryServiceController {
     constructor(private categoryServicesService: CategoryServicesService) {}
-    async getAllCategoryServices(req: Request, res: Response): Promise<any> {
+    async getAll(req: Request, res: Response): Promise<any> {
         try {
-            const result =
-                await this.categoryServicesService.getAllCategoryServices();
+            const result = await this.categoryServicesService.getAll();
             if (result.length > 0 && Array.isArray(result)) {
                 res.json(result);
             } else

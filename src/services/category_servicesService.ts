@@ -1,11 +1,10 @@
 import { injectable } from 'tsyringe';
-import { CategoryService } from '../models/category_service';
-import { CategoryServiceRepository } from '../repositories/category_servicesRepository';
+import { CategoryServiceRepository } from '../repositories/serviceCategoryRepository';
 
 @injectable()
 export class CategoryServicesService {
     constructor(private categoryServiceRepository: CategoryServiceRepository) {}
-    async getAllCategoryServices(): Promise<any> {
-        return this.categoryServiceRepository.getAllCategoryServices();
+    async getAll(): Promise<any> {
+        return this.categoryServiceRepository.getAll();
     }
 }
