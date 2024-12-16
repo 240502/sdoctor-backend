@@ -55,6 +55,7 @@ export class ServiceController {
                 categoryId,
                 startPrice,
                 endPrice,
+                name,
             } = req.body;
             const result = await this.serviceService.viewService(
                 pageIndex,
@@ -63,6 +64,7 @@ export class ServiceController {
                 categoryId,
                 startPrice,
                 endPrice,
+                name,
             );
             if (result) {
                 res.status(200).json({
@@ -75,6 +77,7 @@ export class ServiceController {
                     categoryId: categoryId,
                     startPrice: startPrice,
                     endPrice: endPrice,
+                    name: name,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });

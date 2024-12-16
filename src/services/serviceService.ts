@@ -24,6 +24,7 @@ export class ServiceService {
         categoryId: number,
         startPrice: number,
         endPrice: number,
+        name: string,
     ): Promise<any> {
         return this.serviceRepository.viewService(
             pageIndex,
@@ -32,6 +33,7 @@ export class ServiceService {
             categoryId,
             startPrice,
             endPrice,
+            name,
         );
     }
 }

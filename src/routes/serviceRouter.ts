@@ -26,7 +26,7 @@ serviceRouter.post(
     serviceController.viewService.bind(serviceController),
 );
 serviceRouter.get(
-    '/get-by-id',
+    '/get-by-id/:id',
     serviceController.getServiceById.bind(serviceController),
 );
 

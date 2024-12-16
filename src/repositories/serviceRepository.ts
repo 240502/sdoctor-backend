@@ -80,9 +80,10 @@ export class ServiceRepository {
         categoryId: number,
         startPrice: number,
         endPrice: number,
+        name: string,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewService(?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewService(?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
@@ -90,6 +91,7 @@ export class ServiceRepository {
                 categoryId,
                 startPrice,
                 endPrice,
+                name,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
