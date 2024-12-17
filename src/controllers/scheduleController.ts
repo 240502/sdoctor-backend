@@ -7,9 +7,10 @@ export class DoctorScheduleController {
     constructor(private scheduleService: DoctorScheduleService) {}
     async createSchedule(req: Request, res: Response): Promise<void> {
         try {
-            const schedule: DoctorSchedule = req.body as DoctorSchedule;
-            await this.scheduleService.createSchedule(schedule);
-            res.json({ message: 'Created successfully', result: true });
+            const newSchedule: DoctorSchedule = req.body as DoctorSchedule;
+            const schedule =
+                await this.scheduleService.createSchedule(newSchedule);
+            res.json({ message: 'Created successfully', result: schedule });
         } catch (err: any) {
             res.json({ message: err.message });
         }

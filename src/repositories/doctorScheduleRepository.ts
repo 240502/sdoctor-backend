@@ -8,13 +8,37 @@ export class DoctorScheduleRepository {
     async createSchedule(schedule: DoctorSchedule): Promise<any> {
         try {
             const sql = 'CALL CreateSchedule(?,?,?,?,@err_code,@err_msg)';
-            this.db.query(sql, [
+            const [results] = await this.db.query(sql, [
                 schedule.doctor_id,
                 schedule.date,
                 schedule.type,
                 JSON.stringify(schedule.listScheduleDetails),
             ]);
-            return true;
+            if (results.length > 0 && Array.isArray(results)) {
+                const listScheduleDetails: DoctorScheduleDetail[] = [];
+                for (let i = 0; i < results.length; i++) {
+                    let ScheduleDetail: DoctorScheduleDetail = {
+                        id: results[i].schedule_detail_id,
+                        schedule_id: results[i].schedule_id,
+                        time_id: results[i].time_id,
+                        start_time: results[i].start_time,
+                        end_time: results[i].end_time,
+
+                        available: results[i].available,
+                    };
+                    listScheduleDetails.push(ScheduleDetail);
+                }
+                const schedule: DoctorSchedule = {
+                    id: results[0].id,
+                    doctor_id: results[0].doctor_id,
+                    date: results[0].date,
+                    created_at: results[0].created_at,
+                    updated_at: results[0].updated_at,
+                    type: results[0].type,
+                    listScheduleDetails: listScheduleDetails,
+                };
+                return schedule;
+            }
         } catch (err: any) {
             throw new Error(err.message);
         }
@@ -72,6 +96,8 @@ export class DoctorScheduleRepository {
                     let ScheduleDetail: DoctorScheduleDetail = {
                         id: results[i].schedule_detail_id,
                         schedule_id: results[i].schedule_id,
+                        start_time: results[i].start_time,
+                        end_time: results[i].end_time,
                         time_id: results[i].time_id,
                         available: results[i].available,
                     };
@@ -103,6 +129,8 @@ export class DoctorScheduleRepository {
                     let ScheduleDetail: DoctorScheduleDetail = {
                         id: results[i].schedule_detail_id,
                         schedule_id: results[i].schedule_id,
+                        start_time: results[i].start_time,
+                        end_time: results[i].end_time,
                         time_id: results[i].time_id,
                         available: results[i].available,
                     };
