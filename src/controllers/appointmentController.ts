@@ -3,6 +3,7 @@ import { AppointmentService } from '../services/appointmentService';
 import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
+import dayjs from 'dayjs';
 import {
     sendBookingSuccess,
     sendRejection,
@@ -216,7 +217,7 @@ export class AppointmentController {
                 String(appointment.patient_email),
                 appointment.doctor_name,
                 appointment.time_value,
-                String(appointment.appointment_date),
+                dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
                 appointment.location,
                 'Chờ xác nhận',
                 appointment.price,
@@ -267,7 +268,7 @@ export class AppointmentController {
                     appointment.doctor_name,
                     appointment.patient_name,
                     appointment.time_value,
-                    appointment.appointment_date,
+                    dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
                     appointment.rejectionReason,
                     requirementObject,
                 );
@@ -278,7 +279,7 @@ export class AppointmentController {
                     String(appointment.patient_email),
                     appointment.doctor_name,
                     appointment.time_value,
-                    String(appointment.appointment_date),
+                    dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
                     appointment.location,
                     'Đã xác nhận',
                     appointment.price,
