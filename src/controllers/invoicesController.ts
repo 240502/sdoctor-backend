@@ -9,8 +9,9 @@ export class InvoiceController {
     async createInvoice(req: Request, res: Response): Promise<void> {
         try {
             const invoice: Invoices = req.body as Invoices;
-            await this.invoicesService.createInvoice(invoice);
-            res.json({ message: 'Success', result: true });
+            const newInvoice =
+                await this.invoicesService.createInvoice(invoice);
+            res.json({ message: 'Success', result: newInvoice });
         } catch (err: any) {
             res.status(500).json({ message: err.message });
         }

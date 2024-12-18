@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const qs = require('qs');
+import { InvoicesService } from '../services/invoicesService';
+import { Invoices } from '../models/invoices';
 
 const config: any = {
     app_id: '2553',
@@ -14,15 +16,16 @@ const config: any = {
 
 @injectable()
 export class PaymentController {
+    constructor(private invoiceService: InvoicesService) {}
     async createPayment(req: Request, res: Response): Promise<any> {
         try {
-            const { invoiceId } = req.body;
+            const invoice: Invoices = req.body as Invoices;
             const embed_data = {
                 //sau khi hoàn tất thanh toán sẽ đi vào link này (thường là link web thanh toán thành công của mình)
-                redirecturl: 'http://localhost:5173/booking-success',
+                redirecturl: 'http://localhost:5173/patient/appointment',
             };
 
-            const items = [{ id: 1, appointment_date: '2024-01-01' }];
+            const items = [invoice];
             const transID = Math.floor(Math.random() * 1000000);
 
             const order = {
@@ -33,11 +36,11 @@ export class PaymentController {
                 app_time: Date.now(), // miliseconds
                 item: JSON.stringify(items),
                 embed_data: JSON.stringify(embed_data),
-                amount: 5000000,
+                amount: invoice.amount,
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
                 callback_url:
-                    'https://1b8e-113-160-133-185.ngrok-free.app/api/payment/callback',
+                    'https://04c8-113-191-245-139.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
                 bank_code: '',
                 mac: '',
@@ -71,7 +74,7 @@ export class PaymentController {
     async callBack(req: Request, res: Response): Promise<any> {
         let result: any = {};
         const items = JSON.parse(req.body.data).item;
-        console.log(items);
+        console.log(JSON.parse(items)[0].id);
 
         try {
             let dataStr = req.body.data;
@@ -93,7 +96,10 @@ export class PaymentController {
                     "update order's status = success where app_trans_id =",
                     dataJson['app_trans_id'],
                 );
-
+                this.invoiceService.updateInvoiceStatus(
+                    JSON.parse(items)[0].id,
+                    'Đã thanh toán',
+                );
                 result.return_code = 1;
                 result.return_message = 'success';
             }

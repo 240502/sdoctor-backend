@@ -8,7 +8,7 @@ export class InvoicesRepository {
     async createInvoice(invoice: Invoices): Promise<any> {
         try {
             const sql = 'CALL CreateInvoices(?,?,?,?,?,?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [
+            const newInvoice = await this.db.query(sql, [
                 invoice.appointment_id,
                 invoice.doctor_id,
                 invoice.service_id,
@@ -17,7 +17,7 @@ export class InvoicesRepository {
                 invoice.patient_name,
                 invoice.patient_phone,
             ]);
-            return true;
+            return newInvoice;
         } catch (err: any) {
             throw new Error(err);
         }
