@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { Service } from '../models/service';
+import { TimeRepository } from './timeRepository';
 
 @injectable()
 export class ServiceRepository {
@@ -93,6 +94,19 @@ export class ServiceRepository {
                 endPrice,
                 name,
             ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+    async getCommonService(): Promise<any> {
+        try {
+            const sql = 'CALL GetCommonService(@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, []);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else {

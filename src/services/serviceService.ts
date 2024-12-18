@@ -36,4 +36,7 @@ export class ServiceService {
             name,
         );
     }
+    async getCommonService(): Promise<any> {
+        return this.serviceRepository.getCommonService();
+    }
 }

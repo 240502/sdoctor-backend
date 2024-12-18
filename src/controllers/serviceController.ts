@@ -86,4 +86,16 @@ export class ServiceController {
             res.status(500).json({ message: err.message });
         }
     }
+    async getCommonService(req: Request, res: Response): Promise<void> {
+        try {
+            const result = await this.serviceService.getCommonService();
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({ message: 'Không có bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

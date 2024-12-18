@@ -29,5 +29,9 @@ serviceRouter.get(
     '/get-by-id/:id',
     serviceController.getServiceById.bind(serviceController),
 );
+serviceRouter.get(
+    '/get-common-service',
+    serviceController.getCommonService.bind(serviceController),
+);
 
 export default serviceRouter;
