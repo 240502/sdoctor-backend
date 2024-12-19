@@ -99,4 +99,23 @@ export class InvoiceController {
             res.status(500).json({ message: err.message });
         }
     }
+    async getInvoiceByAppointmentId(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const appointmentId: number = Number(req.params.appointmentId);
+            const result =
+                await this.invoicesService.getInvoiceByAppointmentId(
+                    appointmentId,
+                );
+            if (result) {
+                res.json(result);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

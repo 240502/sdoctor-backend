@@ -40,7 +40,7 @@ export class PaymentController {
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
                 callback_url:
-                    'https://04c8-113-191-245-139.ngrok-free.app/api/payment/callback',
+                    'https://871d-113-160-132-169.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
                 bank_code: '',
                 mac: '',

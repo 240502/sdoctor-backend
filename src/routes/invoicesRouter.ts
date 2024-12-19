@@ -45,4 +45,8 @@ invoiceRouter.put(
     invoiceController.updateInvoiceStatus.bind(invoiceController),
 );
 
+invoiceRouter.get(
+    '/get-by-appointment/:appointmentId',
+    invoiceController.getInvoiceByAppointmentId.bind(invoiceController),
+);
 export default invoiceRouter;

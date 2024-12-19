@@ -37,4 +37,9 @@ export class InvoicesService {
     async updateInvoiceStatus(id: number, status: string): Promise<any> {
         return this.invoicesRepository.updateInvoiceStatus(id, status);
     }
+    async getInvoiceByAppointmentId(
+        appointmentId: number,
+    ): Promise<Invoices | null> {
+        return this.invoicesRepository.getInvoiceByAppointmentId(appointmentId);
+    }
 }
