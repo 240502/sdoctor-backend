@@ -8,6 +8,7 @@ export class UserService {
     constructor(private userRepository: UserRepository) {}
     async login(email: string, password: string): Promise<any> {
         const md5_password = md5(password);
+        console.log('md5_password', md5_password);
         return this.userRepository.login(email, md5_password);
     }
 

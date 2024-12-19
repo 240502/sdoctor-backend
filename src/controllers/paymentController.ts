@@ -27,7 +27,6 @@ export class PaymentController {
 
             const items = [invoice];
             const transID = Math.floor(Math.random() * 1000000);
-
             const order = {
                 app_id: config.app_id,
                 apptransid: '200000',
@@ -40,7 +39,7 @@ export class PaymentController {
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
                 callback_url:
-                    'https://871d-113-160-132-169.ngrok-free.app/api/payment/callback',
+                    'https://f4e4-2402-9d80-271-9fb5-b85b-ac89-3296-26ff.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
                 bank_code: '',
                 mac: '',

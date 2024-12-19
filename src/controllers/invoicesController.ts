@@ -2,10 +2,82 @@ import { injectable } from 'tsyringe';
 import { Request, Response } from 'express';
 import { InvoicesService } from '../services/invoicesService';
 import { Invoices } from '../models/invoices';
-
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
+import path from 'path';
 @injectable()
 export class InvoiceController {
     constructor(private invoicesService: InvoicesService) {}
+
+    async createInvoicePdf(req: Request, res: Response): Promise<void> {
+        const invoiceData = req.body;
+
+        // Đường dẫn file PDF tạm thời
+        const filePath = path.join(
+            __dirname,
+            `invoice_${invoiceData.invoiceId}.pdf`,
+        );
+
+        // Tạo file PDF
+        const doc = new PDFDocument();
+        const writeStream = fs.createWriteStream(filePath);
+        doc.pipe(writeStream);
+
+        // Header của hóa đơn
+        doc.fontSize(20)
+            .text('HÓA ĐƠN KHÁM BỆNH', { align: 'center' })
+            .moveDown();
+
+        // Thông tin bệnh nhân
+        doc.fontSize(12)
+            .text(`Họ và tên: ${invoiceData.patientName}`)
+            .text(`Mã hóa đơn: ${invoiceData.invoiceId}`)
+            .text(`Ngày khám: ${invoiceData.date}`)
+            .moveDown();
+
+        // Danh sách dịch vụ
+        doc.text('Danh sách dịch vụ:', { underline: true });
+
+        invoiceData.services.forEach(
+            (service: { name: string; cost: number }) => {
+                doc.text(
+                    `${service.name}: ${service.cost.toLocaleString()} VND`,
+                );
+            },
+        );
+
+        // Tổng tiền
+        doc.moveDown()
+            .fontSize(14)
+            .text(`Tổng tiền: ${invoiceData.total.toLocaleString()} VND`, {
+                align: 'right',
+            });
+
+        // Footer
+        doc.moveDown(2)
+            .fontSize(10)
+            .text('Cảm ơn quý khách đã sử dụng dịch vụ!', { align: 'center' });
+
+        // Kết thúc và lưu file
+        doc.end();
+
+        writeStream.on('finish', () => {
+            // Gửi file PDF về client
+            res.download(
+                filePath,
+                `invoice_${invoiceData.invoiceId}.pdf`,
+                (err) => {
+                    if (err) {
+                        console.error('Error while sending file:', err);
+                        res.status(500).send('Lỗi khi tải file');
+                    }
+
+                    // Xóa file PDF tạm sau khi gửi
+                    fs.unlinkSync(filePath);
+                },
+            );
+        });
+    }
     async createInvoice(req: Request, res: Response): Promise<void> {
         try {
             const invoice: Invoices = req.body as Invoices;

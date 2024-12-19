@@ -49,4 +49,8 @@ invoiceRouter.get(
     '/get-by-appointment/:appointmentId',
     invoiceController.getInvoiceByAppointmentId.bind(invoiceController),
 );
+invoiceRouter.post(
+    '/create-pdf',
+    invoiceController.createInvoicePdf.bind(invoiceController),
+);
 export default invoiceRouter;

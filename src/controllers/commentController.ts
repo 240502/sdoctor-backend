@@ -8,25 +8,13 @@ import { getSocket } from '../socket';
 export class CommentController {
     constructor(private commentService: CommentService) {}
 
-    async createCommentForUser(req: Request, res: Response): Promise<void> {
+    async createComment(req: Request, res: Response): Promise<void> {
         try {
             const comment: Comment = req.body as Comment;
-            await this.commentService.createCommentForUser(comment);
+            await this.commentService.createComment(comment);
             res.json({ message: 'successfully created ' });
         } catch (err: any) {
             res.status(500).json({ message: err.message });
-        }
-    }
-
-    async createCommentForPatient(req: Request, res: Response): Promise<void> {
-        try {
-            const comment: Comment = req.body as Comment;
-            await this.commentService.createCommentForPatient(comment);
-            const io = getSocket();
-            io.emit('newComment', comment);
-            res.json({ message: 'successfully created ' });
-        } catch (err: any) {
-            res.json({ message: err.message });
         }
     }
     async getCommentByUserId(req: Request, res: Response): Promise<any> {
