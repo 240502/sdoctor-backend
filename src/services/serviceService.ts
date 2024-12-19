@@ -17,6 +17,9 @@ export class ServiceService {
     async getServiceById(id: number): Promise<any> {
         return this.serviceRepository.getServiceById(id);
     }
+    async updateViewService(id: number): Promise<any> {
+        return this.serviceRepository.updateViewService(id);
+    }
     async viewService(
         pageIndex: number,
         pageSize: number,

@@ -124,4 +124,7 @@ export class AppointmentService {
             appointmentDate,
         );
     }
+    async updateIsValuate(appointmentId: number): Promise<any> {
+        return this.appointmentRepository.updateIsValuate(appointmentId);
+    }
 }

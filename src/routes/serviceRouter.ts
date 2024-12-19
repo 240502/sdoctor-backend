@@ -33,5 +33,9 @@ serviceRouter.get(
     '/get-common-service',
     serviceController.getCommonService.bind(serviceController),
 );
+serviceRouter.put(
+    '/update-view/:id',
+    serviceController.updateViewService.bind(serviceController),
+);
 
 export default serviceRouter;

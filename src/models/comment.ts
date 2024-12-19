@@ -7,4 +7,5 @@ export interface Comment {
     phone: string;
     full_name: string;
     type: string;
+    user_id: number;
 }

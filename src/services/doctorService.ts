@@ -48,4 +48,7 @@ export class DoctorService {
     async updateViewsDoctor(id: number): Promise<any> {
         return this.doctorRepository.updateViewDoctor(id);
     }
+    async updateAvgDoctorStar(doctorId: number): Promise<any> {
+        return this.doctorRepository.updateAverageDoctorStar(doctorId);
+    }
 }

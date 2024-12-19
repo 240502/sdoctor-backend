@@ -151,4 +151,13 @@ export class DoctorRepository {
             throw new Error(err.message);
         }
     }
+    async updateAverageDoctorStar(doctorId: number): Promise<any> {
+        try {
+            const sql = 'CALL UpdateAverageStarDoctor(?,@err_code,@err_msg)';
+            await this.db.query(sql, [doctorId]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
 }

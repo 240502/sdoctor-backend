@@ -136,4 +136,12 @@ export class DoctorController {
             res.status(500).json({ message: err.message });
         }
     }
+    async updateAvgDoctorStar(req: Request, res: Response): Promise<void> {
+        try {
+            const doctorId: number = Number(req.params.doctorId);
+            await this.doctorService.updateAvgDoctorStar(doctorId);
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }

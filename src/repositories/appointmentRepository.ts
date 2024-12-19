@@ -269,4 +269,13 @@ export class AppointmentRepository {
             throw new Error(err);
         }
     }
+    async updateIsValuate(appointmentId: number): Promise<any> {
+        try {
+            const sql = 'CALL UpdateIsEvaluate(?,@err_code,@err_msg)';
+            await this.db.query(sql, [appointmentId]);
+            return true;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
 }
