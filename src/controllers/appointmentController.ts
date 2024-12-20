@@ -39,7 +39,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getTotalPatientInDay(req: Request, res: Response): Promise<any> {
         try {
             const doctorId = Number(req.params.doctorId);
@@ -54,7 +53,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getAppointmentInDay(req: Request, res: Response): Promise<any> {
         try {
             const doctorId = Number(req.params.doctorId);
@@ -69,7 +67,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getTotalPatientExaminedInDay(
         req: Request,
         res: Response,
@@ -89,7 +86,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getTotalAppointmentByWeek(
         req: Request,
         res: Response,
@@ -111,7 +107,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getRecentPatientExamined(req: Request, res: Response): Promise<void> {
         try {
             const results =
@@ -125,7 +120,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getRecentPatientOrdered(req: Request, res: Response): Promise<void> {
         try {
             const results =
@@ -139,7 +133,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getRevenueByMonth(req: Request, res: Response): Promise<void> {
         try {
             const { year, month } = req.body;
@@ -154,7 +147,6 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-
     async getQuantityRejectedAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -177,7 +169,6 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-
     async getAllAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -200,7 +191,6 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: Appointment = req.body as Appointment;
@@ -227,7 +217,6 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-
     async ViewAppointment(req: Request, res: Response): Promise<void> {
         try {
             const { pageIndex, pageSize, phone, statusId } = req.body;
@@ -252,7 +241,6 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-
     async updateAppointmentStatus(req: Request, res: Response): Promise<void> {
         try {
             const { appointment, requirementObject } = req.body;
@@ -290,7 +278,6 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-
     async getAppointmentById(req: Request, res: Response): Promise<any> {
         try {
             const id: number = Number(req.params.id);
@@ -301,7 +288,6 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-
     async getAppointmentAtInvoice(req: Request, res: Response): Promise<void> {
         try {
             const { patientName, doctorName, patientPhone, appointmentDate } =

@@ -84,7 +84,6 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
-
     async getNewPosts(): Promise<any> {
         try {
             const sql = 'CALL GetNewPosts(@err_code,@err_msg)';
@@ -144,7 +143,6 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
-
     async getRelatedPost(
         id: number,
         categoryId: number,

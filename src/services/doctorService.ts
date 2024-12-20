@@ -23,7 +23,6 @@ export class DoctorService {
     async getDoctorById(id: number): Promise<any> {
         return this.doctorRepository.getDoctorById(id);
     }
-
     async getDoctorView(
         pageIndex: Number,
         pageSize: Number,

@@ -5,7 +5,6 @@ import { Appointment } from '../models/appointment';
 @injectable()
 export class AppointmentService {
     constructor(private appointmentRepository: AppointmentRepository) {}
-
     async getAppointmentByType(
         pageIndex: number,
         pageSize: number,
@@ -19,21 +18,17 @@ export class AppointmentService {
             type,
         );
     }
-
     async getAppointmentInDay(doctorId: number): Promise<any> {
         return this.appointmentRepository.getAppointmentInDay(doctorId);
     }
-
     async getTotalPatientInDay(doctorId: number): Promise<any> {
         return this.appointmentRepository.getTotalPatientInDay(doctorId);
     }
-
     async getTotalPatientExaminedInDay(doctorId: number): Promise<any> {
         return this.appointmentRepository.getTotalPatientExaminedInDay(
             doctorId,
         );
     }
-
     async getTotalAppointmentByWeek(
         startWeek: Date,
         endWeek: Date,
@@ -45,19 +40,15 @@ export class AppointmentService {
             doctorId,
         );
     }
-
     async getRecentPatientExamined(): Promise<any> {
         return this.appointmentRepository.getRecentPatientExamined();
     }
-
     async getRecentPatientOrdered(): Promise<any> {
         return this.appointmentRepository.getRecentPatientOrdered();
     }
-
     async getRevenueByMonth(month: number, year: number): Promise<any> {
         return this.appointmentRepository.getRevenueByMonth(month, year);
     }
-
     async getAllAppointmentByYearAndMonth(
         year: number,
         month: number,
@@ -67,7 +58,6 @@ export class AppointmentService {
             month,
         );
     }
-
     async getQuantityRejectedAppointmentByYearAndMonth(
         year: number,
         month: number,

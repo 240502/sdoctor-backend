@@ -41,7 +41,6 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-
     async getTotalPatientInDay(doctorId: number): Promise<any> {
         try {
             const sql = 'CALL GetTotalPatientInDay(?,@err_code,@err_msg)';
@@ -55,7 +54,6 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-
     async getTotalPatientExaminedInDay(doctorId: number): Promise<any> {
         try {
             const sql =

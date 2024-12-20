@@ -40,7 +40,6 @@ export class DoctorController {
             res.json({ message: err.message });
         }
     }
-
     async deleteDoctor(req: Request, res: Response): Promise<void> {
         try {
             const id: Number = Number(req.params.id);
