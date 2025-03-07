@@ -6,7 +6,7 @@ const homeMenuRouter = Router();
 const homeMenuController = container.resolve(HomeMenuController);
 
 homeMenuRouter.get(
-    '/get-home-menu',
+    '/get-all',
     homeMenuController.getHomeMenu.bind(homeMenuController),
 );
 export default homeMenuRouter;

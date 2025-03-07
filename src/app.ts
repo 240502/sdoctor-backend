@@ -26,7 +26,7 @@ initSocket(server);
 app.use('/api', appRouter);
 // Xử lý các route không tồn tại
 app.use((_: Request, res: Response) => {
-    res.json({ message: 'Không tìm thấy đường dẫn' });
+    res.status(404).json({ message: 'Không tìm thấy đường dẫn' });
 });
 
 server.listen(config.port, () => {

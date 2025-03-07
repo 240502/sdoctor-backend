@@ -105,7 +105,7 @@ export class DoctorRepository {
         }
     }
 
-    async GetDoctorView(
+    async viewDoctorWithPagination(
         pageIndex: Number,
         pageSize: Number,
         majorId: Number | null,
@@ -113,7 +113,8 @@ export class DoctorRepository {
         clinicId: number | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetDoctorView(?,?,?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL ViewDoctorForClient(?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,

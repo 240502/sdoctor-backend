@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Appointment } from '../models/appointment';
+import { AppointmentCreateDto } from '../models';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
@@ -12,7 +12,8 @@ export class AppointmentRepository {
         type: number,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetAppointmentByType(?,?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL GetAppointmentsByStatus(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
@@ -76,7 +77,7 @@ export class AppointmentRepository {
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetTotalAppointmentByWeek(?,?,?,@err_code,@err_msg)';
+                'CALL StatisticsAppointmentsByDay(?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 startWeek,
                 endWeek,
@@ -147,7 +148,7 @@ export class AppointmentRepository {
         }
     }
 
-    async createAppointment(appointment: Appointment): Promise<any> {
+    async createAppointment(appointment: AppointmentCreateDto): Promise<any> {
         try {
             const sql =
                 'CALL OrderAppointment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';

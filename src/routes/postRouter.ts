@@ -47,7 +47,10 @@ postRouter.get(
     '/get-by-id/:id',
     postController.getPostById.bind(postController),
 );
-postRouter.get('/get-new-post', postController.getNewPost.bind(postController));
+postRouter.get(
+    '/get-new-posts',
+    postController.getNewPost.bind(postController),
+);
 postRouter.put(
     '/update-views-post/:id',
     postController.updateViewsPost.bind(postController),

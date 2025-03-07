@@ -1,6 +1,5 @@
 import { injectable } from 'tsyringe';
 import { AppointmentService } from '../services/appointmentService';
-import { Appointment } from '../models/appointment';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
 import dayjs from 'dayjs';
@@ -9,28 +8,35 @@ import {
     sendRejection,
     sendConfirmSuccess,
 } from '../mailer';
+import {
+    AppointmentCreateDto,
+    AppointmentFilterDto,
+} from '../models/appointment';
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
     async getAppointmentByType(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, doctorId, type } = req.body;
+            const filterOptions: AppointmentFilterDto =
+                req.body as AppointmentFilterDto;
             const result = await this.appointmentService.getAppointmentByType(
-                pageIndex,
-                pageSize,
-                doctorId,
-                type,
+                filterOptions.pageIndex,
+                filterOptions.pageSize,
+                filterOptions.doctorId,
+                filterOptions.type,
             );
             if (result) {
                 res.json({
-                    pageIndex: pageIndex,
-                    pageSize: pageSize,
+                    pageIndex: filterOptions.pageIndex,
+                    pageSize: filterOptions.pageSize,
                     totalItems: result[0].RecordCount,
                     data: result,
-                    doctorId: doctorId,
-                    type: type,
-                    pageCount: Math.ceil(result[0].RecordCount / pageSize),
+                    doctorId: filterOptions.doctorId,
+                    type: filterOptions.type,
+                    pageCount: Math.ceil(
+                        result[0].RecordCount / filterOptions.pageSize,
+                    ),
                 });
             } else {
                 res.status(404).json({ message: 'Không có bản ghi nào!' });
@@ -193,7 +199,8 @@ export class AppointmentController {
     }
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
-            const appointment: Appointment = req.body as Appointment;
+            const appointment: AppointmentCreateDto =
+                req.body as AppointmentCreateDto;
             const result =
                 await this.appointmentService.orderAppointment(appointment);
             const io = getSocket();

@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { AppointmentRepository } from '../repositories/appointmentRepository';
-import { Appointment } from '../models/appointment';
+import { AppointmentCreateDto } from '../models';
 
 @injectable()
 export class AppointmentService {
@@ -68,7 +68,7 @@ export class AppointmentService {
         );
     }
 
-    async orderAppointment(appointment: Appointment): Promise<any> {
+    async orderAppointment(appointment: AppointmentCreateDto): Promise<any> {
         return this.appointmentRepository.createAppointment(appointment);
     }
 

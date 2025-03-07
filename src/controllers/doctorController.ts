@@ -63,7 +63,7 @@ export class DoctorController {
             res.status(500).json({ message: err.message, result: id });
         }
     }
-    async getDoctorView(req: Request, res: Response): Promise<void> {
+    async viewDoctorWithPagination(req: Request, res: Response): Promise<void> {
         try {
             const object = req.body as {
                 pageIndex: number;
@@ -72,7 +72,7 @@ export class DoctorController {
                 name: string;
                 clinicId: number;
             };
-            const data = await this.doctorService.getDoctorView(
+            const data = await this.doctorService.viewDoctorWithPagination(
                 object.pageIndex,
                 object.pageSize,
                 object.majorId ?? null,

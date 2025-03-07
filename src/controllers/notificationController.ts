@@ -52,8 +52,6 @@ export class NotificationController {
                     notification,
                 );
             res.json({ message: 'Successfully', result: result });
-            console.log('call create notification');
-
             const io = getSocket();
             io.to(`doctor_${notification.user_id}`).emit(
                 'newNotification',

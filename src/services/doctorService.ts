@@ -23,14 +23,14 @@ export class DoctorService {
     async getDoctorById(id: number): Promise<any> {
         return this.doctorRepository.getDoctorById(id);
     }
-    async getDoctorView(
+    async viewDoctorWithPagination(
         pageIndex: Number,
         pageSize: Number,
         majorId: Number | null,
         name: string | null,
         clinicId: number | null,
     ): Promise<any> {
-        return this.doctorRepository.GetDoctorView(
+        return this.doctorRepository.viewDoctorWithPagination(
             pageIndex,
             pageSize,
             majorId,
