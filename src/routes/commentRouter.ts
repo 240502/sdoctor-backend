@@ -10,8 +10,8 @@ commentRouter.post(
 );
 
 commentRouter.post(
-    '/get-by-user-id',
-    commentController.getCommentByUserId.bind(commentController),
+    '/get-comment-by-doctor-id',
+    commentController.getCommentByDoctorId.bind(commentController),
 );
 
 export default commentRouter;

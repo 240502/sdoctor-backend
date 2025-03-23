@@ -21,12 +21,14 @@ doctorRouter.put(
     doctorController.updateDoctor.bind(doctorController),
 );
 doctorRouter.get(
-    '/getById/:id',
+    '/get-by-id/:id',
     doctorController.getDoctorById.bind(doctorController),
 );
 doctorRouter.post(
     '/view',
-    doctorController.viewDoctorWithPagination.bind(doctorController),
+    doctorController.getListDoctorsWithPaginationAndFilters.bind(
+        doctorController,
+    ),
 );
 doctorRouter.post(
     '/get-common-doctor',

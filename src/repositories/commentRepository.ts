@@ -23,19 +23,17 @@ export class CommentRepository {
         }
     }
 
-    async getCommentByUserId(
+    async getCommentByDoctorId(
         pageIndex: number,
         pageSize: number,
-        userId: number,
-        type: string,
+        doctorId: number,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetCommentByUserId(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL GetCommentByDoctorId(?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
-                userId,
-                type,
+                doctorId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

@@ -63,38 +63,53 @@ export class DoctorController {
             res.status(500).json({ message: err.message, result: id });
         }
     }
-    async viewDoctorWithPagination(req: Request, res: Response): Promise<void> {
+    async getListDoctorsWithPaginationAndFilters(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const object = req.body as {
-                pageIndex: number;
-                pageSize: number;
-                majorId: number;
-                name: string;
-                clinicId: number;
+                pageIndex: number | null;
+                pageSize: number | null;
+                majorIds: number[] | null;
+                clinicId: number | null;
+                doctorServiceIds: number[] | null;
+                doctorTiles: string[] | null;
+                startPrice: number | null;
+                endPrice: number | null;
             };
-            const data = await this.doctorService.viewDoctorWithPagination(
-                object.pageIndex,
-                object.pageSize,
-                object.majorId ?? null,
-                object.name ?? null,
-                object.clinicId ?? null,
-            );
-            if (Array.isArray(data) && data.length > 0) {
-                res.status(200).json({
-                    totalItems: Math.ceil(data[0].RecordCount),
-                    page: object.pageIndex,
-                    pageSize: object.pageSize,
-                    data: data,
-                    pageCount: Math.ceil(data[0].RecordCount / object.pageSize),
-                    majorId: object.majorId,
-                    location: object.name,
-                    clinicId: object.clinicId,
-                });
-            } else {
+            const data =
+                await this.doctorService.getListDoctorsWithPaginationAndFilters(
+                    object.pageIndex,
+                    object.pageSize,
+                    object.majorIds,
+                    object.clinicId,
+                    object.doctorServiceIds,
+                    object.doctorTiles,
+                    object.startPrice,
+                    object.endPrice,
+                );
+            if (!data) {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+                return;
             }
+            res.status(200).json({
+                totalItems: Math.ceil(data[0].RecordCount),
+                page: object.pageIndex,
+                pageSize: object.pageSize,
+                pageCount: object?.pageSize
+                    ? Math.ceil(data[0].RecordCount / object?.pageSize)
+                    : null,
+                data: data,
+                majorIds: object.majorIds,
+                clinicId: object.clinicId,
+                doctocServiceIds: object.doctorServiceIds,
+                doctorTiles: object.doctorTiles,
+                startPrice: object.startPrice,
+                endPrice: object.endPrice,
+            });
         } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(500).json({ message: err.message });
         }
     }
     async getQuantityDoctor(req: Request, res: Response): Promise<void> {
@@ -109,10 +124,12 @@ export class DoctorController {
     }
     async getCommonDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize } = req.body;
+            const { pageIndex, pageSize, withoutId } = req.body;
+            console.log(pageIndex, pageSize, withoutId);
             const data = await this.doctorService.getCommonDoctor(
                 pageIndex,
                 pageSize,
+                withoutId,
             );
             if (Array.isArray(data) && data.length > 0) {
                 res.json({

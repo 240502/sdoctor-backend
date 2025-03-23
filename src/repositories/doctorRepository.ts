@@ -105,28 +105,45 @@ export class DoctorRepository {
         }
     }
 
-    async viewDoctorWithPagination(
-        pageIndex: Number,
-        pageSize: Number,
-        majorId: Number | null,
-        name: string | null,
+    async getListDoctorsWithPaginationAndFilters(
+        pageIndex: number | null,
+        pageSize: number | null,
+        majorIds: string | null,
         clinicId: number | null,
+        doctorServiceIds: string | null,
+        doctorTiles: string | null,
+        startPrice: number | null,
+        endPrice: number | null,
     ): Promise<any> {
         try {
+            console.log(
+                pageIndex,
+                pageSize,
+                majorIds,
+                clinicId,
+                doctorServiceIds,
+                doctorTiles,
+                startPrice,
+                endPrice,
+            );
             const sql =
-                'CALL ViewDoctorForClient(?,?,?,?,?,@err_code,@err_msg)';
+                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
-                majorId,
-                name,
+                majorIds,
                 clinicId,
+                doctorServiceIds,
+                doctorTiles,
+                startPrice,
+                endPrice,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             }
             return null;
         } catch (err: any) {
+            console.log(err);
             throw new Error(err.message);
         }
     }
@@ -141,10 +158,18 @@ export class DoctorRepository {
             throw new Error(err.message);
         }
     }
-    async getCommonDoctor(pageIndex: number, pageSize: number): Promise<any> {
+    async getCommonDoctor(
+        pageIndex: number | null,
+        pageSize: number | null,
+        withoutId: number | null,
+    ): Promise<any> {
         try {
-            const sql = 'CALL GetCommonDoctor(?,?,@err_code, @err_msg)';
-            const [results] = await this.db.query(sql, [pageIndex, pageSize]);
+            const sql = 'CALL GetCommonDoctor(?,?,?,@err_code, @err_msg)';
+            const [results] = await this.db.query(sql, [
+                pageIndex,
+                pageSize,
+                withoutId,
+            ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;

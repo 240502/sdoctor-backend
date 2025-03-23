@@ -47,29 +47,27 @@ export class CommentController {
             res.status(500).json({ message: err.message });
         }
     }
-    async getCommentByUserId(req: Request, res: Response): Promise<any> {
+    async getCommentByDoctorId(req: Request, res: Response): Promise<any> {
         try {
-            const { pageIndex, pageSize, userId, type } = req.body;
-            const results = await this.commentService.getCommentByUserId(
+            const { pageIndex, pageSize, doctorId } = req.body;
+            const results = await this.commentService.getCommentByDoctorId(
                 pageIndex,
                 pageSize,
-                userId,
-                type,
+                doctorId,
             );
             if (results.length > 0) {
                 res.status(200).json({
                     totalItems: Math.ceil(results[0].RecordCount),
                     pageIndex: pageIndex,
                     pageSize: pageSize,
-                    userId: userId,
+                    doctorId: doctorId,
                     data: results,
-                    type: type,
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
                 });
             } else {
                 res.status(404).json({
                     message: 'Không tồn tại bình luận nào',
-                    userId: userId,
+                    doctorId: doctorId,
                 });
             }
         } catch (err: any) {

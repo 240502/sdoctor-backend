@@ -23,26 +23,55 @@ export class DoctorService {
     async getDoctorById(id: number): Promise<any> {
         return this.doctorRepository.getDoctorById(id);
     }
-    async viewDoctorWithPagination(
-        pageIndex: Number,
-        pageSize: Number,
-        majorId: Number | null,
-        name: string | null,
+    async getListDoctorsWithPaginationAndFilters(
+        pageIndex: number | null,
+        pageSize: number | null,
+        majorIds: number[] | null,
         clinicId: number | null,
+        doctorServiceIds: number[] | null,
+        doctorTiles: string[] | null,
+        startPrice: number | null,
+        endPrice: number | null,
     ): Promise<any> {
-        return this.doctorRepository.viewDoctorWithPagination(
+        let majorIdsString: string | null = null;
+        let doctorServiceIdsString: string | null = null;
+        let doctorTilesString: string | null = null;
+        if (majorIds && majorIds?.length > 0) {
+            majorIdsString = majorIds?.join(',');
+        }
+
+        if (doctorServiceIds && doctorServiceIds?.length > 0) {
+            doctorServiceIdsString = doctorServiceIds?.join(',');
+        }
+
+        if (doctorTiles && doctorTiles?.length > 0) {
+            doctorTilesString = doctorTiles?.join(',');
+        }
+
+        return this.doctorRepository.getListDoctorsWithPaginationAndFilters(
             pageIndex,
-            pageSize,
-            majorId,
-            name,
-            clinicId,
+            pageSize ?? null,
+            majorIdsString,
+            clinicId ? clinicId : null,
+            doctorServiceIdsString,
+            doctorTilesString,
+            startPrice ? startPrice : null,
+            endPrice ? endPrice : null,
         );
     }
     async getQuantityDoctor(): Promise<any> {
         return this.doctorRepository.getQuantityDoctor();
     }
-    async getCommonDoctor(pageIndex: number, pageSize: number): Promise<any> {
-        return this.doctorRepository.getCommonDoctor(pageIndex, pageSize);
+    async getCommonDoctor(
+        pageIndex: number | null,
+        pageSize: number | null,
+        withoutId: number | null,
+    ): Promise<any> {
+        return this.doctorRepository.getCommonDoctor(
+            pageIndex,
+            pageSize,
+            withoutId,
+        );
     }
     async updateViewsDoctor(id: number): Promise<any> {
         return this.doctorRepository.updateViewDoctor(id);
