@@ -68,7 +68,6 @@ export class DoctorRepository {
                 doctor.district,
                 doctor.commune,
             ]);
-            console.log(doctor);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
@@ -116,16 +115,6 @@ export class DoctorRepository {
         endPrice: number | null,
     ): Promise<any> {
         try {
-            console.log(
-                pageIndex,
-                pageSize,
-                majorIds,
-                clinicId,
-                doctorServiceIds,
-                doctorTiles,
-                startPrice,
-                endPrice,
-            );
             const sql =
                 'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
@@ -164,6 +153,7 @@ export class DoctorRepository {
         withoutId: number | null,
     ): Promise<any> {
         try {
+            console.log('data', [pageIndex, pageSize, withoutId]);
             const sql = 'CALL GetCommonDoctor(?,?,?,@err_code, @err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,

@@ -1,12 +1,12 @@
 import { injectable } from 'tsyringe';
-import { CommentService } from '../services/commentService';
+import { CommentService } from '../services/comment.service';
 import { Comment } from '../models/comment';
 import { Request, Response } from 'express';
 import { totalmem } from 'node:os';
 import { getSocket } from '../socket';
-import { DoctorService } from '../services/doctorService';
+import { DoctorService } from '../services/doctor.service';
 import { NotificationService } from '../services/notificationService';
-import { AppointmentService } from '../services/appointmentService';
+import { AppointmentService } from '../services/appointment.service';
 @injectable()
 export class CommentController {
     constructor(

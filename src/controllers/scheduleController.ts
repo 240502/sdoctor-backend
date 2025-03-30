@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { DoctorScheduleService } from '../services/doctorScheduleService';
+import { DoctorScheduleService } from '../services/doctorSchedule.service';
 import { DoctorSchedule } from '../models/doctor_schedule';
 import { Request, Response } from 'express';
 @injectable()

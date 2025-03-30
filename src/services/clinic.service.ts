@@ -13,17 +13,22 @@ export class ClinicService {
     async deleteClinic(id: number): Promise<any> {
         return this.clinicRepository.deleteClinic(id);
     }
-    async getClinicView(
-        pageIndex: number,
-        pageSize: number,
+    async getClinicsWithPaginationAndOptions(
+        pageIndex: number | null,
+        pageSize: number | null,
+        departmentIds: number[] | null,
         location: string | null,
-        name: string | null,
     ): Promise<any> {
-        return this.clinicRepository.getClinicView(
-            pageIndex,
-            pageSize,
-            location,
-            name,
+        let departmentIdsStr: string | null = null;
+        
+        if (departmentIds && departmentIds.length > 0) {
+            departmentIdsStr = departmentIds.join(',');
+        }
+        return this.clinicRepository.getClinicsWithPaginationAndOptions(
+            pageIndex ?? null,
+            pageSize ?? null,
+            departmentIdsStr,
+            location ?? null,
         );
     }
     async getClinicById(id: number): Promise<any> {
@@ -35,7 +40,7 @@ export class ClinicService {
     async getCommonClinic(): Promise<any> {
         return this.clinicRepository.getCommonClinic();
     }
-    async updateViewsClinic(id:number): Promise<any> {
+    async updateViewsClinic(id: number): Promise<any> {
         return this.clinicRepository.updateViewsClinic(id);
     }
 }

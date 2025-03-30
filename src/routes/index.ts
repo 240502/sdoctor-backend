@@ -25,6 +25,7 @@ import { ServiceController } from '../controllers/serviceController';
 import serviceRouter from './serviceRouter';
 import paymentRouter from './payment';
 import paymentMethodRouter from './paymentMethodRouter';
+import departmentRouter from './departmentRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -52,5 +53,5 @@ appRouter.use('/service-category', categoryServicesRouter);
 appRouter.use('/service', serviceRouter);
 appRouter.use('/payment', paymentRouter);
 appRouter.use('/payment-method', paymentMethodRouter);
-
+appRouter.use('/department', departmentRouter);
 export default appRouter;

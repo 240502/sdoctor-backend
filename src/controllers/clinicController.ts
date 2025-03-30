@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Clinic } from '../models/clinic';
-import { ClinicService } from '../services/clinicService';
+import { ClinicService } from '../services/clinic.service';
 import e, { Request, Response } from 'express';
 import { arrayBuffer } from 'node:stream/consumers';
 @injectable()
@@ -42,17 +42,22 @@ export class ClinicController {
             res.json({ message: err.message });
         }
     }
-    async getClinicView(req: Request, res: Response): Promise<void> {
+    async getClinicsWithPaginationAndOptions(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
-            const { pageIndex, pageSize, location, name } = req.body;
-
-            const data = await this.clinicService.getClinicView(
-                pageIndex,
-                pageSize,
-                location ?? null,
-                name ?? null,
-            );
-            if (Array.isArray(data) && data.length > 0) {
+            const { pageIndex, pageSize, location, departmentIds } = req.body;
+            console.log(pageIndex, pageSize, location, departmentIds);
+            const data =
+                await this.clinicService.getClinicsWithPaginationAndOptions(
+                    pageIndex,
+                    pageSize,
+                    departmentIds,
+                    location,
+                );
+            if (data) {
+                console.log('data', data);
                 res.json({
                     totalItems: Math.ceil(data[0].RecordCount),
                     page: pageIndex,
@@ -60,11 +65,12 @@ export class ClinicController {
                     data: data,
                     pageCount: Math.ceil(data[0].RecordCount / pageSize),
                     location: location,
-                    name: name,
+                    departmentIds: departmentIds,
                 });
-            } else res.json({ message: 'Không tồn tại bản ghi nào!' });
+            } else
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
         } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(404).json({ message: err.message });
         }
     }
     async getClinicById(req: Request, res: Response): Promise<any> {

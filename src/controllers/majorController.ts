@@ -55,10 +55,10 @@ export class MajorController {
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
                 });
             } else {
-                res.status(404);
+                res.status(404).json({ message: 'Không có dữ liệu !' });
             }
         } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(500).json({ message: err.message });
         }
     }
 }

@@ -39,7 +39,7 @@ export class MajorRepository {
     }
     async viewMajor(pageIndex: number, pageSize: number): Promise<any> {
         try {
-            const sql = 'CALL ViewMajors(?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewSpecialties(?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [pageIndex, pageSize]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

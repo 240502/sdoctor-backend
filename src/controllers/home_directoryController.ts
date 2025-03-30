@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { HomeDirectoryService } from '../services/home_directoryService';
+import { HomeDirectoryService } from '../services/home_directory.service';
 import { HomeDirectory } from '../models/home_directory';
 import { Request, Response } from 'express';
 @injectable()

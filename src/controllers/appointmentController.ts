@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { AppointmentService } from '../services/appointmentService';
+import { AppointmentService } from '../services/appointment.service';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
 import dayjs from 'dayjs';

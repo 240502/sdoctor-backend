@@ -49,12 +49,12 @@ export class DoctorService {
         }
 
         return this.doctorRepository.getListDoctorsWithPaginationAndFilters(
-            pageIndex,
+            pageIndex ?? null,
             pageSize ?? null,
-            majorIdsString,
+            majorIdsString ?? null,
             clinicId ? clinicId : null,
-            doctorServiceIdsString,
-            doctorTilesString,
+            doctorServiceIdsString ?? null,
+            doctorTilesString ?? null,
             startPrice ? startPrice : null,
             endPrice ? endPrice : null,
         );
@@ -68,9 +68,9 @@ export class DoctorService {
         withoutId: number | null,
     ): Promise<any> {
         return this.doctorRepository.getCommonDoctor(
-            pageIndex,
-            pageSize,
-            withoutId,
+            pageIndex ?? null,
+            pageSize ?? null,
+            withoutId ?? null,
         );
     }
     async updateViewsDoctor(id: number): Promise<any> {

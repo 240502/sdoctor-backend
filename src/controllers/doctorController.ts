@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { DoctorService } from '../services/doctorService';
+import { DoctorService } from '../services/doctor.service';
 import { Doctor, DoctorInfo } from '../models/doctor';
 import { Request, Response } from 'express';
 @injectable()
@@ -125,7 +125,6 @@ export class DoctorController {
     async getCommonDoctor(req: Request, res: Response): Promise<void> {
         try {
             const { pageIndex, pageSize, withoutId } = req.body;
-            console.log(pageIndex, pageSize, withoutId);
             const data = await this.doctorService.getCommonDoctor(
                 pageIndex,
                 pageSize,

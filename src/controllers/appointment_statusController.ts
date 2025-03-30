@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { AppointmentStatusService } from '../services/appointment_statusService';
+import { AppointmentStatusService } from '../services/appointment_status.service';
 import { Request, Response } from 'express';
 
 @injectable()

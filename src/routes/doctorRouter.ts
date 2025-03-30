@@ -36,7 +36,7 @@ doctorRouter.post(
 );
 
 doctorRouter.put(
-    '/update-views-doctor/:id',
+    '/update-doctor-views/:id',
     doctorController.updateViewsDoctor.bind(doctorController),
 );
 doctorRouter.get(

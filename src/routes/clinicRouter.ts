@@ -21,12 +21,12 @@ clinicRouter.delete(
     clinicController.deleteClinic.bind(clinicController),
 );
 clinicRouter.get(
-    '/getById/:id',
+    '/get-by-id/:id',
     clinicController.getClinicById.bind(clinicController),
 );
 clinicRouter.post(
-    '/view',
-    clinicController.getClinicView.bind(clinicController),
+    '/get-clinic-with-pagination&options',
+    clinicController.getClinicsWithPaginationAndOptions.bind(clinicController),
 );
 clinicRouter.get(
     '/get-common-clinic',
@@ -34,7 +34,7 @@ clinicRouter.get(
 );
 
 clinicRouter.put(
-    '/update-views-clinic/:id',
+    '/update-views/:id',
     clinicController.updateViewsClinic.bind(clinicController),
 );
 

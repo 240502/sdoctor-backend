@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { CategoryServicesService } from '../services/category_servicesService';
+import { CategoryServicesService } from '../services/category_services.service';
 import { Request, Response } from 'express';
 
 @injectable()

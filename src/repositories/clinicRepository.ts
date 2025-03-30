@@ -54,19 +54,20 @@ export class ClinicRepository {
             throw new Error(err.message);
         }
     }
-    async getClinicView(
-        pageIndex: number,
-        pageSize: number,
+    async getClinicsWithPaginationAndOptions(
+        pageIndex: number | null,
+        pageSize: number | null,
+        departmentIds: string | null,
         location: string | null,
-        name: string | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL GetClinicView(?,?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL GetClinicsWithPaginationAndOptions(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
+                departmentIds,
                 location,
-                name,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
