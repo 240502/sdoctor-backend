@@ -15,4 +15,15 @@ export class DepartmentRepository {
             throw new Error(err);
         }
     }
+    async getDepartmentByClinicId(
+        clinicId: number,
+    ): Promise<DepartmentResponse[] | any> {
+        try {
+            const sql = 'CALL GetDepartmentByClinicId(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [clinicId]);
+            return !results || results.length === 0 ? null : results;
+        } catch (err: Error | any) {
+            throw err;
+        }
+    }
 }

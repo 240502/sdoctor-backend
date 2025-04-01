@@ -1,11 +1,24 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { Service } from '../models/service';
-import { TimeRepository } from './timeRepository';
 
 @injectable()
-export class ServiceRepository {
+export class MedicalPackageRepository {
     constructor(private db: Database) {}
+
+    async getMedicalPackageByClinicId(clinicId: number): Promise<any> {
+        try {
+            const sql =
+                'CALL GetMedicalPackageByClinicId(?,@err_code,@err_msg)';
+            const [res] = await this.db.query(sql, [clinicId]);
+            if (res.length > 0 && Array.isArray(res)) {
+                return res;
+            }
+            return null;
+        } catch (err: Error | any) {
+            throw err;
+        }
+    }
     async createService(service: Service): Promise<any> {
         try {
             const sql =
@@ -75,16 +88,25 @@ export class ServiceRepository {
         }
     }
     async viewService(
-        pageIndex: number,
-        pageSize: number,
-        clinicId: number,
-        categoryId: number,
-        startPrice: number,
-        endPrice: number,
-        name: string,
+        pageIndex: number | null,
+        pageSize: number | null,
+        clinicId: number | null,
+        categoryId: number | null,
+        startPrice: number | null,
+        endPrice: number | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewService(?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL ViewService(?, ?, ?, ?, ?, ?, @err_code, @err_msg)';
+            console.log([
+                pageIndex,
+                pageSize,
+                clinicId,
+                categoryId,
+                startPrice,
+                endPrice,
+            ]);
+
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
@@ -92,7 +114,6 @@ export class ServiceRepository {
                 categoryId,
                 startPrice,
                 endPrice,
-                name,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

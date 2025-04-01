@@ -9,5 +9,9 @@ departmentRouter.get(
     '/get-all-departments',
     departmentController.getAllDepartment.bind(departmentController),
 );
+departmentRouter.get(
+    '/get-department-by-clinicid/:clinicId',
+    departmentController.getDepartmentByClinicId.bind(departmentController),
+);
 
 export default departmentRouter;

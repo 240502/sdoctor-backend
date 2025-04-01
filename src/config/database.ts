@@ -30,6 +30,8 @@ export class Database {
             const err: any = outParam;
             if (err[0]['@err_code'] === 0) {
                 return results;
+            } else if (err[0]['@err_code'] === -1) {
+                return [];
             } else {
                 throw new Error(err[0]['@err_msg']);
             }

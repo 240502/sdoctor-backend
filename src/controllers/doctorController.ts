@@ -77,6 +77,7 @@ export class DoctorController {
                 doctorTiles: string[] | null;
                 startPrice: number | null;
                 endPrice: number | null;
+                departmentId: number | null;
             };
             const data =
                 await this.doctorService.getListDoctorsWithPaginationAndFilters(
@@ -88,6 +89,7 @@ export class DoctorController {
                     object.doctorTiles,
                     object.startPrice,
                     object.endPrice,
+                    object.departmentId,
                 );
             if (!data) {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });

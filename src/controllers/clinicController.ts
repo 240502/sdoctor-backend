@@ -48,7 +48,6 @@ export class ClinicController {
     ): Promise<void> {
         try {
             const { pageIndex, pageSize, location, departmentIds } = req.body;
-            console.log(pageIndex, pageSize, location, departmentIds);
             const data =
                 await this.clinicService.getClinicsWithPaginationAndOptions(
                     pageIndex,
@@ -57,7 +56,6 @@ export class ClinicController {
                     location,
                 );
             if (data) {
-                console.log('data', data);
                 res.json({
                     totalItems: Math.ceil(data[0].RecordCount),
                     page: pageIndex,
@@ -83,7 +81,7 @@ export class ClinicController {
                 res.status(404).json({ message: 'Không tồn tại bản ghi!' });
             }
         } catch (err: any) {
-            res.json({ message: err.message });
+            res.status(500).json({ message: err.message });
         }
     }
     async getQuantityClinic(req: Request, res: Response): Promise<any> {

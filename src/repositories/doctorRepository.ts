@@ -113,10 +113,11 @@ export class DoctorRepository {
         doctorTiles: string | null,
         startPrice: number | null,
         endPrice: number | null,
+        departmentId: number | null,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
@@ -126,13 +127,13 @@ export class DoctorRepository {
                 doctorTiles,
                 startPrice,
                 endPrice,
+                departmentId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             }
             return null;
         } catch (err: any) {
-            console.log(err);
             throw new Error(err.message);
         }
     }

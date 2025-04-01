@@ -9,4 +9,18 @@ export class DepartmentService {
     async getAllDepartments(): Promise<DepartmentResponse[] | null> {
         return await this.departmentRepository.getAllDepartment();
     }
+    async getDepartmentById(
+        clinicId: number,
+    ): Promise<DepartmentResponse[] | null> {
+        try {
+            if (!clinicId) {
+                throw new Error('Cần mã cơ sở y tế để lấy dữ liệu !');
+            }
+            return await this.departmentRepository.getDepartmentByClinicId(
+                clinicId,
+            );
+        } catch (err: Error | any) {
+            throw err;
+        }
+    }
 }

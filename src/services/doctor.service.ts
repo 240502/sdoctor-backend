@@ -32,6 +32,7 @@ export class DoctorService {
         doctorTiles: string[] | null,
         startPrice: number | null,
         endPrice: number | null,
+        departmentId: number | null,
     ): Promise<any> {
         let majorIdsString: string | null = null;
         let doctorServiceIdsString: string | null = null;
@@ -55,8 +56,9 @@ export class DoctorService {
             clinicId ? clinicId : null,
             doctorServiceIdsString ?? null,
             doctorTilesString ?? null,
-            startPrice ? startPrice : null,
-            endPrice ? endPrice : null,
+            startPrice ?? null,
+            endPrice ?? null,
+            departmentId ?? null,
         );
     }
     async getQuantityDoctor(): Promise<any> {
