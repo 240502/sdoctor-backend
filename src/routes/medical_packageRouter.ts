@@ -23,15 +23,19 @@ medicalPackageRouter.delete(
 );
 medicalPackageRouter.post(
     '/view',
-    medicalPackageController.viewService.bind(medicalPackageController),
+    medicalPackageController.getMedicalPackagesWithPaginationAndOptions.bind(
+        medicalPackageController,
+    ),
 );
 medicalPackageRouter.get(
     '/get-by-id/:id',
     medicalPackageController.getServiceById.bind(medicalPackageController),
 );
 medicalPackageRouter.get(
-    '/get-common-service',
-    medicalPackageController.getCommonService.bind(medicalPackageController),
+    '/get-common-medical-package',
+    medicalPackageController.getCommonMedicalPackage.bind(
+        medicalPackageController,
+    ),
 );
 
 medicalPackageRouter.get(

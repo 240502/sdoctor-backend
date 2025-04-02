@@ -110,24 +110,27 @@ export class DoctorRepository {
         majorIds: string | null,
         clinicId: number | null,
         doctorServiceIds: string | null,
-        doctorTiles: string | null,
+        doctorTitles: string | null,
         startPrice: number | null,
         endPrice: number | null,
         departmentId: number | null,
+        gender: string | null,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+            console.log('doctorTitles', doctorTitles);
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 majorIds,
                 clinicId,
                 doctorServiceIds,
-                doctorTiles,
+                doctorTitles,
                 startPrice,
                 endPrice,
                 departmentId,
+                gender,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
@@ -154,7 +157,6 @@ export class DoctorRepository {
         withoutId: number | null,
     ): Promise<any> {
         try {
-            console.log('data', [pageIndex, pageSize, withoutId]);
             const sql = 'CALL GetCommonDoctor(?,?,?,@err_code, @err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,

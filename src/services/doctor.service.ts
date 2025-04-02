@@ -29,10 +29,11 @@ export class DoctorService {
         majorIds: number[] | null,
         clinicId: number | null,
         doctorServiceIds: number[] | null,
-        doctorTiles: string[] | null,
+        doctorTitles: number[] | null,
         startPrice: number | null,
         endPrice: number | null,
         departmentId: number | null,
+        gender: string | null,
     ): Promise<any> {
         let majorIdsString: string | null = null;
         let doctorServiceIdsString: string | null = null;
@@ -45,8 +46,8 @@ export class DoctorService {
             doctorServiceIdsString = doctorServiceIds?.join(',');
         }
 
-        if (doctorTiles && doctorTiles?.length > 0) {
-            doctorTilesString = doctorTiles?.join(',');
+        if (doctorTitles && doctorTitles?.length > 0) {
+            doctorTilesString = doctorTitles?.join(',');
         }
 
         return this.doctorRepository.getListDoctorsWithPaginationAndFilters(
@@ -59,6 +60,7 @@ export class DoctorService {
             startPrice ?? null,
             endPrice ?? null,
             departmentId ?? null,
+            gender ?? null,
         );
     }
     async getQuantityDoctor(): Promise<any> {

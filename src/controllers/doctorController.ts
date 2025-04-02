@@ -74,10 +74,11 @@ export class DoctorController {
                 majorIds: number[] | null;
                 clinicId: number | null;
                 doctorServiceIds: number[] | null;
-                doctorTiles: string[] | null;
+                doctorTitles: number[] | null;
                 startPrice: number | null;
                 endPrice: number | null;
                 departmentId: number | null;
+                gender: string | null;
             };
             const data =
                 await this.doctorService.getListDoctorsWithPaginationAndFilters(
@@ -86,10 +87,11 @@ export class DoctorController {
                     object.majorIds,
                     object.clinicId,
                     object.doctorServiceIds,
-                    object.doctorTiles,
+                    object.doctorTitles,
                     object.startPrice,
                     object.endPrice,
                     object.departmentId,
+                    object.gender,
                 );
             if (!data) {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
@@ -106,7 +108,7 @@ export class DoctorController {
                 majorIds: object.majorIds,
                 clinicId: object.clinicId,
                 doctocServiceIds: object.doctorServiceIds,
-                doctorTiles: object.doctorTiles,
+                doctorTiles: object.doctorTitles,
                 startPrice: object.startPrice,
                 endPrice: object.endPrice,
             });

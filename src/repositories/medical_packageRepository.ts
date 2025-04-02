@@ -87,7 +87,7 @@ export class MedicalPackageRepository {
             throw new Error(err);
         }
     }
-    async viewService(
+    async getMedicalPackagesWithPaginationAndOptions(
         pageIndex: number | null,
         pageSize: number | null,
         clinicId: number | null,
@@ -97,7 +97,7 @@ export class MedicalPackageRepository {
     ): Promise<any> {
         try {
             const sql =
-                'CALL ViewService(?, ?, ?, ?, ?, ?, @err_code, @err_msg)';
+                'CALL GetMedicalPackagesWithPaginationAndOptions(?, ?, ?, ?, ?, ?, @err_code, @err_msg)';
             console.log([
                 pageIndex,
                 pageSize,
@@ -124,9 +124,9 @@ export class MedicalPackageRepository {
             throw new Error(err);
         }
     }
-    async getCommonService(): Promise<any> {
+    async getCommonMedicalPackage(): Promise<any> {
         try {
-            const sql = 'CALL GetCommonService(@err_code,@err_msg)';
+            const sql = 'CALL GetCommonMedicalPackage(@err_code,@err_msg)';
             const [results] = await this.db.query(sql, []);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

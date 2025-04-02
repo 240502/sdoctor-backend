@@ -29,7 +29,7 @@ export class MedicalPackageService {
     async updateViewService(id: number): Promise<any> {
         return this.medicalPackageRepository.updateViewService(id);
     }
-    async viewService(
+    async getMedicalPackagesWithPaginationAndOptions(
         pageIndex: number | null,
         pageSize: number | null,
         clinicId: number | null,
@@ -37,7 +37,7 @@ export class MedicalPackageService {
         startPrice: number | null,
         endPrice: number | null,
     ): Promise<any> {
-        return this.medicalPackageRepository.viewService(
+        return this.medicalPackageRepository.getMedicalPackagesWithPaginationAndOptions(
             pageIndex ?? null,
             pageSize ?? null,
             clinicId ?? null,
@@ -46,7 +46,7 @@ export class MedicalPackageService {
             endPrice ?? null,
         );
     }
-    async getCommonService(): Promise<any> {
-        return this.medicalPackageRepository.getCommonService();
+    async getCommonMedicalPackage(): Promise<any> {
+        return this.medicalPackageRepository.getCommonMedicalPackage();
     }
 }

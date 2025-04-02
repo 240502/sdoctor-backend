@@ -25,6 +25,7 @@ import medicalPackageRouter from './medical_packageRouter';
 import paymentRouter from './payment';
 import paymentMethodRouter from './paymentMethodRouter';
 import departmentRouter from './departmentRouter';
+import degreesRouter from './degreesRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -53,4 +54,6 @@ appRouter.use('/medical-package', medicalPackageRouter);
 appRouter.use('/payment', paymentRouter);
 appRouter.use('/payment-method', paymentMethodRouter);
 appRouter.use('/department', departmentRouter);
+appRouter.use('/degrees', degreesRouter);
+
 export default appRouter;

@@ -76,7 +76,10 @@ export class MedicalPackageController {
             res.status(500).json({ message: err.message });
         }
     }
-    async viewService(req: Request, res: Response): Promise<void> {
+    async getMedicalPackagesWithPaginationAndOptions(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const {
                 pageIndex,
@@ -86,14 +89,15 @@ export class MedicalPackageController {
                 startPrice,
                 endPrice,
             } = req.body;
-            const result = await this.medicalPackageService.viewService(
-                pageIndex,
-                pageSize,
-                clinicId,
-                categoryId,
-                startPrice,
-                endPrice,
-            );
+            const result =
+                await this.medicalPackageService.getMedicalPackagesWithPaginationAndOptions(
+                    pageIndex,
+                    pageSize,
+                    clinicId,
+                    categoryId,
+                    startPrice,
+                    endPrice,
+                );
             if (result) {
                 res.status(200).json({
                     pageIndex: pageIndex,
@@ -113,9 +117,10 @@ export class MedicalPackageController {
             res.status(500).json({ message: err.message });
         }
     }
-    async getCommonService(req: Request, res: Response): Promise<void> {
+    async getCommonMedicalPackage(req: Request, res: Response): Promise<void> {
         try {
-            const result = await this.medicalPackageService.getCommonService();
+            const result =
+                await this.medicalPackageService.getCommonMedicalPackage();
             if (result) {
                 res.status(200).json(result);
             } else {
