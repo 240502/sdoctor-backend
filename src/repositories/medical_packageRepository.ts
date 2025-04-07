@@ -67,18 +67,18 @@ export class MedicalPackageRepository {
             throw new Error(err);
         }
     }
-    async updateViewService(id: number): Promise<any> {
+    async updateMedicalPackageViews(id: number): Promise<any> {
         try {
-            const sql = 'CALL UpdateViewService(?,@err_code,@err_msg)';
+            const sql = 'CALL UpdateMedicalPackageViews(?,@err_code,@err_msg)';
             await this.db.query(sql, [id]);
             return true;
         } catch (err: any) {
             throw new Error(err);
         }
     }
-    async getServiceById(id: number): Promise<any> {
+    async getMedicalPackageById(id: number): Promise<any> {
         try {
-            const sql = 'CALL GetServiceById(?,@err_code,@err_msg)';
+            const sql = 'CALL GetMedicalPackageById(?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [id]);
             if (Array.isArray(results) && results.length > 0) {
                 return results[0];

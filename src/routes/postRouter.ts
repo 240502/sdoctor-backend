@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { PostController } from '../controllers/postController';
+import { PostController } from '../controllers/post.controller';
 import { authenticate } from '../middlewares/authMiddleware';
 const postRouter = Router();
 const postController = container.resolve(PostController);
@@ -23,7 +23,7 @@ postRouter.post(
 );
 
 postRouter.post(
-    '/get-related',
+    '/get-related-post',
     postController.getRelatedPost.bind(postController),
 );
 postRouter.put(

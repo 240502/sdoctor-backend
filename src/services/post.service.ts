@@ -65,11 +65,20 @@ export class PostService {
         pageIndex: number,
         pageSize: number,
     ): Promise<any> {
-        return this.postRepository.getRelatedPost(
-            id,
-            categoryId,
-            pageIndex,
-            pageSize,
-        );
+        try {
+            if (!id || !categoryId) {
+                throw new Error('id and categoryId are required!');
+            }
+            const offSet: number = (pageIndex - 1) * pageSize;
+
+            return this.postRepository.getRelatedPost(
+                id,
+                categoryId,
+                !Number.isNaN(offSet) ? offSet : null,
+                pageSize ?? null,
+            );
+        } catch (err: Error | any) {
+            throw err;
+        }
     }
 }

@@ -23,11 +23,18 @@ export class MedicalPackageService {
     async deleteService(id: number): Promise<any> {
         return this.medicalPackageRepository.deleteService(id);
     }
-    async getServiceById(id: number): Promise<any> {
-        return this.medicalPackageRepository.getServiceById(id);
+    async getMedicalPackageById(id: number): Promise<any> {
+        return this.medicalPackageRepository.getMedicalPackageById(id);
     }
-    async updateViewService(id: number): Promise<any> {
-        return this.medicalPackageRepository.updateViewService(id);
+    async updateMedicalPackageViews(id: number): Promise<any> {
+        try {
+            if (!id) {
+                throw new Error('Thiếu mã gói y tế!');
+            }
+            return this.medicalPackageRepository.updateMedicalPackageViews(id);
+        } catch (err: Error | any) {
+            throw err;
+        }
     }
     async getMedicalPackagesWithPaginationAndOptions(
         pageIndex: number | null,

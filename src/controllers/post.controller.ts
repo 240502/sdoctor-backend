@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { PostService } from '../services/postService';
+import { PostService } from '../services/post.service';
 import { Post } from '../models/post';
 import { Request, Response } from 'express';
 
@@ -56,7 +56,7 @@ export class PostController {
                     totalItems: data[0].RecordCount,
                     page: pageIndex,
                     pageSize: pageSize,
-                    data: data,
+                    posts: data,
                     pageCount: Math.ceil(data[0].RecordCount / pageSize),
                     categoryId: categoryId,
                 });
@@ -152,11 +152,11 @@ export class PostController {
                 pageIndex,
                 pageSize,
             );
-            if (Array.isArray(results) && results.length > 0) {
+            if (results) {
                 res.status(200).json({
                     pageIndex: pageIndex,
                     pageSize: pageSize,
-                    data: results,
+                    posts: results,
                     totalItems: results[0].RecordCount,
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
                 });

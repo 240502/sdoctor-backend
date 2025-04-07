@@ -53,10 +53,11 @@ export class MedicalPackageController {
             res.status(500).json({ message: err.message });
         }
     }
-    async getServiceById(req: Request, res: Response): Promise<void> {
+    async getMedicalPackageById(req: Request, res: Response): Promise<void> {
         try {
             const id: number = Number(req.params.id);
-            const result = await this.medicalPackageService.getServiceById(id);
+            const result =
+                await this.medicalPackageService.getMedicalPackageById(id);
             if (result) {
                 res.status(200).json(result);
             } else {
@@ -66,10 +67,13 @@ export class MedicalPackageController {
             res.status(500).json({ message: err.message });
         }
     }
-    async updateViewService(req: Request, res: Response): Promise<void> {
+    async updateMedicalPackageViews(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const id: number = Number(req.params.id);
-            await this.medicalPackageService.updateViewService(id);
+            await this.medicalPackageService.updateMedicalPackageViews(id);
 
             res.status(200).json({ message: 'success' });
         } catch (err: any) {

@@ -29,7 +29,9 @@ medicalPackageRouter.post(
 );
 medicalPackageRouter.get(
     '/get-by-id/:id',
-    medicalPackageController.getServiceById.bind(medicalPackageController),
+    medicalPackageController.getMedicalPackageById.bind(
+        medicalPackageController,
+    ),
 );
 medicalPackageRouter.get(
     '/get-common-medical-package',
@@ -45,8 +47,10 @@ medicalPackageRouter.get(
     ),
 );
 medicalPackageRouter.put(
-    '/update-view/:id',
-    medicalPackageController.updateViewService.bind(medicalPackageController),
+    '/update-views/:id',
+    medicalPackageController.updateMedicalPackageViews.bind(
+        medicalPackageController,
+    ),
 );
 
 export default medicalPackageRouter;

@@ -146,15 +146,16 @@ export class PostRepository {
     async getRelatedPost(
         id: number,
         categoryId: number,
-        pageIndex: number,
+        offSet: number | null,
         pageSize: number,
     ): Promise<any> {
         try {
+            console.log(offSet);
             const sql = 'CALL GetRelatedPost(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 id,
                 categoryId,
-                pageIndex,
+                offSet,
                 pageSize,
             ]);
             if (Array.isArray(results) && results.length > 0) {
