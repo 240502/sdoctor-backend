@@ -150,7 +150,6 @@ export class PostRepository {
         pageSize: number,
     ): Promise<any> {
         try {
-            console.log(offSet);
             const sql = 'CALL GetRelatedPost(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 id,

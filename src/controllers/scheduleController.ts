@@ -1,10 +1,10 @@
 import { injectable } from 'tsyringe';
-import { DoctorScheduleService } from '../services/doctorSchedule.service';
+import { ScheduleService } from '../services/schedule.service';
 import { DoctorSchedule } from '../models/doctor_schedule';
 import { Request, Response } from 'express';
 @injectable()
-export class DoctorScheduleController {
-    constructor(private scheduleService: DoctorScheduleService) {}
+export class ScheduleController {
+    constructor(private scheduleService: ScheduleService) {}
     async createSchedule(req: Request, res: Response): Promise<void> {
         try {
             const newSchedule: DoctorSchedule = req.body as DoctorSchedule;
@@ -34,22 +34,20 @@ export class DoctorScheduleController {
             res.json({ message: err.message });
         }
     }
-    async viewSchedule(req: Request, res: Response): Promise<void> {
+    async viewSchedules(req: Request, res: Response): Promise<void> {
         try {
-            const { date, pageIndex, pageSize } = req.body;
-            const data = await this.scheduleService.viewSchedule(
+            const { entityId, date, entityType } = req.body;
+            const data = await this.scheduleService.viewSchedules(
+                entityId,
                 date,
-                pageIndex,
-                pageSize,
+                entityType,
             );
             if (data) {
                 res.json({
-                    totalItems: data[0].RecordCount,
-                    page: pageIndex,
-                    pageSize: pageSize,
+                    entityId: entityId,
                     data: data,
-                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
                     date: date,
+                    entityType: entityType,
                 });
             } else {
                 res.status(404).json({ message: 'Không có bản ghi nào!' });
@@ -58,48 +56,48 @@ export class DoctorScheduleController {
             res.json({ message: err.message });
         }
     }
-    async viewScheduleForClient(req: Request, res: Response): Promise<void> {
-        try {
-            const { date, subscriberId, type } = req.body;
-            const result = await this.scheduleService.viewScheduleForClient(
-                date,
-                subscriberId,
-                type,
-            );
-            if (result) {
-                res.json({
-                    data: result,
-                    date: date,
-                    subscriberId: subscriberId,
-                    type: type,
-                });
-            } else
-                res.status(404).json({
-                    message: 'Không tồn tại bản ghi !',
-                });
-        } catch (err: any) {
-            res.json({ message: err.message });
-        }
-    }
-    async viewScheduleForDoctor(req: Request, res: Response): Promise<void> {
-        try {
-            const { date, doctor_id } = req.body;
-            const result = await this.scheduleService.viewScheduleForDoctor(
-                date,
-                doctor_id,
-            );
-            if (result) {
-                res.json({
-                    data: result,
-                    date: date,
-                    doctor_id: doctor_id,
-                });
-            } else
-                res.status(404).json({
-                    message: 'Không tồn tại bản ghi !',
-                });
-        } catch (err: any) {
-            res.json({ message: err.message });
-        }
-    }
+    // async viewScheduleForClient(req: Request, res: Response): Promise<void> {
+    //     try {
+    //         const { date, subscriberId, type } = req.body;
+    //         const result = await this.scheduleService.viewScheduleForClient(
+    //             date,
+    //             subscriberId,
+    //             type,
+    //         );
+    //         if (result) {
+    //             res.json({
+    //                 data: result,
+    //                 date: date,
+    //                 subscriberId: subscriberId,
+    //                 type: type,
+    //             });
+    //         } else
+    //             res.status(404).json({
+    //                 message: 'Không tồn tại bản ghi !',
+    //             });
+    //     } catch (err: any) {
+    //         res.json({ message: err.message });
+    //     }
+    // }
+    // async viewScheduleForDoctor(req: Request, res: Response): Promise<void> {
+    //     try {
+    //         const { date, doctor_id } = req.body;
+    //         const result = await this.scheduleService.viewScheduleForDoctor(
+    //             date,
+    //             doctor_id,
+    //         );
+    //         if (result) {
+    //             res.json({
+    //                 data: result,
+    //                 date: date,
+    //                 doctor_id: doctor_id,
+    //             });
+    //         } else
+    //             res.status(404).json({
+    //                 message: 'Không tồn tại bản ghi !',
+    //             });
+    //     } catch (err: any) {
+    //         res.json({ message: err.message });
+    //     }
+    // }
 }

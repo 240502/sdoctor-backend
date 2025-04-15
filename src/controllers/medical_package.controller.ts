@@ -89,28 +89,30 @@ export class MedicalPackageController {
                 pageIndex,
                 pageSize,
                 clinicId,
-                categoryId,
+                categoryIds,
                 startPrice,
                 endPrice,
+                location,
             } = req.body;
             const result =
                 await this.medicalPackageService.getMedicalPackagesWithPaginationAndOptions(
                     pageIndex,
                     pageSize,
                     clinicId,
-                    categoryId,
+                    categoryIds,
                     startPrice,
                     endPrice,
+                    location,
                 );
             if (result) {
                 res.status(200).json({
                     pageIndex: pageIndex,
                     pageSize: pageSize,
                     totalItems: result[0].RecordCount,
-                    data: result,
+                    medicalPackages: result,
                     pageCount: Math.ceil(result[0].RecordCount / pageSize),
                     clinicId: clinicId,
-                    categoryId: categoryId,
+                    categoryIds: categoryIds,
                     startPrice: startPrice,
                     endPrice: endPrice,
                 });

@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
 import { MedicalPackageRepository } from '../repositories/medical_packageRepository';
 import { Service } from '../models/service';
+import { page } from 'pdfkit';
 
 @injectable()
 export class MedicalPackageService {
@@ -40,17 +41,27 @@ export class MedicalPackageService {
         pageIndex: number | null,
         pageSize: number | null,
         clinicId: number | null,
-        categoryId: number | null,
+        categoryIds: number[] | null,
         startPrice: number | null,
         endPrice: number | null,
+        location: string | null,
     ): Promise<any> {
+        let categoryIdStr: string = '';
+        if (categoryIds && categoryIds.length > 0) {
+            categoryIdStr = categoryIds.join(',');
+        }
+        let offset = 0;
+        if (pageIndex && pageSize) {
+            offset = (pageIndex - 1) * pageSize || 0;
+        }
         return this.medicalPackageRepository.getMedicalPackagesWithPaginationAndOptions(
-            pageIndex ?? null,
+            offset ?? null,
             pageSize ?? null,
             clinicId ?? null,
-            categoryId ?? null,
+            categoryIdStr !== '' ? categoryIdStr : null,
             startPrice ?? null,
             endPrice ?? null,
+            location ?? null,
         );
     }
     async getCommonMedicalPackage(): Promise<any> {

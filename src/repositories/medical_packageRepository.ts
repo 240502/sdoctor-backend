@@ -88,32 +88,26 @@ export class MedicalPackageRepository {
         }
     }
     async getMedicalPackagesWithPaginationAndOptions(
-        pageIndex: number | null,
+        offset: number | null,
         pageSize: number | null,
         clinicId: number | null,
-        categoryId: number | null,
+        categoryIds: string | null,
         startPrice: number | null,
         endPrice: number | null,
+        location: string | null,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetMedicalPackagesWithPaginationAndOptions(?, ?, ?, ?, ?, ?, @err_code, @err_msg)';
-            console.log([
-                pageIndex,
-                pageSize,
-                clinicId,
-                categoryId,
-                startPrice,
-                endPrice,
-            ]);
+                'CALL GetMedicalPackagesWithPaginationAndOptions(?, ?, ?, ?, ?, ?,?, @err_code, @err_msg)';
 
             const [results] = await this.db.query(sql, [
-                pageIndex,
                 pageSize,
+                offset,
                 clinicId,
-                categoryId,
+                categoryIds,
                 startPrice,
                 endPrice,
+                location,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

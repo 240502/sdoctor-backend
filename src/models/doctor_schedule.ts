@@ -1,11 +1,10 @@
-import { DoctorScheduleDetail } from './doctor_schedule_detail';
-
 export interface DoctorSchedule {
     id: number;
-    doctor_id: number;
+    entityId: number;
     date: Date;
+    timeId: number;
     created_at: Date;
     updated_at: Date;
-    type: string;
-    listScheduleDetails: DoctorScheduleDetail[];
+    entityType: string;
+    status: string;
 }

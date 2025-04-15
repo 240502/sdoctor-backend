@@ -119,7 +119,6 @@ export class DoctorRepository {
         try {
             const sql =
                 'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
-            console.log('doctorTitles', doctorTitles);
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,

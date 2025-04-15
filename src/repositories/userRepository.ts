@@ -11,7 +11,6 @@ export class UserRepository {
         try {
             const sql = 'CALL Login(?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [email]);
-            console.log(email);
             if (Array.isArray(results) && results.length > 0) {
                 if (results[0].password === password) {
                     const functions = [];
