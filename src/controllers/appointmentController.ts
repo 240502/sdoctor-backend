@@ -16,6 +16,41 @@ import {
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async getAppointmentByUuid(
+        req: Request,
+        res: Response,
+    ): Promise<Response | void> {
+        try {
+            const query = req.query as unknown as {
+                uuid: string;
+                pageSize: number | null;
+                pageIndex: number | null;
+            };
+
+            const data = await this.appointmentService.getAppointmentByUuid(
+                query.uuid,
+                query.pageSize,
+                query.pageIndex,
+            );
+            if (data) {
+                return res.json({
+                    totalItems: data[0]?.RecordCount,
+                    pageIndex: query.pageIndex,
+                    pageSize: query.pageSize,
+                    data: data,
+                    pageCount: query.pageSize
+                        ? Math.ceil(data[0].RecordCount / query.pageSize)
+                        : 0,
+                    uuid: query.uuid,
+                });
+            } else {
+                return res.status(404).json({ message: 'Không có dữ liệu!' });
+            }
+        } catch (err: any) {
+            return res.status(500).json({ message: err.message });
+        }
+    }
+
     async getAppointmentByType(req: Request, res: Response): Promise<void> {
         try {
             const filterOptions: AppointmentFilterDto =
@@ -204,22 +239,23 @@ export class AppointmentController {
             const result =
                 await this.appointmentService.orderAppointment(appointment);
             const io = getSocket();
-            io.emit('newAppointment', result);
+            console.log('result', result);
 
+            io.emit('newAppointment', result);
             if (result) {
                 res.json({ message: 'Successfully', result: result });
             }
-            await sendBookingSuccess(
-                String(appointment.patient_name),
-                String(appointment.patient_email),
-                appointment.doctor_name,
-                appointment.time_value,
-                dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
-                appointment.location,
-                'Chờ xác nhận',
-                appointment.price,
-                appointment.service_name,
-            );
+            // await sendBookingSuccess(
+            //     String(appointment.patient_name),
+            //     String(appointment.patient_email),
+            //     appointment.doctor_name,
+            //     appointment.time_value,
+            //     dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
+            //     appointment.location,
+            //     'Chờ xác nhận',
+            //     appointment.price,
+            //     appointment.service_name,
+            // );
         } catch (err: any) {
             res.json({ message: err.message });
         }

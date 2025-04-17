@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Invoices } from '../models/invoices';
+import { Invoices, InvoicesCreateDto } from '../models/invoices';
 
 @injectable()
 export class InvoicesRepository {
@@ -21,17 +21,15 @@ export class InvoicesRepository {
             throw new Error(err);
         }
     }
-    async createInvoice(invoice: Invoices): Promise<any> {
+    async createInvoice(invoice: InvoicesCreateDto): Promise<any> {
         try {
-            const sql = 'CALL CreateInvoices(?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL CreateInvoices(?,?,?,?,?,@err_code,@err_msg)';
             const newInvoice = await this.db.query(sql, [
-                invoice.appointment_id,
-                invoice.doctor_id,
-                invoice.service_id,
+                invoice.appointmentId,
+                invoice.doctorId,
+                invoice.serviceId,
                 invoice.amount,
-                invoice.payment_method,
-                invoice.patient_name,
-                invoice.patient_phone,
+                invoice.paymentMethod,
             ]);
             return newInvoice;
         } catch (err: any) {

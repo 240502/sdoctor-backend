@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 import { Request, Response } from 'express';
 import { InvoicesService } from '../services/invoicesService';
-import { Invoices } from '../models/invoices';
+import { Invoices, InvoicesCreateDto } from '../models/invoices';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
@@ -80,7 +80,7 @@ export class InvoiceController {
     }
     async createInvoice(req: Request, res: Response): Promise<void> {
         try {
-            const invoice: Invoices = req.body as Invoices;
+            const invoice: InvoicesCreateDto = req.body as InvoicesCreateDto;
             const newInvoice =
                 await this.invoicesService.createInvoice(invoice);
             res.json({ message: 'Success', result: newInvoice });

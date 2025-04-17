@@ -1,10 +1,34 @@
 import { injectable } from 'tsyringe';
 import { AppointmentRepository } from '../repositories/appointmentRepository';
-import { AppointmentCreateDto } from '../models';
+import { AppointmentCreateDto, AppointmentRes } from '../models';
 
 @injectable()
 export class AppointmentService {
     constructor(private appointmentRepository: AppointmentRepository) {}
+
+    async getAppointmentByUuid(
+        uuid: string,
+        pageSize: number | null,
+        pageIndex: number | null,
+    ): Promise<AppointmentRes[] | null> {
+        try {
+            if (!uuid) {
+                throw new Error('UUID is required');
+            }
+            let offset: number | null = null;
+            if (pageSize && pageIndex) {
+                offset = (pageIndex - 1) * pageSize;
+                pageSize = Number(pageSize);
+            }
+            return this.appointmentRepository.getAppointmentByUuid(
+                uuid,
+                pageSize ?? null,
+                offset,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAppointmentByType(
         pageIndex: number,
         pageSize: number,

@@ -1,10 +1,33 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { AppointmentCreateDto } from '../models';
+import { AppointmentCreateDto, AppointmentRes } from '../models';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
+    async getAppointmentByUuid(
+        uuid: string,
+        pageSize: number | null,
+        offset: number | null,
+    ): Promise<AppointmentRes[] | null> {
+        try {
+            const sql = 'CALL GetAppointmentByUuid(?,?,?,@err_code,@err_msg)';
+            console.log([uuid, pageSize, offset]);
+
+            const [results] = await this.db.query(sql, [
+                uuid,
+                pageSize,
+                offset,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err.message);
+        }
+    }
     async getAppointmentByType(
         pageIndex: number,
         pageSize: number,
@@ -151,26 +174,15 @@ export class AppointmentRepository {
     async createAppointment(appointment: AppointmentCreateDto): Promise<any> {
         try {
             const sql =
-                'CALL OrderAppointment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL OrderAppointment(?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [result] = await this.db.query(sql, [
-                appointment.doctor_id,
-                appointment.appointment_date,
-                appointment.patient_name,
-                appointment.patient_phone,
-                appointment.patient_email,
-                appointment.birthday,
-                appointment.province,
-                appointment.district,
-                appointment.commune,
-                appointment.examination_reason,
-                appointment.time_id,
-                appointment.gender,
-                appointment.doctor_name,
-                appointment.price,
-                appointment.time_value,
+                appointment.doctorId,
+                appointment.appointmentDate,
+                appointment.examinationReason,
                 appointment.location,
-                appointment.service_id,
-                appointment.service_name,
+                appointment.uuid,
+                appointment.scheduleId,
+                appointment.type,
             ]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];

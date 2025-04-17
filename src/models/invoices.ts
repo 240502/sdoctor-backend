@@ -12,3 +12,11 @@ export interface Invoices {
     patient_name: string;
     patient_phone: string;
 }
+
+export interface InvoicesCreateDto {
+    appointmentId: number;
+    doctorId: number;
+    serviceId: number;
+    amount: number;
+    paymentMethod: number;
+}

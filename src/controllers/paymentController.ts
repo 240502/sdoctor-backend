@@ -8,10 +8,10 @@ import { InvoicesService } from '../services/invoicesService';
 import { Invoices } from '../models/invoices';
 
 const config: any = {
-    app_id: '2553',
-    key1: 'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL',
-    key2: 'kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz',
-    endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
+    app_id: '553',
+    key1: '9phuAOYhan4urywHTh0ndEXiV3pKHr5Q',
+    key2: 'Iyz2habzyr7AG8SgvoBCbKwKi3UzlLi3',
+    endpoint: 'https://sandbox.zalopay.com.vn/v001/tpe/createorder',
 };
 
 @injectable()
@@ -19,29 +19,31 @@ export class PaymentController {
     constructor(private invoiceService: InvoicesService) {}
     async createPayment(req: Request, res: Response): Promise<any> {
         try {
-            const invoice: Invoices = req.body as Invoices;
+            const invoice: Invoices[] = req.body as Invoices[];
             const embed_data = {
+                // merchantinfo: 'embeddata123',
                 //sau khi hoàn tất thanh toán sẽ đi vào link này (thường là link web thanh toán thành công của mình)
                 redirecturl: 'http://localhost:5173/patient/appointment',
             };
 
-            const items = [invoice];
+            const items = invoice;
             const transID = Math.floor(Math.random() * 1000000);
+
             const order = {
-                app_id: config.app_id,
-                apptransid: '200000',
-                app_trans_id: `${dayjs().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
-                app_user: 'user123',
-                app_time: Date.now(), // miliseconds
+                appid: config.app_id,
+                // apptransid: '200000',
+                apptransid: `${dayjs().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+                appuser: 'user123',
+                apptime: Date.now(), // miliseconds
                 item: JSON.stringify(items),
-                embed_data: JSON.stringify(embed_data),
-                amount: invoice.amount,
+                embeddata: JSON.stringify(embed_data),
+                amount: invoice[0]?.amount,
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
-                callback_url:
-                    'https://efce-14-247-77-136.ngrok-free.app/api/payment/callback',
+                callbackurl:
+                    'https://8732-123-18-141-213.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
-                bank_code: '',
+                bankcode: 'zalopayapp',
                 mac: '',
             };
 
@@ -49,18 +51,19 @@ export class PaymentController {
             const data =
                 config.app_id +
                 '|' +
-                order.app_trans_id +
+                order.apptransid +
                 '|' +
-                order.app_user +
+                order.appuser +
                 '|' +
                 order.amount +
                 '|' +
-                order.app_time +
+                order.apptime +
                 '|' +
-                order.embed_data +
+                order.embeddata +
                 '|' +
                 order.item;
             order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
+            console.log('MAC:', order.mac);
             const result = await axios.post(config.endpoint, null, {
                 params: order,
             });

@@ -1,10 +1,10 @@
 import { injectable } from 'tsyringe';
 import { InvoicesRepository } from '../repositories/invoicesRepository';
-import { Invoices } from '../models/invoices';
+import { Invoices, InvoicesCreateDto } from '../models/invoices';
 @injectable()
 export class InvoicesService {
     constructor(private invoicesRepository: InvoicesRepository) {}
-    async createInvoice(invoice: Invoices): Promise<any> {
+    async createInvoice(invoice: InvoicesCreateDto): Promise<any> {
         return this.invoicesRepository.createInvoice(invoice);
     }
     async updateInvoice(invoice: Invoices): Promise<any> {

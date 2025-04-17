@@ -85,4 +85,8 @@ appointmentRouter.post(
     appointmentController.getAppointmentAtInvoice.bind(appointmentController),
 );
 
+appointmentRouter.get(
+    '/get-appointment-by-uuid',
+    appointmentController.getAppointmentByUuid.bind(appointmentController),
+);
 export default appointmentRouter;
