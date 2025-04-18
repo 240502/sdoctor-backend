@@ -9,15 +9,17 @@ export class AppointmentRepository {
         uuid: string,
         pageSize: number | null,
         offset: number | null,
+        status: number | null,
     ): Promise<AppointmentRes[] | null> {
         try {
-            const sql = 'CALL GetAppointmentByUuid(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL GetAppointmentByUuid(?,?,?,?,@err_code,@err_msg)';
             console.log([uuid, pageSize, offset]);
 
             const [results] = await this.db.query(sql, [
                 uuid,
                 pageSize,
                 offset,
+                status,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
@@ -152,6 +154,8 @@ export class AppointmentRepository {
         try {
             const sql =
                 'CALL UpdateAppointmentStatus(?,?,?,@err_code,@err_msg)';
+            console.log(id, status, reason);
+
             await this.db.query(sql, [id, status, reason]);
             return true;
         } catch (err: any) {

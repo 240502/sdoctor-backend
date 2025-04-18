@@ -25,23 +25,26 @@ export class AppointmentController {
                 uuid: string;
                 pageSize: number | null;
                 pageIndex: number | null;
+                statusId: number;
             };
 
             const data = await this.appointmentService.getAppointmentByUuid(
                 query.uuid,
                 query.pageSize,
                 query.pageIndex,
+                query.statusId,
             );
             if (data) {
                 return res.json({
                     totalItems: data[0]?.RecordCount,
                     pageIndex: query.pageIndex,
                     pageSize: query.pageSize,
-                    data: data,
+                    appointments: data,
                     pageCount: query.pageSize
                         ? Math.ceil(data[0].RecordCount / query.pageSize)
                         : 0,
                     uuid: query.uuid,
+                    status: query.statusId,
                 });
             } else {
                 return res.status(404).json({ message: 'Không có dữ liệu!' });
@@ -239,23 +242,11 @@ export class AppointmentController {
             const result =
                 await this.appointmentService.orderAppointment(appointment);
             const io = getSocket();
-            console.log('result', result);
 
             io.emit('newAppointment', result);
             if (result) {
                 res.json({ message: 'Successfully', result: result });
             }
-            // await sendBookingSuccess(
-            //     String(appointment.patient_name),
-            //     String(appointment.patient_email),
-            //     appointment.doctor_name,
-            //     appointment.time_value,
-            //     dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
-            //     appointment.location,
-            //     'Chờ xác nhận',
-            //     appointment.price,
-            //     appointment.service_name,
-            // );
         } catch (err: any) {
             res.json({ message: err.message });
         }
@@ -289,32 +280,32 @@ export class AppointmentController {
             const { appointment, requirementObject } = req.body;
             await this.appointmentService.updateAppointmentStatus(
                 appointment.id,
-                appointment.status_id,
+                appointment.statusId,
                 appointment.rejectionReason,
             );
             res.status(200).json({ message: 'Successfully!' });
             if (appointment?.rejectionReason) {
                 await sendRejection(
-                    appointment.patient_email,
-                    appointment.doctor_name,
-                    appointment.patient_name,
-                    appointment.time_value,
-                    dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
+                    appointment.patientEmail,
+                    appointment.doctorName,
+                    appointment.patientName,
+                    appointment.startTime + '-' + appointment.endTime,
+                    dayjs(appointment.appointmentDate).format('DD-MM-YYYY'),
                     appointment.rejectionReason,
                     requirementObject,
                 );
             }
             if (appointment?.status_id === 2) {
                 await sendConfirmSuccess(
-                    String(appointment.patient_name),
-                    String(appointment.patient_email),
-                    appointment.doctor_name,
-                    appointment.time_value,
-                    dayjs(appointment.appointment_date).format('DD-MM-YYYY'),
+                    String(appointment.patientName),
+                    String(appointment.patientEmail),
+                    appointment.doctorName,
+                    appointment.startTime + '-' + appointment.endTime,
+                    dayjs(appointment.appointmentDate).format('DD-MM-YYYY'),
                     appointment.location,
                     'Đã xác nhận',
                     appointment.price,
-                    appointment.service_name,
+                    appointment.serviceName,
                 );
             }
         } catch (err: any) {

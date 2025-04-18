@@ -26,6 +26,8 @@ import paymentMethodRouter from './paymentMethodRouter';
 import departmentRouter from './departmentRouter';
 import degreesRouter from './degreesRouter';
 import scheduleRouter from './schedulesRouter';
+import { MailerController } from '../controllers/mailer.controller';
+import mailerRouter from './mailerRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -55,5 +57,5 @@ appRouter.use('/payment', paymentRouter);
 appRouter.use('/payment-method', paymentMethodRouter);
 appRouter.use('/department', departmentRouter);
 appRouter.use('/degrees', degreesRouter);
-
+appRouter.use('/mailer', mailerRouter);
 export default appRouter;

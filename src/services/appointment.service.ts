@@ -10,6 +10,7 @@ export class AppointmentService {
         uuid: string,
         pageSize: number | null,
         pageIndex: number | null,
+        status: number | null,
     ): Promise<AppointmentRes[] | null> {
         try {
             if (!uuid) {
@@ -24,6 +25,7 @@ export class AppointmentService {
                 uuid,
                 pageSize ?? null,
                 offset,
+                status ?? null,
             );
         } catch (err: any) {
             throw err;
