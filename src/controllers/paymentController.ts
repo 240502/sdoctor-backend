@@ -8,18 +8,30 @@ import { InvoicesService } from '../services/invoicesService';
 import { Invoices } from '../models/invoices';
 
 const config: any = {
-    app_id: '553',
-    key1: '9phuAOYhan4urywHTh0ndEXiV3pKHr5Q',
-    key2: 'Iyz2habzyr7AG8SgvoBCbKwKi3UzlLi3',
-    endpoint: 'https://sandbox.zalopay.com.vn/v001/tpe/createorder',
+    app_id: '2553',
+    key1: 'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL',
+    key2: 'kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz',
+    endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
 };
-
 @injectable()
 export class PaymentController {
     constructor(private invoiceService: InvoicesService) {}
     async createPayment(req: Request, res: Response): Promise<any> {
         try {
-            const invoice: Invoices[] = req.body as Invoices[];
+            console.log(req);
+
+            const appointmentId: number = Number(req.params.appointmentId);
+            if (!appointmentId) {
+                throw new Error('Thiếu thông tin để tạo đơn hàng !');
+            }
+            const invoice: Invoices | null =
+                await this.invoiceService.getInvoiceByAppointmentId(
+                    appointmentId,
+                );
+
+            if (!invoice) {
+                throw new Error('Không có dữ liệu hóa đơn !');
+            }
             const embed_data = {
                 // merchantinfo: 'embeddata123',
                 //sau khi hoàn tất thanh toán sẽ đi vào link này (thường là link web thanh toán thành công của mình)
@@ -30,20 +42,20 @@ export class PaymentController {
             const transID = Math.floor(Math.random() * 1000000);
 
             const order = {
-                appid: config.app_id,
+                app_id: config.app_id,
                 // apptransid: '200000',
-                apptransid: `${dayjs().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
-                appuser: 'user123',
-                apptime: Date.now(), // miliseconds
-                item: JSON.stringify(items),
-                embeddata: JSON.stringify(embed_data),
-                amount: invoice[0]?.amount,
+                app_trans_id: `${dayjs().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+                app_user: 'user123',
+                app_time: Date.now(), // miliseconds
+                item: JSON.stringify([items]),
+                embed_data: JSON.stringify(embed_data),
+                amount: invoice?.amount,
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
-                callbackurl:
-                    'https://8732-123-18-141-213.ngrok-free.app/api/payment/callback',
+                callback_url:
+                    'https://e90c-123-18-141-213.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
-                bankcode: 'zalopayapp',
+                bank_code: 'zalopayapp',
                 mac: '',
             };
 
@@ -51,22 +63,22 @@ export class PaymentController {
             const data =
                 config.app_id +
                 '|' +
-                order.apptransid +
+                order.app_trans_id +
                 '|' +
-                order.appuser +
+                order.app_user +
                 '|' +
                 order.amount +
                 '|' +
-                order.apptime +
+                order.app_time +
                 '|' +
-                order.embeddata +
+                order.embed_data +
                 '|' +
                 order.item;
             order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
-            console.log('MAC:', order.mac);
             const result = await axios.post(config.endpoint, null, {
                 params: order,
             });
+            console.log('result', result);
 
             res.status(200).json(result.data);
         } catch (err: any) {
@@ -76,7 +88,6 @@ export class PaymentController {
     async callBack(req: Request, res: Response): Promise<any> {
         let result: any = {};
         const items = JSON.parse(req.body.data).item;
-        console.log(JSON.parse(items)[0].id);
 
         try {
             let dataStr = req.body.data;
@@ -93,15 +104,18 @@ export class PaymentController {
             } else {
                 // thanh toán thành công
                 // merchant cập nhật trạng thái cho đơn hàng ở đây
-                let dataJson = JSON.parse(dataStr, config.key2);
+                let dataJson = JSON.parse(dataStr, config?.key2);
                 console.log(
                     "update order's status = success where app_trans_id =",
                     dataJson['app_trans_id'],
                 );
-                this.invoiceService.updateInvoiceStatus(
+                console.log(items);
+
+                await this.invoiceService.updateInvoiceStatus(
                     JSON.parse(items)[0].id,
                     'Đã thanh toán',
                 );
+
                 result.return_code = 1;
                 result.return_message = 'success';
             }

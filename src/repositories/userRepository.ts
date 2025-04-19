@@ -17,7 +17,7 @@ export class UserRepository {
                     for (let i = 0; i < results.length; i++) {
                         let model: Functions = {
                             id: Number(results[i].function_id),
-                            function_name: results[i].function_name,
+                            functionName: results[i].functionName,
                             created_at: null,
                             updated_at: null,
                             parent_id: null,
@@ -28,8 +28,8 @@ export class UserRepository {
                         functions.push(model);
                     }
                     const user: User = {
-                        user_id: results[0].user_id,
-                        full_name: results[0].full_name,
+                        userId: results[0].userId,
+                        fullName: results[0].fullName,
                         image: results[0].image,
                         phone: results[0].phone,
                         gender: results[0].gender,
@@ -38,13 +38,12 @@ export class UserRepository {
                         commune: results[0].commune,
                         email: results[0].email,
                         password: results[0].password,
-                        role_id: results[0].role_id,
+                        roleId: results[0].roleId,
                         created_at: results[0].created_at,
                         updated_at: results[0].updated_at,
                         birthday: results[0].birthday,
                         functions: functions,
                         token: '',
-                        doctor_id: results[0].doctor_id,
                         active: results[0].active,
                     };
                     return user;
@@ -80,12 +79,12 @@ export class UserRepository {
                 'CALL CreateUser(?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 user.password,
-                user.role_id,
+                user.roleId,
                 user.email,
                 user.gender,
                 user.phone,
                 user.image,
-                user.full_name,
+                user.fullName,
                 user.birthday,
                 user.city,
                 user.district,
@@ -101,15 +100,15 @@ export class UserRepository {
             const sql =
                 'CALL UpdateUser(?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                user.user_id,
-                user.full_name,
+                user.userId,
+                user.fullName,
                 user.image,
                 user.phone,
                 user.gender,
                 user.city,
                 user.email,
                 user.password,
-                user.role_id,
+                user.roleId,
                 user.created_at,
                 user.birthday,
             ]);

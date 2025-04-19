@@ -6,7 +6,7 @@ import { PaymentController } from '../controllers/paymentController';
 const paymentRouter = Router();
 const paymentController = container.resolve(PaymentController);
 paymentRouter.post(
-    '/create',
+    '/create/:appointmentId',
     paymentController.createPayment.bind(paymentController),
 );
 paymentRouter.post(

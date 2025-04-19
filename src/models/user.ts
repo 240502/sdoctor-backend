@@ -1,8 +1,8 @@
 import { Functions } from './functions';
 
 export interface User {
-    user_id: number;
-    full_name: string;
+    userId: number;
+    fullName: string;
     image: string;
     phone: string;
     gender: string;
@@ -13,11 +13,10 @@ export interface User {
     email: string;
     birthday: Date;
     password: string;
-    role_id: number;
+    roleId: number;
     created_at: Date;
     updated_at: Date;
     token: string;
     functions: Functions[];
-    doctor_id: number;
     active: number;
 }
