@@ -27,4 +27,9 @@ scheduleRouter.post(
     scheduleController.viewSchedules.bind(scheduleController),
 );
 
+scheduleRouter.put(
+    '/update-schedule-status',
+    scheduleController.updateScheduleStatus.bind(scheduleController),
+);
+
 export default scheduleRouter;

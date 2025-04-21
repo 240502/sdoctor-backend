@@ -1,6 +1,9 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
 import { DoctorSchedule } from '../models/doctor_schedule';
+import { Schedules } from '../models';
+import { markScheduleIfExpired } from '../utils';
+import dayjs from 'dayjs';
 @injectable()
 export class ScheduleRepository {
     constructor(private db: Database) {}
@@ -35,6 +38,15 @@ export class ScheduleRepository {
             throw new Error(err.message);
         }
     }
+
+    async updateScheduleStatus(payload: any): Promise<any> {
+        try {
+            const sql = 'CALL UpdateScheduleStatus(?,@err_code,@err_msg)';
+            return await this.db.query(sql, [JSON.stringify(payload)]);
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async viewSchedules(
         entityId: number,
         date: Date,
@@ -47,8 +59,31 @@ export class ScheduleRepository {
                 date,
                 entityType,
             ]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
+            let schedulesRes: Schedules[] = results;
+            console.log(results);
+
+            if (date.toString() === dayjs().format('YYYY-MM-DD')) {
+                if (results && results?.length > 0) {
+                    const { schedules, updatedScheduleIds } =
+                        markScheduleIfExpired(results);
+                    schedulesRes = schedules.filter(
+                        (schedule: Schedules) =>
+                            schedule.status === 'available',
+                    );
+                    if (updatedScheduleIds.length > 0) {
+                        await this.updateScheduleStatus(
+                            updatedScheduleIds.map((id) => {
+                                return { scheduleId: id, status: 'expired' };
+                            }),
+                        );
+                    }
+                } else {
+                    return null;
+                }
+            }
+
+            if (Array.isArray(schedulesRes) && schedulesRes.length > 0) {
+                return schedulesRes;
             } else return null;
         } catch (err: any) {
             throw new Error(err.message);

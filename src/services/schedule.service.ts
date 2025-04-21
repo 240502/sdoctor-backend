@@ -25,6 +25,9 @@ export class ScheduleService {
             entityType,
         );
     }
+    async updateScheduleStatus(payload: any): Promise<any> {
+        return this.scheduleRepository.updateScheduleStatus(payload);
+    }
     //     async viewScheduleForClient(
     //         date: string,
     //         subscriberId: number,

@@ -5,6 +5,15 @@ import { Request, Response } from 'express';
 @injectable()
 export class ScheduleController {
     constructor(private scheduleService: ScheduleService) {}
+    async updateScheduleStatus(req: Request, res: Response): Promise<void> {
+        try {
+            const { dataArr } = req.body;
+            await this.scheduleService.updateScheduleStatus(dataArr);
+            res.status(200).json('Update status successfully!');
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async createSchedule(req: Request, res: Response): Promise<void> {
         try {
             const newSchedule: DoctorSchedule = req.body as DoctorSchedule;
