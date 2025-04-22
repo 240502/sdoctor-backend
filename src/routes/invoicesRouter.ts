@@ -1,5 +1,5 @@
 import { container } from 'tsyringe';
-import { InvoiceController } from '../controllers/invoicesController';
+import { InvoiceController } from '../controllers/invoices.controller';
 import { Router } from 'express';
 import path from 'path';
 import { authenticate } from '../middlewares/authMiddleware';

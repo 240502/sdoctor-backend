@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { AppointmentController } from '../controllers/appointmentController';
+import { AppointmentController } from '../controllers/appointment.controller';
 import { authenticate } from '../middlewares/authMiddleware';
 const appointmentRouter = Router();
 const appointmentController = container.resolve(AppointmentController);

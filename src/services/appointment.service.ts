@@ -1,10 +1,14 @@
 import { injectable } from 'tsyringe';
 import { AppointmentRepository } from '../repositories/appointmentRepository';
 import { AppointmentCreateDto, AppointmentRes } from '../models';
+import { ScheduleRepository } from '../repositories/doctorScheduleRepository';
 
 @injectable()
 export class AppointmentService {
-    constructor(private appointmentRepository: AppointmentRepository) {}
+    constructor(
+        private appointmentRepository: AppointmentRepository,
+        private scheduleRepository: ScheduleRepository,
+    ) {}
 
     async getAppointmentByUuid(
         uuid: string,
@@ -95,7 +99,21 @@ export class AppointmentService {
     }
 
     async orderAppointment(appointment: AppointmentCreateDto): Promise<any> {
-        return this.appointmentRepository.createAppointment(appointment);
+        try {
+            const result =
+                await this.appointmentRepository.createAppointment(appointment);
+            const updatedScheduleStatusData = [
+                { scheduleId: result.scheduleId, status: 'booked' },
+            ];
+            await this.scheduleRepository.updateScheduleStatus(
+                updatedScheduleStatusData,
+            );
+            console.log('result', result);
+
+            return result;
+        } catch (err) {
+            throw err;
+        }
     }
 
     async ViewAppointment(

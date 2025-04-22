@@ -13,10 +13,10 @@ export class AppointmentStatusController {
             if (results) {
                 res.json(results);
             } else {
-                res.status(404);
+                res.status(404).json({ message: 'Không có dữ liệu !' });
             }
         } catch (err: any) {
-            res.status(500).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         }
     }
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { HomeDirectoryController } from '../controllers/home_directoryController';
+import { HomeDirectoryController } from '../controllers/home_directory.controller';
 
 const homeDirectoryRouter = Router();
 const homeDirectoryController = container.resolve(HomeDirectoryController);

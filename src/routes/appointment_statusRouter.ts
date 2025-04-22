@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { AppointmentStatusController } from '../controllers/appointment_statusController';
+import { AppointmentStatusController } from '../controllers/appointment_status.controller';
 
 const appointmentStatusController = container.resolve(
     AppointmentStatusController,

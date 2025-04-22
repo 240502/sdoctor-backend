@@ -60,8 +60,6 @@ export class ScheduleRepository {
                 entityType,
             ]);
             let schedulesRes: Schedules[] = results;
-            console.log(results);
-
             if (date.toString() === dayjs().format('YYYY-MM-DD')) {
                 if (results && results?.length > 0) {
                     const { schedules, updatedScheduleIds } =

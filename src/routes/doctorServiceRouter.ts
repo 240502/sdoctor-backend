@@ -1,4 +1,4 @@
-import { DoctorServiceController } from '../controllers/doctorServiceController';
+import { DoctorServiceController } from '../controllers/doctor_service.controller';
 import { Router } from 'express';
 import { container } from 'tsyringe';
 
