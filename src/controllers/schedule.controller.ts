@@ -65,6 +65,42 @@ export class ScheduleController {
             res.json({ message: err.message });
         }
     }
+    async getScheduleByEntityIdForDoctor(
+        req: Request,
+        res: Response,
+    ): Promise<Response | void> {
+        try {
+            const { entityId, date, entityType } = req.query;
+            const results =
+                await this.scheduleService.getScheduleByEntityIdForDoctor(
+                    Number(entityId),
+                    String(date),
+                    String(entityType),
+                );
+            return results
+                ? res.status(200).json({
+                      entityId: entityId,
+                      data: results,
+                      date: date,
+                      entityType: entityType,
+                  })
+                : res.status(404).json({ message: 'Không có dữ liệu !' });
+        } catch (err: any) {
+            res.status(400).json({ message: err });
+        }
+    }
+    async deleteSchedules(req: Request, res: Response): Promise<void> {
+        try {
+            const ids = req.body;
+            const result = await this.scheduleService.deleteSchedules(ids);
+            res.status(200).json({
+                message: 'Xóa lịch làm việc thành công!',
+                result,
+            });
+        } catch (err: any) {
+            res.status(400).json({ message: err });
+        }
+    }
     // async viewScheduleForClient(req: Request, res: Response): Promise<void> {
     //     try {
     //         const { date, subscriberId, type } = req.body;

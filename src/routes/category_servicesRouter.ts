@@ -1,5 +1,5 @@
 import { container } from 'tsyringe';
-import { CategoryServiceController } from '../controllers/serviceCategoryController';
+import { CategoryServiceController } from '../controllers/service_category.controller';
 import { Router } from 'express';
 
 const categoryServicesRouter = Router();

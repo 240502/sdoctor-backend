@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { MajorController } from '../controllers/majorController';
+import { MajorController } from '../controllers/major.controller';
 
 const majorRouter = Router();
 const majorController = container.resolve(MajorController);

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { PatientProfileController } from '../controllers/patient_profileController';
+import { PatientProfileController } from '../controllers/patient_profile.controller';
 
 const patientProfileRouter = Router();
 const patientProfileController = container.resolve(PatientProfileController);

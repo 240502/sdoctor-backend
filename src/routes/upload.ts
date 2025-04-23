@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import upload from '../middlewares/multer';
-import { uploadImage } from '../controllers/uploadImageNewsController';
+import { uploadImage } from '../controllers/upload_image_news.controller';
 import { cloudinary } from '../config/cloudinaryConfig';
 
 const uploadRouter = Router();

@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { container } from 'tsyringe';
-import { ScheduleDetailsController } from '../controllers/schedule_detailsController';
+import { ScheduleDetailsController } from '../controllers/schedule_details.controller';
 import { Router } from 'express';
 
 const scheduleDetailRouter = Router();

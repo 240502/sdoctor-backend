@@ -1,6 +1,6 @@
 import { container } from 'tsyringe';
 import { Router } from 'express';
-import { PostCategoryController } from '../controllers/post_categoryController';
+import { PostCategoryController } from '../controllers/post_category.controller';
 
 const postCategoryRouter = Router();
 const postCategoryController = container.resolve(PostCategoryController);

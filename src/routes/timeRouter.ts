@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { TimeController } from '../controllers/timeController';
+import { TimeController } from '../controllers/time.controller';
 const timeRouter = Router();
 const timeController = container.resolve(TimeController);
 timeRouter.get(

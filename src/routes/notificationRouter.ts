@@ -1,5 +1,5 @@
 import { container } from 'tsyringe';
-import { NotificationController } from '../controllers/notificationController';
+import { NotificationController } from '../controllers/notification.controller';
 import { Router } from 'express';
 
 const notificationRouter = Router();

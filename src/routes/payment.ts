@@ -2,7 +2,7 @@ import axios from 'axios';
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { PaymentController } from '../controllers/paymentController';
+import { PaymentController } from '../controllers/payment.controller';
 const paymentRouter = Router();
 const paymentController = container.resolve(PaymentController);
 paymentRouter.post(

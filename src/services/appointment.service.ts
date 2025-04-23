@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 import { AppointmentRepository } from '../repositories/appointmentRepository';
 import { AppointmentCreateDto, AppointmentRes } from '../models';
-import { ScheduleRepository } from '../repositories/doctorScheduleRepository';
+import { ScheduleRepository } from '../repositories/schedulesRepository';
 
 @injectable()
 export class AppointmentService {

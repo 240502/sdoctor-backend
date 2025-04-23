@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { ScheduleController } from '../controllers/scheduleController';
+import { ScheduleController } from '../controllers/schedule.controller';
 import { authenticate } from '../middlewares/authMiddleware';
 const scheduleRouter = Router();
 const scheduleController = container.resolve(ScheduleController);
@@ -32,4 +32,13 @@ scheduleRouter.put(
     scheduleController.updateScheduleStatus.bind(scheduleController),
 );
 
+scheduleRouter.get(
+    '/get-schedule-by-entityid-for-doctor',
+    scheduleController.getScheduleByEntityIdForDoctor.bind(scheduleController),
+);
+
+scheduleRouter.post(
+    '/delete-schedules',
+    scheduleController.deleteSchedules.bind(scheduleController),
+);
 export default scheduleRouter;

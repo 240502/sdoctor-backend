@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
 import { Router } from 'express';
 
-import { PaymentMethodController } from '../controllers/paymentMethodController';
+import { PaymentMethodController } from '../controllers/payment_method.controller';
 const paymentMethodRouter = Router();
 const paymentMethodController = container.resolve(PaymentMethodController);
 

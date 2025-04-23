@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
-import { ScheduleRepository } from '../repositories/doctorScheduleRepository';
+import { ScheduleRepository } from '../repositories/schedulesRepository';
 import { DoctorSchedule } from '../models/doctor_schedule';
+import { Schedules } from '../models';
 
 @injectable()
 export class ScheduleService {
@@ -25,8 +26,42 @@ export class ScheduleService {
             entityType,
         );
     }
+    async getScheduleByEntityIdForDoctor(
+        entityId: number | null,
+        date: string | null,
+        entityType: string | null,
+    ): Promise<Schedules[] | null> {
+        try {
+            let errors: string[] = [];
+            if (!entityId) {
+                errors.push('entityId is not empty');
+            } else if (!date) {
+                errors.push('date is not empty');
+            }
+            if (errors.length > 0) {
+                throw new Error(errors.join('/n'));
+            }
+            return await this.scheduleRepository.getScheduleByEntityIdForDoctor(
+                entityId,
+                date,
+                entityType,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async updateScheduleStatus(payload: any): Promise<any> {
         return this.scheduleRepository.updateScheduleStatus(payload);
+    }
+    async deleteSchedules(ids: number[]): Promise<any> {
+        try {
+            if (ids.length === 0 && !Array.isArray(ids)) {
+                throw new Error('Thiếu thông tin để xóa dữ liệu !');
+            }
+            return await this.scheduleRepository.deleteSchedules(ids);
+        } catch (err: any) {
+            throw err;
+        }
     }
     //     async viewScheduleForClient(
     //         date: string,

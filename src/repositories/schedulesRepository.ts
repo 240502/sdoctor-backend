@@ -53,7 +53,8 @@ export class ScheduleRepository {
         entityType: string,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewSchedule(?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL GetScheduleByEntityIdAndDate(?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 entityId,
                 date,
@@ -87,7 +88,48 @@ export class ScheduleRepository {
             throw new Error(err.message);
         }
     }
+    /**
+     * Lấy danh sách lịch làm việc
+     * @param(number) entityId
+     * @param(string) date
+     * @param(entityType)
+     */
+    async getScheduleByEntityIdForDoctor(
+        entityId: number | null,
+        date: string | null,
+        entityType: string | null,
+    ): Promise<Schedules[] | null> {
+        try {
+            const sql =
+                'CALL GetScheduleByEntityIdAndDate(?,?,?,@err_code,@err_msg)';
 
+            const [results] = await this.db.query(sql, [
+                entityId,
+                date,
+                entityType,
+            ]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results;
+            }
+            return null;
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
+    /**
+     * Xóa lịch làm việc
+     * @param(number[]) ids
+     */
+    async deleteSchedules(ids: number[]): Promise<any> {
+        try {
+            const sql = 'CALL DeleteSchedules(?,@err_code,@err_msg)';
+            const results = await this.db.query(sql, [JSON.stringify(ids)]);
+            return results;
+        } catch (err: any) {
+            throw err;
+        }
+    }
     // async viewScheduleForClient(
     //     date: string,
     //     doctor_id: number,

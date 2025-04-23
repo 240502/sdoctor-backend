@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { container } from 'tsyringe';
-import { StatusController } from '../controllers/statusController';
+import { StatusController } from '../controllers/status.controller';
 
 const statusRouter = Router();
 const statusController = container.resolve(StatusController);
