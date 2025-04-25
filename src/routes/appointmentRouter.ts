@@ -89,4 +89,9 @@ appointmentRouter.get(
     '/get-appointment-by-uuid',
     appointmentController.getAppointmentByUuid.bind(appointmentController),
 );
+
+appointmentRouter.get(
+    '/get-appointment-with-options',
+    appointmentController.getAppointmentWithOptions.bind(appointmentController),
+);
 export default appointmentRouter;

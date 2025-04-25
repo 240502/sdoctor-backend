@@ -71,12 +71,14 @@ export class ScheduleController {
     ): Promise<Response | void> {
         try {
             const { entityId, date, entityType } = req.query;
+            console.log(entityId, date, entityType);
             const results =
                 await this.scheduleService.getScheduleByEntityIdForDoctor(
                     Number(entityId),
                     String(date),
                     String(entityType),
                 );
+
             return results
                 ? res.status(200).json({
                       entityId: entityId,
@@ -86,6 +88,8 @@ export class ScheduleController {
                   })
                 : res.status(404).json({ message: 'Không có dữ liệu !' });
         } catch (err: any) {
+            console.log(err);
+
             res.status(400).json({ message: err });
         }
     }

@@ -16,6 +16,35 @@ import {
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async getAppointmentWithOptions(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const query = req.query as unknown as {
+                pageSize: number | null;
+                pageIndex: number | null;
+                status: number;
+            };
+            const results =
+                await this.appointmentService.getAppointmentWithOptions(
+                    query.pageIndex,
+                    query.pageSize,
+                    query.status,
+                );
+            if (!results) {
+                return res.status(404).json({ message: 'Không có dữ liệu !' });
+            }
+            res.status(200).json({
+                pageIndex: query.pageIndex,
+                pageSize: query.pageSize,
+                appointments: results,
+                status: query.status,
+            });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async getAppointmentByUuid(
         req: Request,
         res: Response,

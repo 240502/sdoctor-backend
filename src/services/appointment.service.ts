@@ -9,7 +9,25 @@ export class AppointmentService {
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
     ) {}
-
+    async getAppointmentWithOptions(
+        pageIndex: number | null,
+        pageSize: number | null,
+        status: number | null,
+    ) {
+        try {
+            let offset: number | null = null;
+            if (pageIndex && pageSize) {
+                offset = (pageIndex - 1) * pageSize;
+            }
+            return await this.appointmentRepository.getAppointmentWithOptions(
+                offset,
+                pageSize ?? null,
+                status ?? null,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAppointmentByUuid(
         uuid: string,
         pageSize: number | null,

@@ -39,6 +39,7 @@ scheduleRouter.get(
 
 scheduleRouter.post(
     '/delete-schedules',
+    authenticate,
     scheduleController.deleteSchedules.bind(scheduleController),
 );
 export default scheduleRouter;
