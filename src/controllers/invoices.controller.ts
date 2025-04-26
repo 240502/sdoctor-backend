@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Request, Response } from 'express';
-import { InvoicesService } from '../services/invoicesService';
+import { InvoicesService } from '../services/invoices.service';
 import { Invoices, InvoicesCreateDto } from '../models/invoices';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';

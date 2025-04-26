@@ -13,6 +13,7 @@ export class AppointmentService {
         pageIndex: number | null,
         pageSize: number | null,
         status: number | null,
+        userId: number | null,
     ) {
         try {
             let offset: number | null = null;
@@ -23,6 +24,7 @@ export class AppointmentService {
                 offset,
                 pageSize ?? null,
                 status ?? null,
+                userId ?? null,
             );
         } catch (err: any) {
             throw err;

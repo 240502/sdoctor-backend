@@ -9,18 +9,24 @@ export class AppointmentRepository {
         offset: number | null,
         pageSize: number | null,
         status: number | null,
+        userId: number | null,
     ) {
         try {
+            console.log(offset, pageSize, status, userId);
+
             const sql =
-                'CALL GetAppointmentWithOptions(?,?,?,@err_code,@err_msg)';
+                'CALL GetAppointmentWithOptions(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 offset,
                 pageSize,
                 status,
+                userId,
             ]);
             if (!Array.isArray(results) && results?.length === 0) {
                 return null;
             }
+            console.log(results);
+
             return results;
         } catch (err: any) {
             throw err;

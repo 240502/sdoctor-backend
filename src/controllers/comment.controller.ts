@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { totalmem } from 'node:os';
 import { getSocket } from '../socket';
 import { DoctorService } from '../services/doctor.service';
-import { NotificationService } from '../services/notificationService';
+import { NotificationService } from '../services/notification.service';
 import { AppointmentService } from '../services/appointment.service';
 @injectable()
 export class CommentController {

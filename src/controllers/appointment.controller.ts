@@ -22,15 +22,17 @@ export class AppointmentController {
     ): Promise<void | Response> {
         try {
             const query = req.query as unknown as {
-                pageSize: number | null;
-                pageIndex: number | null;
+                pageSize: number;
+                pageIndex: number;
                 status: number;
+                userId: number;
             };
             const results =
                 await this.appointmentService.getAppointmentWithOptions(
                     query.pageIndex,
                     query.pageSize,
                     query.status,
+                    query.userId,
                 );
             if (!results) {
                 return res.status(404).json({ message: 'Không có dữ liệu !' });
@@ -40,6 +42,8 @@ export class AppointmentController {
                 pageSize: query.pageSize,
                 appointments: results,
                 status: query.status,
+                userId: query.userId,
+                pageCount: Math.ceil(results[0].RecordCount / query.pageSize),
             });
         } catch (err: any) {
             res.status(400).json({ message: err.message });

@@ -1,4 +1,4 @@
-import { StatusService } from '../services/statusService';
+import { StatusService } from '../services/status.service';
 import { injectable } from 'tsyringe';
 import { Request, Response } from 'express';
 @injectable()

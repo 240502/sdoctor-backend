@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { PaymentMethodService } from '../services/paymentMethodService';
+import { PaymentMethodService } from '../services/payment_method.service';
 import { Request, Response } from 'express';
 @injectable()
 export class PaymentMethodController {

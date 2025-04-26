@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { HomeMenuService } from '../services/home_menuService';
+import { HomeMenuService } from '../services/home_menu.service';
 import { HomeMenu } from '../models/home_menu';
 import { Request, Response } from 'express';
 @injectable()

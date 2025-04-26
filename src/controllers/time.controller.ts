@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Time } from '../models/time';
-import { TimeService } from '../services/timeService';
+import { TimeService } from '../services/time.service';
 import { Request, Response } from 'express';
 @injectable()
 export class TimeController {

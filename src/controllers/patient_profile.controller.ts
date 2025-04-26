@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { PatientProfile } from '../models/patient_profile';
-import { PatientProfileService } from '../services/patient_profileService';
+import { PatientProfileService } from '../services/patient_profile.service';
 import { Request, Response } from 'express';
 
 @injectable()

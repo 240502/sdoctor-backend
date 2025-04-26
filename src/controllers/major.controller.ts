@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { MajorService } from '../services/majorService';
+import { MajorService } from '../services/major.service';
 import { Major } from '../models/major';
 import { Request, Response } from 'express';
 @injectable()

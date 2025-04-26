@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { PostCategoryService } from '../services/post_categoryService';
+import { PostCategoryService } from '../services/post_category.service';
 import { PostCategory } from '../models/post_category';
 import { Request, Response } from 'express';
 

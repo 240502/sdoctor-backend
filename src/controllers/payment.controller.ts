@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const qs = require('qs');
-import { InvoicesService } from '../services/invoicesService';
+import { InvoicesService } from '../services/invoices.service';
 import { Invoices } from '../models/invoices';
 
 const config: any = {

@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { UserService } from '../services/userService';
+import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Request, Response } from 'express';
 import { generateToken } from '../config/jwt';

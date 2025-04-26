@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { NotificationService } from '../services/notificationService';
+import { NotificationService } from '../services/notification.service';
 import { Notifications } from '../models/notifications';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
