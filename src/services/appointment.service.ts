@@ -9,6 +9,32 @@ export class AppointmentService {
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
     ) {}
+    async getAppointmentsInDay(
+        doctorId: number,
+    ): Promise<AppointmentRes[] | null> {
+        try {
+            if (!doctorId) {
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
+            }
+            return await this.appointmentRepository.getAppointmentsInDay(
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async getWaitingPatientsCount(doctorId: number): Promise<any> {
+        try {
+            if (!doctorId) {
+                throw new Error('Thiếu tham số để lấy dữ liệu!');
+            }
+            return await this.appointmentRepository.getWaitingPatientsCount(
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAppointmentWithOptions(
         pageIndex: number | null,
         pageSize: number | null,
@@ -68,54 +94,18 @@ export class AppointmentService {
             type,
         );
     }
-    async getAppointmentInDay(doctorId: number): Promise<any> {
-        return this.appointmentRepository.getAppointmentInDay(doctorId);
-    }
+
     async getTotalPatientInDay(doctorId: number): Promise<any> {
         return this.appointmentRepository.getTotalPatientInDay(doctorId);
     }
-    async getTotalPatientExaminedInDay(doctorId: number): Promise<any> {
-        return this.appointmentRepository.getTotalPatientExaminedInDay(
+    async getTotalAppointmentsCompleted(doctorId: number): Promise<any> {
+        return this.appointmentRepository.getTotalAppointmentsCompleted(
             doctorId,
         );
     }
-    async getTotalAppointmentByWeek(
-        startWeek: Date,
-        endWeek: Date,
-        doctorId: number,
-    ): Promise<any> {
-        return this.appointmentRepository.getTotalAppointmentByWeek(
-            startWeek,
-            endWeek,
-            doctorId,
-        );
-    }
-    async getRecentPatientExamined(): Promise<any> {
-        return this.appointmentRepository.getRecentPatientExamined();
-    }
-    async getRecentPatientOrdered(): Promise<any> {
-        return this.appointmentRepository.getRecentPatientOrdered();
-    }
+
     async getRevenueByMonth(month: number, year: number): Promise<any> {
         return this.appointmentRepository.getRevenueByMonth(month, year);
-    }
-    async getAllAppointmentByYearAndMonth(
-        year: number,
-        month: number,
-    ): Promise<any> {
-        return this.appointmentRepository.getAllAppointmentByYearAndMonth(
-            year,
-            month,
-        );
-    }
-    async getQuantityRejectedAppointmentByYearAndMonth(
-        year: number,
-        month: number,
-    ): Promise<any> {
-        return this.appointmentRepository.getQuantityRejectedAppointmentByYearAndMonth(
-            year,
-            month,
-        );
     }
 
     async orderAppointment(appointment: AppointmentCreateDto): Promise<any> {
@@ -134,20 +124,6 @@ export class AppointmentService {
         } catch (err) {
             throw err;
         }
-    }
-
-    async ViewAppointment(
-        pageIndex: number,
-        pageSize: number,
-        phone: string,
-        statusId: number,
-    ): Promise<any> {
-        return this.appointmentRepository.ViewAppointment(
-            pageIndex,
-            pageSize,
-            phone,
-            statusId,
-        );
     }
 
     async updateAppointmentStatus(

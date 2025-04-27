@@ -2,12 +2,7 @@ import { injectable } from 'tsyringe';
 import { AppointmentService } from '../services/appointment.service';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
-import dayjs from 'dayjs';
-import {
-    sendBookingSuccess,
-    sendRejection,
-    sendConfirmSuccess,
-} from '../mailer';
+
 import {
     AppointmentCreateDto,
     AppointmentFilterDto,
@@ -15,6 +10,37 @@ import {
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
+
+    async getAppointmentsInDay(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const doctorId: number = Number(req.params.doctorId);
+            const results =
+                await this.appointmentService.getAppointmentsInDay(doctorId);
+            return results
+                ? res.status(200).json(results)
+                : res.status(404).json({ message: 'Không có dữ liệu !' });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+    async getWaitingPatientsCount(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const doctorId: number = Number(req.params.doctorId);
+            const results =
+                await this.appointmentService.getWaitingPatientsCount(doctorId);
+            return results
+                ? res.status(200).json(results)
+                : res.status(404).json({ message: 'Không có dữ liệu !' });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
 
     async getAppointmentWithOptions(
         req: Request,
@@ -130,28 +156,15 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-    async getAppointmentInDay(req: Request, res: Response): Promise<any> {
-        try {
-            const doctorId = Number(req.params.doctorId);
-            const data =
-                await this.appointmentService.getAppointmentInDay(doctorId);
-            if (data) {
-                res.json(data);
-            } else {
-                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
-            }
-        } catch (err: any) {
-            res.status(500).json({ message: err.message });
-        }
-    }
-    async getTotalPatientExaminedInDay(
+
+    async getTotalAppointmentsCompleted(
         req: Request,
         res: Response,
     ): Promise<any> {
         try {
             const doctorId = Number(req.params.doctorId);
             const data =
-                await this.appointmentService.getTotalPatientExaminedInDay(
+                await this.appointmentService.getTotalAppointmentsCompleted(
                     doctorId,
                 );
             if (data) {
@@ -163,53 +176,7 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
-    async getTotalAppointmentByWeek(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startWeek, endWeek, doctorId } = req.body;
-            const results =
-                await this.appointmentService.getTotalAppointmentByWeek(
-                    startWeek,
-                    endWeek,
-                    doctorId,
-                );
-            if (results.length > 0 && Array.isArray(results)) {
-                res.json(results);
-            } else {
-                res.status(404);
-            }
-        } catch (err: any) {
-            res.status(500).json({ message: err.message });
-        }
-    }
-    async getRecentPatientExamined(req: Request, res: Response): Promise<void> {
-        try {
-            const results =
-                await this.appointmentService.getRecentPatientExamined();
-            if (results.length > 0 && Array.isArray(results)) {
-                res.json(results);
-            } else {
-                res.status(404);
-            }
-        } catch (err: any) {
-            res.status(500).json({ message: err.message });
-        }
-    }
-    async getRecentPatientOrdered(req: Request, res: Response): Promise<void> {
-        try {
-            const results =
-                await this.appointmentService.getRecentPatientOrdered();
-            if (results.length > 0 && Array.isArray(results)) {
-                res.json(results);
-            } else {
-                res.status(404);
-            }
-        } catch (err: any) {
-            res.status(500).json({ message: err.message });
-        }
-    }
+
     async getRevenueByMonth(req: Request, res: Response): Promise<void> {
         try {
             const { year, month } = req.body;
@@ -220,50 +187,6 @@ export class AppointmentController {
             if (data) {
                 res.json({ totalAppointment: data });
             } else res.json({ message: 'Không có doanh thu!' });
-        } catch (err: any) {
-            res.json({ message: err.message });
-        }
-    }
-    async getQuantityRejectedAppointmentByYearAndMonth(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { year, month } = req.body;
-            const data: number =
-                await this.appointmentService.getQuantityRejectedAppointmentByYearAndMonth(
-                    year,
-                    month,
-                );
-            if (data) {
-                res.json({ total: data });
-            } else {
-                res.status(404).json({
-                    message: 'Không có lịch hẹn bị hủy!',
-                });
-            }
-        } catch (err: any) {
-            res.json({ message: err.message });
-        }
-    }
-    async getAllAppointmentByYearAndMonth(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { year, month } = req.body;
-            const data: number =
-                await this.appointmentService.getAllAppointmentByYearAndMonth(
-                    year,
-                    month,
-                );
-            if (data) {
-                res.json({ total: data });
-            } else {
-                res.status(404).json({
-                    message: 'Không có lịch hẹn nào!',
-                });
-            }
         } catch (err: any) {
             res.json({ message: err.message });
         }
@@ -284,63 +207,16 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
-    async ViewAppointment(req: Request, res: Response): Promise<void> {
-        try {
-            const { pageIndex, pageSize, phone, statusId } = req.body;
-            const data = await this.appointmentService.ViewAppointment(
-                pageIndex,
-                pageSize,
-                phone,
-                statusId,
-            );
-            if (data) {
-                res.json({
-                    totalItems: data[0].RecordCount,
-                    pageIndex: pageIndex,
-                    pageSize: pageSize,
-                    data: data,
-                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
-                    phone: phone,
-                    statusId: statusId,
-                });
-            } else res.status(404).json({ message: 'Không có dữ liệu!' });
-        } catch (err: any) {
-            res.json({ message: err.message });
-        }
-    }
+
     async updateAppointmentStatus(req: Request, res: Response): Promise<void> {
         try {
-            const { appointment, requirementObject } = req.body;
+            const { appointment } = req.body;
             await this.appointmentService.updateAppointmentStatus(
                 appointment.id,
                 appointment.statusId,
                 appointment.rejectionReason,
             );
             res.status(200).json({ message: 'Successfully!' });
-            if (appointment?.rejectionReason) {
-                await sendRejection(
-                    appointment.patientEmail,
-                    appointment.doctorName,
-                    appointment.patientName,
-                    appointment.startTime + '-' + appointment.endTime,
-                    dayjs(appointment.appointmentDate).format('DD-MM-YYYY'),
-                    appointment.rejectionReason,
-                    requirementObject,
-                );
-            }
-            if (appointment?.status_id === 2) {
-                await sendConfirmSuccess(
-                    String(appointment.patientName),
-                    String(appointment.patientEmail),
-                    appointment.doctorName,
-                    appointment.startTime + '-' + appointment.endTime,
-                    dayjs(appointment.appointmentDate).format('DD-MM-YYYY'),
-                    appointment.location,
-                    'Đã xác nhận',
-                    appointment.price,
-                    appointment.serviceName,
-                );
-            }
         } catch (err: any) {
             res.status(500).json({ message: err.message });
         }

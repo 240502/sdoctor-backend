@@ -5,6 +5,33 @@ import { AppointmentCreateDto, AppointmentRes } from '../models';
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
+    async getAppointmentsInDay(
+        doctorId: number,
+    ): Promise<AppointmentRes[] | null> {
+        try {
+            const sql = 'CALL GetAppointmentsInDay(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [doctorId]);
+            if (!Array.isArray(results) && results.length === 0) {
+                return null;
+            }
+            return results;
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async getWaitingPatientsCount(doctorId: number): Promise<any> {
+        try {
+            const sql = `CALl GetWaitingPatientsCount(?,@err_code,@err_msg)`;
+            const [results] = await this.db.query(sql, [doctorId]);
+            if (!Array.isArray(results) && results.length > 0) {
+                return null;
+            }
+            return results[0];
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
     async getAppointmentWithOptions(
         offset: number | null,
         pageSize: number | null,
@@ -25,8 +52,6 @@ export class AppointmentRepository {
             if (!Array.isArray(results) && results?.length === 0) {
                 return null;
             }
-            console.log(results);
-
             return results;
         } catch (err: any) {
             throw err;
@@ -82,23 +107,11 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getAppointmentInDay(doctorId: number): Promise<any> {
-        try {
-            const sql = 'CALL GetAppointmentInDay(?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [doctorId]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
-            } else {
-                return null;
-            }
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
+
     async getTotalPatientInDay(doctorId: number): Promise<any> {
         try {
             const sql = 'CALL GetTotalPatientInDay(?,@err_code,@err_msg)';
-            const result = await this.db.query(sql, [doctorId]);
+            const [result] = await this.db.query(sql, [doctorId]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
             } else {
@@ -108,64 +121,13 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getTotalPatientExaminedInDay(doctorId: number): Promise<any> {
+    async getTotalAppointmentsCompleted(doctorId: number): Promise<any> {
         try {
             const sql =
-                'CALL GetTotalPatientExaminedInDay(?,@err_code,@err_msg)';
-            const result = await this.db.query(sql, [doctorId]);
+                'CALL GetTotalAppointmentsCompleted(?,@err_code,@err_msg)';
+            const [result] = await this.db.query(sql, [doctorId]);
             if (Array.isArray(result) && result.length > 0) {
                 return result[0];
-            } else {
-                return null;
-            }
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
-
-    async getTotalAppointmentByWeek(
-        startWeek: Date,
-        endWeek: Date,
-        doctorId: number,
-    ): Promise<any> {
-        try {
-            const sql =
-                'CALL StatisticsAppointmentsByDay(?,?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [
-                startWeek,
-                endWeek,
-                doctorId,
-            ]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
-            } else {
-                return null;
-            }
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
-
-    async getRecentPatientExamined(): Promise<any> {
-        try {
-            const sql = 'CALL GetRecentPatientExamined(@err_code, @err_msg)';
-            const [results] = await this.db.query(sql, []);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
-            } else {
-                return null;
-            }
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
-
-    async getRecentPatientOrdered(): Promise<any> {
-        try {
-            const sql = 'CALL GetRecentPatientOrdered(@err_code, @err_msg)';
-            const [results] = await this.db.query(sql, []);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
             } else {
                 return null;
             }
@@ -182,8 +144,6 @@ export class AppointmentRepository {
         try {
             const sql =
                 'CALL UpdateAppointmentStatus(?,?,?,@err_code,@err_msg)';
-            console.log(id, status, reason);
-
             await this.db.query(sql, [id, status, reason]);
             return true;
         } catch (err: any) {
@@ -225,58 +185,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
-    async getQuantityRejectedAppointmentByYearAndMonth(
-        year: number,
-        month: number,
-    ): Promise<any> {
-        try {
-            const sql =
-                'CALL GetQuantityRejectedAppointmentByYearAndMonth(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [month, year]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results[0].RecordCount;
-            } else return null;
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
 
-    async getAllAppointmentByYearAndMonth(
-        year: number,
-        month: number,
-    ): Promise<any> {
-        try {
-            const sql =
-                'CALL GetAllAppointmentByYearAndMonth(?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [month, year]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results[0].RecordCount;
-            } else return null;
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
-    async ViewAppointment(
-        pageIndex: number,
-        pageSize: number,
-        phone: string,
-        statusId: number,
-    ): Promise<any> {
-        try {
-            const sql = 'CALL ViewAppointment(?,?,?,?,@err_code,@err_msg)';
-            const [results] = await this.db.query(sql, [
-                pageIndex,
-                pageSize,
-                phone,
-                statusId,
-            ]);
-            if (Array.isArray(results) && results.length > 0) {
-                return results;
-            } else return null;
-        } catch (err: any) {
-            throw new Error(err.message);
-        }
-    }
     async getAppointmentById(id: number): Promise<any> {
         try {
             const sql = 'CALL GetAppointmentById(?,@err_code,@err_msg)';
