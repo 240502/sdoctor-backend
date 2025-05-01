@@ -71,7 +71,6 @@ export class ScheduleController {
     ): Promise<Response | void> {
         try {
             const { entityId, date, entityType } = req.query;
-            console.log(entityId, date, entityType);
             const results =
                 await this.scheduleService.getScheduleByEntityIdForDoctor(
                     Number(entityId),

@@ -103,8 +103,7 @@ export class ScheduleRepository {
     ): Promise<Schedules[] | null> {
         try {
             const sql =
-                'CALL GetScheduleByEntityIdAndDate(?,?,?,@err_code,@err_msg)';
-
+                'CALL GetScheduleByEntityIdAndDateForDoctor(?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 entityId,
                 date,
@@ -116,8 +115,6 @@ export class ScheduleRepository {
             }
             return null;
         } catch (err: any) {
-            console.log(entityId, date, entityType);
-
             throw err;
         }
     }

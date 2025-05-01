@@ -44,4 +44,10 @@ userRouter.put(
     authenticate,
     userController.resetPassword.bind(userController),
 );
+
+userRouter.post(
+    '/refresh-token',
+    userController.refreshToken.bind(userController),
+);
+
 export default userRouter;

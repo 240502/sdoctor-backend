@@ -1,15 +1,80 @@
 import { injectable } from 'tsyringe';
 import { UserRepository } from '../repositories/userRepository';
-import { User } from '../models/user';
+import { User, TokenPayload, LoginResponse } from '../models/user';
+import { config } from '../config/config';
 var md5 = require('md5');
-
+import jwt from 'jsonwebtoken';
 @injectable()
 export class UserService {
     constructor(private userRepository: UserRepository) {}
+
+    async saveRefreshToken(
+        userId: number,
+        token: string,
+        expiresAt: Date,
+    ): Promise<void> {
+        return this.userRepository.saveRefreshToken(userId, token, expiresAt);
+    }
+
+    async findRefreshToken(
+        token: string,
+    ): Promise<{ userId: number; token: string } | null> {
+        return this.userRepository.findRefreshToken(token);
+    }
+
+    async refreshToken(
+        refreshToken: string,
+    ): Promise<{ accessToken: string; user: User }> {
+        const storedToken = await this.findRefreshToken(refreshToken);
+        if (!storedToken) {
+            throw new Error('Invalid refresh token');
+        }
+
+        let payload: TokenPayload;
+        try {
+            payload = jwt.verify(
+                refreshToken,
+                config.jwt.secret!,
+            ) as TokenPayload;
+        } catch (error) {
+            throw new Error('Invalid refresh token');
+        }
+
+        const user = await this.userRepository.getUserById(payload.id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const accessToken = jwt.sign(
+            { id: user.id, username: user.username } as TokenPayload,
+            config.jwt.secret!,
+            { expiresIn: '15m' },
+        );
+
+        return {
+            accessToken: accessToken,
+            user: user,
+        };
+    }
+
     async login(email: string, password: string): Promise<any> {
         const md5_password = md5(password);
-        console.log('md5_password', md5_password);
-        return this.userRepository.login(email, md5_password);
+        const user = await this.userRepository.login(email, md5_password);
+        const accessToken = jwt.sign(
+            { id: user.userId, username: user.email } as TokenPayload,
+            config.jwt.secret!,
+            { expiresIn: '15m' },
+        );
+        const refreshToken = jwt.sign(
+            { id: user.userId } as TokenPayload,
+            config.jwt.secret!,
+            { expiresIn: '7d' },
+        );
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 7);
+        await this.saveRefreshToken(user.userId, refreshToken, expiresAt);
+
+        return { accessToken, refreshToken, user };
     }
 
     async createAccount(userId: number, password: string): Promise<any> {

@@ -20,3 +20,14 @@ export interface User {
     functions: Functions[];
     active: number;
 }
+
+export interface TokenPayload {
+    id: number;
+    username?: string;
+}
+
+export interface LoginResponse {
+    user: User;
+    accessToken: string;
+    refreshToken: string;
+}

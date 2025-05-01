@@ -7,6 +7,33 @@ import md5 from 'md5';
 export class UserRepository {
     constructor(private db: Database) {}
 
+    async saveRefreshToken(
+        userId: number,
+        token: string,
+        expiresAt: Date,
+    ): Promise<void> {
+        try {
+            const sql = 'CALL SaveRefreshToken(?,?,?, @err_code, @err_msg)';
+            await this.db.query(sql, [userId, token, expiresAt]);
+        } catch (err: any) {
+            throw new Error('Database error:' + err.message);
+        }
+    }
+    async findRefreshToken(
+        token: string,
+    ): Promise<{ userId: number; token: string } | null> {
+        try {
+            const sql = 'CALL FindRefreshToken(?, @err_code, @err_msg)';
+            const [results] = await this.db.query(sql, [token]);
+            if (Array.isArray(results) && results.length > 0) {
+                return { userId: results[0].userId, token: results[0].token };
+            }
+            return null;
+        } catch (err: any) {
+            throw new Error(`Database error: ${err.message}`);
+        }
+    }
+
     async login(email: String, password: String): Promise<any> {
         try {
             const sql = 'CALL Login(?,@err_code,@err_msg)';
@@ -37,7 +64,7 @@ export class UserRepository {
                         district: results[0].district,
                         commune: results[0].commune,
                         email: results[0].email,
-                        password: results[0].password,
+                        password: '',
                         roleId: results[0].roleId,
                         created_at: results[0].created_at,
                         updated_at: results[0].updated_at,

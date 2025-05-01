@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { UserService } from '../services/user.service';
-import { User } from '../models/user';
+import { LoginResponse, User } from '../models/user';
 import { Request, Response } from 'express';
 import { generateToken } from '../config/jwt';
 const md5 = require('md5');
@@ -21,14 +21,81 @@ export class UserController {
             res.status(500).json({ message: err.message });
         }
     }
+    async refreshToken(req: Request, res: Response): Promise<void> {
+        try {
+            const refreshToken = req.cookies.refreshToken; // Lấy refreshToken từ cookie
+            if (!refreshToken) {
+                res.status(400).json({ message: 'Refresh token is required' });
+                return;
+            }
+            const results: any =
+                await this.userService.refreshToken(refreshToken);
+
+            // Cập nhật accessToken trong cookie
+            res.cookie('accessToken', results.accessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 15 * 60 * 1000, // 15 phút
+            });
+
+            res.status(200).json({
+                message: 'Token refreshed successfully',
+                user: results.user,
+            });
+        } catch (err: any) {
+            res.status(403).json({
+                message: 'Invalid refresh token',
+                error: err.message,
+            });
+        }
+    }
+    async logout(req: Request, res: Response): Promise<void> {
+        try {
+            res.clearCookie('accessToken', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+            });
+            res.clearCookie('refreshToken', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+            });
+            res.status(200).json({
+                message: 'Logged out successfully',
+                result: true,
+            });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
     async login(req: Request, res: Response): Promise<void> {
         try {
             const { email, password } = req.body;
-            const user = await this.userService.login(email, password);
-            if (user) {
-                const token = generateToken(user);
-                user.token = token;
-                res.status(200).json(user);
+            const results: LoginResponse = await this.userService.login(
+                email,
+                password,
+            );
+            if (results) {
+                // Gửi accessToken và refreshToken trong cookies
+                res.cookie('accessToken', results.accessToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production', // Chỉ dùng secure trong production
+                    sameSite: 'strict',
+                    maxAge: 15 * 60 * 1000, // 15 phút
+                });
+                res.cookie('refreshToken', results.refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict',
+                    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
+                });
+                res.status(200).json({
+                    message: 'Login successful',
+                    user: results.user,
+                });
             } else {
                 res.status(404).json({
                     message: 'Thông tin tài khoản không chính xác!',
