@@ -158,8 +158,43 @@ export class UserRepository {
             const sql = 'CALL GetUserById(?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [id]);
             if (Array.isArray(results) && results.length > 0) {
-                return results[0];
-            } else return null;
+                const functions = [];
+                for (let i = 0; i < results.length; i++) {
+                    let model: Functions = {
+                        id: Number(results[i].function_id),
+                        functionName: results[i].functionName,
+                        created_at: null,
+                        updated_at: null,
+                        parent_id: null,
+                        icon: results[i].icon,
+                        sort: null,
+                        link: results[i].link,
+                    };
+                    functions.push(model);
+                }
+                const user: User = {
+                    userId: results[0].userId,
+                    fullName: results[0].fullName,
+                    image: results[0].image,
+                    phone: results[0].phone,
+                    gender: results[0].gender,
+                    city: results[0].city,
+                    district: results[0].district,
+                    commune: results[0].commune,
+                    email: results[0].email,
+                    password: '',
+                    roleId: results[0].roleId,
+                    created_at: results[0].created_at,
+                    updated_at: results[0].updated_at,
+                    birthday: results[0].birthday,
+                    functions: functions,
+                    token: '',
+                    active: results[0].active,
+                };
+                return user;
+            } else {
+                return null;
+            }
         } catch (err: any) {
             throw new Error(err.message);
         }

@@ -2,8 +2,8 @@ import { injectable } from 'tsyringe';
 import { UserService } from '../services/user.service';
 import { LoginResponse, User } from '../models/user';
 import { Request, Response } from 'express';
-import { generateToken } from '../config/jwt';
 const md5 = require('md5');
+import * as jwt from 'jsonwebtoken';
 @injectable()
 export class UserController {
     constructor(private userService: UserService) {}
@@ -19,6 +19,31 @@ export class UserController {
             res.json({ message: 'Suuccess', result: true });
         } catch (err: any) {
             res.status(500).json({ message: err.message });
+        }
+    }
+    async getCurrentUser(req: Request, res: Response): Promise<void> {
+        try {
+            const accessToken = req.cookies.accessToken;
+            if (!accessToken) {
+                res.status(401).json({ message: 'No access token provided' });
+                return;
+            }
+
+            const decoded = jwt.verify(
+                accessToken,
+                process.env.JWT_SECRET!,
+            ) as { id: number; roleId: number };
+            const user = await this.userService.getUserById(decoded.id);
+
+            res.status(200).json({
+                message: 'User fetched successfully',
+                result: user,
+            });
+        } catch (err: any) {
+            res.status(401).json({
+                message: 'Invalid or expired access token',
+                error: err.message,
+            });
         }
     }
     async refreshToken(req: Request, res: Response): Promise<void> {
@@ -41,7 +66,7 @@ export class UserController {
 
             res.status(200).json({
                 message: 'Token refreshed successfully',
-                user: results.user,
+                result: results.user,
             });
         } catch (err: any) {
             res.status(403).json({

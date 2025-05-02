@@ -19,11 +19,21 @@ app.use(cookieParser()); // Thêm middleware cookie-parser
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: true, credentials: true }));
 
-// Tạo middleware csrf, lưu secret token trong cookie
-const csrfProtection = csurf({ cookie: true });
+const csrfProtection = csurf({
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+    },
+});
 
-// Dùng middleware csurf cho toàn app hoặc theo route
-app.use(csrfProtection);
+// Bỏ qua CSRF cho /socket.io/
+app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.path.startsWith('/socket.io/')) {
+        return next();
+    }
+    csrfProtection(req, res, next);
+});
 const bodyParser = require('body-parser');
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
@@ -33,8 +43,6 @@ initSocket(server);
 app.use('/api', appRouter);
 // Endpoint để lấy CSRF token
 app.get('/api/csrf-token', (req: Request, res: Response) => {
-    console.log('call csrf token again');
-
     res.json({ csrfToken: req.csrfToken() });
 });
 

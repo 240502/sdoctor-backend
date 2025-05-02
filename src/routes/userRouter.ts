@@ -50,4 +50,7 @@ userRouter.post(
     userController.refreshToken.bind(userController),
 );
 
+userRouter.get('/me', userController.getCurrentUser.bind(userController));
+userRouter.post('/logout', userController.logout.bind(userController));
+
 export default userRouter;

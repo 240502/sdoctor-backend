@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Notifications } from '../models/notifications';
+import { NotificationCreate, Notifications } from '../models/notifications';
 
 @injectable()
 export class NotificationsRepository {
@@ -35,13 +35,13 @@ export class NotificationsRepository {
             throw new Error(err.message);
         }
     }
-    async createNotification(notification: Notifications): Promise<any> {
+    async createNotification(notification: NotificationCreate): Promise<any> {
         try {
             const sql = 'CALL CreateNotification(?,?,?,@err_code,@err_msg)';
             const [result] = await this.db.query(sql, [
-                notification.user_id,
+                notification.userId,
                 notification.message,
-                notification.appointment_id,
+                notification.appointmentId,
             ]);
             return result[0];
         } catch (err: any) {

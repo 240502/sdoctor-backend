@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { NotificationsRepository } from '../repositories/notificationsRepository';
-import { Notifications } from '../models/notifications';
+import { NotificationCreate, Notifications } from '../models/notifications';
 
 @injectable()
 export class NotificationService {
@@ -15,7 +15,7 @@ export class NotificationService {
     async markAllRead(userId: number): Promise<any> {
         return this._notificationsRepository.markAllRead(userId);
     }
-    async createNotification(notification: Notifications): Promise<any> {
+    async createNotification(notification: NotificationCreate): Promise<any> {
         return this._notificationsRepository.createNotification(notification);
     }
     async deleteNotification(id: number): Promise<any> {

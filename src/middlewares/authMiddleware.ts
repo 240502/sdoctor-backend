@@ -6,14 +6,21 @@ export const authenticate = (
     res: Response,
     next: NextFunction,
 ) => {
-    //get the jwt token from the authorization header
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-        return res.status(401).json({ message: 'Bạn không được cấp quyền!' });
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+        return res.status(401).json({ message: 'Không có access token!' });
     }
-    const decodedToken = verifyToken(token);
-    if (!decodedToken) {
-        return res.status(401).json({ message: 'Bạn không được cấp quyền!' });
+    try {
+        const decodedToken = verifyToken(accessToken);
+        if (!decodedToken) {
+            return res
+                .status(401)
+                .json({ message: 'Bạn không được cấp quyền!' });
+        }
+        next();
+    } catch (err: any) {
+        return res
+            .status(401)
+            .json({ message: 'Invalid or expired access token' });
     }
-    next();
 };

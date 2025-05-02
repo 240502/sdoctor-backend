@@ -9,7 +9,10 @@ export const generateToken = (payload: object): string => {
 
 export const verifyToken = (token: string): any => {
     try {
-        return jwt.verify(token, config.jwt.secret);
+        return jwt.verify(token, config.jwt.secret) as {
+            id: number;
+            roleId: number;
+        };
     } catch (err: any) {
         return null;
     }

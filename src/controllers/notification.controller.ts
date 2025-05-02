@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { NotificationService } from '../services/notification.service';
-import { Notifications } from '../models/notifications';
+import { NotificationCreate, Notifications } from '../models/notifications';
 import { Request, Response } from 'express';
 import { getSocket } from '../socket';
 @injectable()
@@ -15,7 +15,7 @@ export class NotificationController {
                 );
             if (Array.isArray(results) && results.length > 0) {
                 res.json({
-                    data: results,
+                    notifications: results,
                     totalItems: results[0].RecordCount,
                 });
             } else {
@@ -46,14 +46,15 @@ export class NotificationController {
     }
     async createNotification(req: Request, res: Response): Promise<void> {
         try {
-            const notification: Notifications = req.body as Notifications;
+            const notification: NotificationCreate =
+                req.body as NotificationCreate;
             const result =
                 await this._notificationsService.createNotification(
                     notification,
                 );
             res.json({ message: 'Successfully', result: result });
             const io = getSocket();
-            io.to(`doctor_${notification.user_id}`).emit(
+            io.to(`doctor_${notification.userId}`).emit(
                 'newNotification',
                 result,
             );

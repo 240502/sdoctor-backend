@@ -5,3 +5,9 @@ export interface Notifications {
     is_read: boolean;
     appointment_id: number;
 }
+
+export interface NotificationCreate {
+    userId: number;
+    message: string;
+    appointmentId: number;
+}

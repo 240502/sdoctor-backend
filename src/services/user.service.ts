@@ -44,9 +44,8 @@ export class UserService {
         if (!user) {
             throw new Error('User not found');
         }
-
         const accessToken = jwt.sign(
-            { id: user.id, username: user.username } as TokenPayload,
+            { id: user.userId, email: user.email } as TokenPayload,
             config.jwt.secret!,
             { expiresIn: '15m' },
         );
