@@ -4,7 +4,26 @@ import { AppointmentCreateDto, AppointmentRes } from '../models';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
-
+    async statisticsAppointmentsByDay(
+        startWeek: Date,
+        endWeek: Date,
+        doctorId: number,
+    ) {
+        try {
+            const sql = `CALL sdoctor.StatisticsAppointmentsByDay(?, ?, ?, @err_code, @err_msg)`;
+            const [results] = await this.db.query(sql, [
+                startWeek,
+                endWeek,
+                doctorId,
+            ]);
+            if (!Array.isArray(results) && results.length === 0) {
+                return null;
+            }
+            return results;
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAppointmentsInDay(
         doctorId: number,
     ): Promise<AppointmentRes[] | null> {

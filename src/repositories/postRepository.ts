@@ -1,34 +1,34 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Post } from '../models/post';
+import { Post, PostCreateDto, PostUpdateDto } from '../models/post';
 @injectable()
 export class PostRepository {
     constructor(private db: Database) {}
-    async createPost(post: Post): Promise<any> {
+    async createPost(post: PostCreateDto): Promise<any> {
         try {
             const sql = 'CALL CreatePost(?,?,?,?,?,@err_code,@err_msg)';
 
             await this.db.query(sql, [
                 post.title,
                 post.content,
-                post.author_id,
-                post.category_id,
-                post.featured_image,
+                post.authorId,
+                post.categoryId,
+                post.featuredImage,
             ]);
             return true;
         } catch (err: any) {
             throw new Error(err.message);
         }
     }
-    async updatePost(post: Post): Promise<any> {
+    async updatePost(post: PostUpdateDto): Promise<any> {
         try {
             const sql = 'CALL UpdatePost(?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 post.id,
                 post.title,
                 post.content,
-                post.author_id,
-                post.category_id,
+                post.authorId,
+                post.categoryId,
             ]);
             return true;
         } catch (err: any) {
@@ -52,19 +52,23 @@ export class PostRepository {
             throw new Error(err.message);
         }
     }
-    async viewPostForClient(
-        searchContent: string,
-        categoryId: number,
-        pageIndex: number,
-        pageSize: number,
+    async getPostWithOptions(
+        searchContent?: string | null,
+        categoryId?: number | null,
+        pageIndex?: number | null,
+        pageSize?: number | null,
+        status?: string | null,
+        authorId?: number | null,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewPostForClient(?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewPost(?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 searchContent,
                 categoryId,
                 pageIndex,
                 pageSize,
+                status,
+                authorId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

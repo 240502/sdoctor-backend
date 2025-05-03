@@ -19,7 +19,7 @@ invoiceRouter.delete(
     invoiceController.deleteInvoice.bind(invoiceController),
 );
 invoiceRouter.get(
-    '/get-recent',
+    '/get-recent/:userId',
     invoiceController.getRecentInvoice.bind(invoiceController),
 );
 invoiceRouter.post(

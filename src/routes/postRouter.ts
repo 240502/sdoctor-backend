@@ -17,9 +17,9 @@ postRouter.post(
     postController.viewPostDoctor.bind(postController),
 );
 
-postRouter.post(
-    '/view-news-client',
-    postController.viewPostForClient.bind(postController),
+postRouter.get(
+    '/get-post-with-options',
+    postController.getPostWithOptions.bind(postController),
 );
 
 postRouter.post(

@@ -9,6 +9,34 @@ export class AppointmentService {
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
     ) {}
+    async statisticsAppointmentsByDay(
+        startWeek?: Date | null,
+        endWeek?: Date | null,
+        doctorId?: number | null,
+    ) {
+        try {
+            if (!doctorId || !startWeek || !endWeek) {
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
+            }
+            // Kiểm tra xem Date có hợp lệ không
+            if (isNaN(startWeek.getTime()) || isNaN(endWeek.getTime())) {
+                throw new Error('Thời gian không hợp lệ !');
+            }
+
+            // Chuyển đổi doctorId sang number
+            if (isNaN(doctorId)) {
+                throw new Error('Mã bác sĩ không hợp lệ');
+            }
+
+            return await this.appointmentRepository.statisticsAppointmentsByDay(
+                startWeek,
+                endWeek,
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAppointmentsInDay(
         doctorId: number,
     ): Promise<AppointmentRes[] | null> {

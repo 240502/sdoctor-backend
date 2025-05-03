@@ -108,7 +108,9 @@ export class InvoiceController {
     }
     async getRecentInvoice(req: Request, res: Response): Promise<any> {
         try {
-            const result = await this.invoicesService.getRecentInvoice();
+            const userId: number = Number(req.params.userId);
+
+            const result = await this.invoicesService.getRecentInvoice(userId);
             if (result) {
                 res.json(result);
             } else {

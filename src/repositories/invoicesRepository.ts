@@ -62,10 +62,10 @@ export class InvoicesRepository {
             throw new Error(err);
         }
     }
-    async getRecentInvoice(): Promise<any> {
+    async getRecentInvoice(userId: number): Promise<any> {
         try {
-            const sql = 'CALL GetRecentInvoice(@err_code, @err_msg)';
-            const [results] = await this.db.query(sql, []);
+            const sql = 'CALL GetRecentInvoice(?,@err_code, @err_msg)';
+            const [results] = await this.db.query(sql, [userId]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;

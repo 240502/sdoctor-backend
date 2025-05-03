@@ -39,7 +39,9 @@ export const initSocket = (server: http.Server) => {
                         config.jwt.secret!,
                     ) as { id: number; email: string };
                     if (decoded.id === userId) {
-                        console.log(`User ${userId} joined room`);
+                        console.log(
+                            `User ${socket.id} joined room doctor_${userId}`,
+                        );
                         socket.join(`doctor_${userId}`);
                     } else {
                         console.error('User ID mismatch');

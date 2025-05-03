@@ -11,6 +11,38 @@ import {
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async statisticsAppointmentsByDay(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const { startWeek, endWeek, doctorId } = req.query;
+            let startDate: Date | null = null;
+            let endDate: Date | null = null;
+            let doctorIdNumber: number | null = null;
+            if (startWeek) {
+                startDate = new Date(startWeek.toString());
+            }
+            if (endWeek) {
+                endDate = new Date(endWeek.toString());
+            }
+            if (doctorId) {
+                doctorIdNumber = parseInt(doctorId.toString());
+            }
+
+            const results =
+                await this.appointmentService.statisticsAppointmentsByDay(
+                    startDate,
+                    endDate,
+                    doctorIdNumber,
+                );
+            return results
+                ? res.status(200).json(results)
+                : res.status(404).json({ message: 'Không có dữ liệu !' });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async getAppointmentsInDay(
         req: Request,
         res: Response,

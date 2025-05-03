@@ -13,3 +13,15 @@ export interface Post {
     category_name: string;
     author_name: string;
 }
+
+export interface PostCreateDto {
+    authorId: number;
+    categoryId: number;
+    content: string;
+    featuredImage: string;
+    title: string;
+}
+
+export interface PostUpdateDto extends PostCreateDto {
+    id: number;
+}

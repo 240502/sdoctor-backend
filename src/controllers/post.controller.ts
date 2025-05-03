@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { PostService } from '../services/post.service';
-import { Post } from '../models/post';
+import { Post, PostCreateDto, PostUpdateDto } from '../models/post';
 import { Request, Response } from 'express';
 
 @injectable()
@@ -8,7 +8,7 @@ export class PostController {
     constructor(private postService: PostService) {}
     async createPost(req: Request, res: Response): Promise<void> {
         try {
-            const post: Post = req.body as Post;
+            const post: PostCreateDto = req.body as PostCreateDto;
             this.postService.createPost(post);
             res.json({ message: 'Success', result: true });
         } catch (err: any) {
@@ -17,7 +17,7 @@ export class PostController {
     }
     async updatePost(req: Request, res: Response): Promise<void> {
         try {
-            const post: Post = req.body as Post;
+            const post: PostUpdateDto = req.body as PostUpdateDto;
             this.postService.updatePost(post);
             res.json({ message: 'Success', result: true });
         } catch (err: any) {
@@ -42,14 +42,31 @@ export class PostController {
             res.json({ message: err.message });
         }
     }
-    async viewPostForClient(req: Request, res: Response): Promise<void> {
+    async getPostWithOptions(req: Request, res: Response): Promise<void> {
         try {
-            const { searchContent, categoryId, pageIndex, pageSize } = req.body;
-            const data = await this.postService.viewPostForClient(
+            const {
                 searchContent,
                 categoryId,
                 pageIndex,
                 pageSize,
+                status,
+                authorId,
+            } = req.query as {
+                searchContent?: string;
+                categoryId?: number;
+                pageIndex?: number;
+                pageSize?: number;
+                status?: string;
+                authorId?: number;
+            };
+
+            const data = await this.postService.getPostWithOptions(
+                searchContent,
+                categoryId ?? null,
+                pageIndex,
+                pageSize,
+                status,
+                authorId,
             );
             if (data) {
                 res.json({
@@ -57,8 +74,12 @@ export class PostController {
                     page: pageIndex,
                     pageSize: pageSize,
                     posts: data,
-                    pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                    pageCount: pageSize
+                        ? Math.ceil(data[0].RecordCount / pageSize)
+                        : null,
                     categoryId: categoryId,
+                    status,
+                    authorId,
                 });
             } else {
                 res.status(404).json({ message: 'Không có bản ghi nào!' });

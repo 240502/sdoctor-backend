@@ -13,8 +13,8 @@ export class InvoicesService {
     async deleteInvoice(id: number): Promise<any> {
         return this.invoicesRepository.deleteInvoice(id);
     }
-    async getRecentInvoice(): Promise<any> {
-        return this.invoicesRepository.getRecentInvoice();
+    async getRecentInvoice(userId: number): Promise<any> {
+        return this.invoicesRepository.getRecentInvoice(userId);
     }
     async getTotalRevenueByDateInNowWeek(
         startWeek: Date,

@@ -61,4 +61,11 @@ appointmentRouter.get(
     '/get-appointments-in-day/:doctorId',
     appointmentController.getAppointmentsInDay.bind(appointmentController),
 );
+
+appointmentRouter.get(
+    '/statistics-appointments-by-day',
+    appointmentController.statisticsAppointmentsByDay.bind(
+        appointmentController,
+    ),
+);
 export default appointmentRouter;

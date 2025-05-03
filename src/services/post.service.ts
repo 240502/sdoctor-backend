@@ -1,15 +1,22 @@
 import { injectable } from 'tsyringe';
 import { PostRepository } from '../repositories/postRepository';
-import { Post } from '../models/post';
+import { Post, PostCreateDto, PostUpdateDto } from '../models/post';
 
 @injectable()
 export class PostService {
     constructor(private postRepository: PostRepository) {}
-    async createPost(post: Post): Promise<any> {
+    async createPost(post: PostCreateDto): Promise<any> {
         return this.postRepository.createPost(post);
     }
-    async updatePost(post: Post): Promise<any> {
-        return this.postRepository.updatePost(post);
+    async updatePost(post: PostUpdateDto): Promise<any> {
+        try {
+            if (!post.authorId || !post.id || !post.title) {
+                throw new Error('Thiếu tham số để cập nhập bài viết !');
+            }
+            return this.postRepository.updatePost(post);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async deletePost(id: number): Promise<any> {
         return this.postRepository.deletePost(id);
@@ -17,18 +24,28 @@ export class PostService {
     async confirmPost(id: number): Promise<any> {
         return this.postRepository.confirmPost(id);
     }
-    async viewPostForClient(
-        searchContent: string,
-        categoryId: number,
-        pageIndex: number,
-        pageSize: number,
+    async getPostWithOptions(
+        searchContent?: string,
+        categoryId?: number | null,
+        pageIndex?: number,
+        pageSize?: number,
+        status?: string,
+        authorId?: number,
     ): Promise<any> {
-        return this.postRepository.viewPostForClient(
-            searchContent,
-            categoryId,
-            pageIndex,
-            pageSize,
-        );
+        try {
+            return this.postRepository.getPostWithOptions(
+                searchContent?.length === 0 ? null : searchContent,
+                typeof categoryId === 'string' && categoryId === 'null'
+                    ? null
+                    : categoryId,
+                pageIndex ?? null,
+                pageSize ?? null,
+                status ?? null,
+                authorId ?? null,
+            );
+        } catch (err: any) {
+            throw err;
+        }
     }
     async getCommonPost(): Promise<any> {
         return this.postRepository.getCommonPost();
