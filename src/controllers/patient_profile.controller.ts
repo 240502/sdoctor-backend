@@ -82,7 +82,6 @@ export class PatientProfileController {
     async deletePatientProfile(req: Request, res: Response): Promise<void> {
         try {
             const uuid = req.params.uuid;
-            console.log('uuid', uuid);
             await this.patientProfileService.deletePatientProfile(uuid);
             res.json({ message: 'Deleted successfully' });
         } catch (err: any) {

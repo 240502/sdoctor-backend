@@ -9,6 +9,26 @@ export class AppointmentService {
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
     ) {}
+
+    async getRecentAppointments(
+        entityId: number | null,
+        limit: number | null,
+        withoutId: number | null,
+    ): Promise<AppointmentRes[] | null> {
+        try {
+            if (!entityId || !limit || !withoutId) {
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
+            }
+            return await this.appointmentRepository.getRecentAppointments(
+                entityId,
+                limit,
+                withoutId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
     async statisticsAppointmentsByDay(
         startWeek?: Date | null,
         endWeek?: Date | null,
@@ -146,8 +166,6 @@ export class AppointmentService {
             await this.scheduleRepository.updateScheduleStatus(
                 updatedScheduleStatusData,
             );
-            console.log('result', result);
-
             return result;
         } catch (err) {
             throw err;

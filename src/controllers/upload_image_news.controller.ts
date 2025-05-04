@@ -9,8 +9,6 @@ export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
     }
 
     const file = req.file as Express.Multer.File;
-    console.log(file.buffer);
-    console.log(file);
     try {
         const result: UploadApiResponse = await new Promise(
             (resolve, reject) => {

@@ -9,8 +9,6 @@ export class ScheduleRepository {
     constructor(private db: Database) {}
     async createSchedule(schedule: DoctorSchedule): Promise<any> {
         try {
-            console.log('schedule', schedule);
-
             const sql = 'CALL CreateSchedules(?,@err_code,@err_msg)';
             const results = await this.db.query(sql, [
                 JSON.stringify(schedule),

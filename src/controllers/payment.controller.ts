@@ -78,8 +78,6 @@ export class PaymentController {
             const result = await axios.post(config.endpoint, null, {
                 params: order,
             });
-            console.log('result', result);
-
             res.status(200).json(result.data);
         } catch (err: any) {
             res.status(500).json({ error: err });
@@ -109,7 +107,6 @@ export class PaymentController {
                     "update order's status = success where app_trans_id =",
                     dataJson['app_trans_id'],
                 );
-                console.log(items);
 
                 await this.invoiceService.updateInvoiceStatus(
                     JSON.parse(items)[0].id,

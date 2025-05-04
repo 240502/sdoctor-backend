@@ -68,8 +68,6 @@ export class MailerService {
         location: string,
     ) {
         try {
-            console.log(patientName, email, doctorName, time, date, location);
-
             const res = await transporter.sendMail({
                 from: 'sanghip200@gmail.com', // sender address
                 to: email, // list of receivers

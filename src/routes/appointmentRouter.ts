@@ -68,4 +68,9 @@ appointmentRouter.get(
         appointmentController,
     ),
 );
+
+appointmentRouter.get(
+    '/get-recent-appointments',
+    appointmentController.getRecentAppointments.bind(appointmentController),
+);
 export default appointmentRouter;

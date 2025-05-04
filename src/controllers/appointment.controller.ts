@@ -11,6 +11,38 @@ import {
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async getRecentAppointments(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const { entityId, limit, withoutId } = req.query;
+            let entityIdNumber: number | null = null;
+            let limitNumber: number | null = null;
+            let withoutIdNumber: number | null = null;
+            if (entityId && !isNaN(Number(entityId)))
+                entityIdNumber = Number(entityId);
+            if (limit && !isNaN(Number(limit))) limitNumber = Number(limit);
+            if (withoutId && !isNaN(Number(withoutId)))
+                withoutIdNumber = Number(withoutId);
+            const results = await this.appointmentService.getRecentAppointments(
+                entityIdNumber,
+                limitNumber,
+                withoutIdNumber,
+            );
+            return results
+                ? res.status(200).json({
+                      entityId,
+                      appointments: results,
+                      limit,
+                      withoutId,
+                  })
+                : res.status(404).json({ message: 'Không có dữ liệu !' });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+
     async statisticsAppointmentsByDay(
         req: Request,
         res: Response,

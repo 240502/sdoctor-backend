@@ -4,6 +4,28 @@ import { AppointmentCreateDto, AppointmentRes } from '../models';
 @injectable()
 export class AppointmentRepository {
     constructor(private db: Database) {}
+
+    async getRecentAppointments(
+        entityId: number,
+        limit: number,
+        withoutId: number,
+    ): Promise<AppointmentRes[] | null> {
+        try {
+            const sql = 'CALL GetRecentAppointments(?,?,?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [
+                entityId,
+                limit,
+                withoutId,
+            ]);
+            if (!Array.isArray(results) && results.length > 0) {
+                return null;
+            }
+            return results;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+
     async statisticsAppointmentsByDay(
         startWeek: Date,
         endWeek: Date,
@@ -58,8 +80,6 @@ export class AppointmentRepository {
         userId: number | null,
     ) {
         try {
-            console.log(offset, pageSize, status, userId);
-
             const sql =
                 'CALL GetAppointmentWithOptions(?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
@@ -85,8 +105,6 @@ export class AppointmentRepository {
     ): Promise<AppointmentRes[] | null> {
         try {
             const sql = 'CALL GetAppointmentByUuid(?,?,?,?,@err_code,@err_msg)';
-            console.log([uuid, pageSize, offset]);
-
             const [results] = await this.db.query(sql, [
                 uuid,
                 pageSize,
