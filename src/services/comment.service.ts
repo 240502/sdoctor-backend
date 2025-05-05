@@ -15,12 +15,16 @@ export class CommentService {
         commentableId: number,
         type: string,
     ): Promise<any> {
-        const offset = (pageIndex - 1) * pageSize;
-        return this.commentRepository.getCommentByCommentableIdAndType(
-            pageSize,
-            offset,
-            commentableId,
-            type,
-        );
+        try {
+            const offset = (pageIndex - 1) * pageSize;
+            return this.commentRepository.getCommentByCommentableIdAndType(
+                pageSize,
+                offset,
+                commentableId,
+                type,
+            );
+        } catch (err: any) {
+            throw err;
+        }
     }
 }

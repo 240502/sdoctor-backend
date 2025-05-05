@@ -2,7 +2,6 @@ import { injectable } from 'tsyringe';
 import { Clinic } from '../models/clinic';
 import { ClinicService } from '../services/clinic.service';
 import e, { Request, Response } from 'express';
-import { arrayBuffer } from 'node:stream/consumers';
 @injectable()
 export class ClinicController {
     constructor(private clinicService: ClinicService) {}

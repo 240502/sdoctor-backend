@@ -40,8 +40,10 @@ export class PostService {
                     : categoryId,
                 pageIndex ?? null,
                 pageSize ?? null,
-                status ?? null,
-                authorId ?? null,
+                typeof status === 'string' && status === 'null' ? null : status,
+                typeof authorId === 'string' && authorId === 'null'
+                    ? null
+                    : Number(authorId),
             );
         } catch (err: any) {
             throw err;

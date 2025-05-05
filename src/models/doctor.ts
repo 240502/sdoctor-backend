@@ -40,3 +40,22 @@ export interface DoctorInfo {
     service_name: string;
     service_id: number;
 }
+
+export interface DoctorCreateDto {
+    email: string;
+    gender: number;
+    phone: string;
+    image: string;
+    fullName: string;
+    birthday: string;
+    city: string;
+    district: string;
+    commune: string;
+    clinicId: number;
+    majorId: number;
+    summary: string;
+    title: string;
+    introduction: string;
+    serviceId: number;
+    department: number;
+}

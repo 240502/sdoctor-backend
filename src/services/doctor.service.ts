@@ -1,20 +1,43 @@
 import { injectable } from 'tsyringe';
 import { DoctorRepository } from '../repositories/doctorRepository';
-import { Doctor, DoctorInfo } from '../models/doctor';
+import { Doctor, DoctorCreateDto, DoctorInfo } from '../models/doctor';
 
 @injectable()
 export class DoctorService {
     constructor(private doctorRepository: DoctorRepository) {}
 
     async getDoctorByUserId(userId: number): Promise<any> {
-        return this.doctorRepository.getDoctorByUserId(userId);
+        try {
+            if (!userId) {
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
+            }
+            return this.doctorRepository.getDoctorByUserId(userId);
+        } catch (err: any) {
+            throw err;
+        }
     }
 
-    async createDoctor(doctor: DoctorInfo): Promise<any> {
-        return this.doctorRepository.createDoctor(doctor);
+    async createDoctor(doctor: DoctorCreateDto): Promise<any> {
+        try {
+            if (
+                !doctor.fullName ||
+                !doctor.phone ||
+                !doctor.serviceId ||
+                !doctor.clinicId
+            ) {
+                throw new Error('Thiếu thông tin để thêm dữ liêu !');
+            }
+            return this.doctorRepository.createDoctor(doctor);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async updateDoctor(doctor: DoctorInfo): Promise<any> {
-        return this.doctorRepository.updateDoctor(doctor);
+        try {
+            return this.doctorRepository.updateDoctor(doctor);
+        } catch (err) {
+            throw err;
+        }
     }
     async deleteDoctor(id: Number): Promise<any> {
         return this.doctorRepository.deleteDoctor(id);
