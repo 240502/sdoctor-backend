@@ -5,13 +5,30 @@ import { Invoices, InvoicesCreateDto } from '../models/invoices';
 export class InvoicesService {
     constructor(private invoicesRepository: InvoicesRepository) {}
     async createInvoice(invoice: InvoicesCreateDto): Promise<any> {
-        return this.invoicesRepository.createInvoice(invoice);
+        try {
+            return this.invoicesRepository.createInvoice(invoice);
+            
+        } catch (err: any) {
+            throw err;
+        }
     }
     async updateInvoice(invoice: Invoices): Promise<any> {
-        return this.invoicesRepository.updateInvoice(invoice);
+        try {
+            return this.invoicesRepository.updateInvoice(invoice);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async deleteInvoice(id: number): Promise<any> {
-        return this.invoicesRepository.deleteInvoice(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số để xóa !")
+            }
+            return this.invoicesRepository.deleteInvoice(id);
+            
+        } catch (err: any) {
+            throw err;
+        }
     }
     async getRecentInvoice(userId: number): Promise<any> {
         return this.invoicesRepository.getRecentInvoice(userId);
@@ -35,11 +52,25 @@ export class InvoicesService {
         return this.invoicesRepository.viewInvoice(pageIndex, pageSize, status);
     }
     async updateInvoiceStatus(id: number, status: string): Promise<any> {
-        return this.invoicesRepository.updateInvoiceStatus(id, status);
+        try {
+            if (!id || !status) {
+                throw new Error("Thiếu id và stauts")
+            }
+            return this.invoicesRepository.updateInvoiceStatus(id, status);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async getInvoiceByAppointmentId(
         appointmentId: number,
     ): Promise<Invoices | null> {
-        return this.invoicesRepository.getInvoiceByAppointmentId(appointmentId);
+        try {
+            if (!appointmentId) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.invoicesRepository.getInvoiceByAppointmentId(appointmentId);
+        } catch (err: any)  {
+            throw err;
+        }
     }
 }

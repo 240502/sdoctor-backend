@@ -5,13 +5,31 @@ import { Clinic } from '../models/clinic';
 export class ClinicService {
     constructor(private clinicRepository: ClinicRepository) {}
     async createClinic(clinic: Clinic): Promise<any> {
-        return this.clinicRepository.createClinic(clinic);
+        try {
+
+            return this.clinicRepository.createClinic(clinic);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async updateClinic(clinic: Clinic): Promise<any> {
-        return this.clinicRepository.updateClinic(clinic);
+         try {
+                
+            return this.clinicRepository.updateClinic(clinic);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async deleteClinic(id: number): Promise<any> {
-        return this.clinicRepository.deleteClinic(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số để xóa !")
+            }
+            return this.clinicRepository.deleteClinic(id);
+        } catch (err: any)
+        {
+            throw err;
+        }
     }
     async getClinicsWithPaginationAndOptions(
         pageIndex: number | null,
@@ -32,7 +50,15 @@ export class ClinicService {
         );
     }
     async getClinicById(id: number): Promise<any> {
-        return this.clinicRepository.getClinicById(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.clinicRepository.getClinicById(id);
+        } catch (err: any)
+        {
+            throw err;
+        }
     }
     async getQuantityClinic(): Promise<any> {
         return this.clinicRepository.getQuantityClinic();
@@ -41,6 +67,14 @@ export class ClinicService {
         return this.clinicRepository.getCommonClinic();
     }
     async updateViewsClinic(id: number): Promise<any> {
-        return this.clinicRepository.updateViewsClinic(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.clinicRepository.updateViewsClinic(id);
+        } catch (err: any)
+        {
+            throw err;
+        }
     }
 }

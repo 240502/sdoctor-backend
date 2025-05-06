@@ -40,11 +40,25 @@ export class DoctorService {
         }
     }
     async deleteDoctor(id: Number): Promise<any> {
-        return this.doctorRepository.deleteDoctor(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.doctorRepository.deleteDoctor(id);
+        } catch (err: any) {
+            throw err;
+        }
     }
 
     async getDoctorById(id: number): Promise<any> {
-        return this.doctorRepository.getDoctorById(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.doctorRepository.getDoctorById(id);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async getListDoctorsWithPaginationAndFilters(
         pageIndex: number | null,
@@ -76,10 +90,10 @@ export class DoctorService {
         return this.doctorRepository.getListDoctorsWithPaginationAndFilters(
             pageIndex ?? null,
             pageSize ?? null,
-            majorIdsString ?? null,
-            clinicId ? clinicId : null,
-            doctorServiceIdsString ?? null,
-            doctorTilesString ?? null,
+            majorIdsString,
+            clinicId ?? null,
+            doctorServiceIdsString ,
+            doctorTilesString ,
             startPrice ?? null,
             endPrice ?? null,
             departmentId ?? null,
@@ -94,16 +108,36 @@ export class DoctorService {
         pageSize: number | null,
         withoutId: number | null,
     ): Promise<any> {
-        return this.doctorRepository.getCommonDoctor(
-            pageIndex ?? null,
-            pageSize ?? null,
-            withoutId ?? null,
-        );
+        try {
+            return this.doctorRepository.getCommonDoctor(
+                pageIndex ?? null,
+                pageSize ?? null,
+                withoutId ?? null,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+        
     }
     async updateViewsDoctor(id: number): Promise<any> {
-        return this.doctorRepository.updateViewDoctor(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số để cập nhật dữ liệu !")
+            }
+            return this.doctorRepository.updateViewDoctor(id);
+            
+        } catch (err: any) {
+            throw err;
+        }
     }
     async updateAvgDoctorStar(doctorId: number): Promise<any> {
-        return this.doctorRepository.updateAverageDoctorStar(doctorId);
+        try {
+            if (!doctorId) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.doctorRepository.updateAverageDoctorStar(doctorId);
+        } catch (err: any) {
+            throw err;
+        }
     }
 }

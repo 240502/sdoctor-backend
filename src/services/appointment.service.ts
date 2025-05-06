@@ -38,12 +38,10 @@ export class AppointmentService {
             if (!doctorId || !startWeek || !endWeek) {
                 throw new Error('Thiếu tham số để lấy dữ liệu !');
             }
-            // Kiểm tra xem Date có hợp lệ không
             if (isNaN(startWeek.getTime()) || isNaN(endWeek.getTime())) {
                 throw new Error('Thời gian không hợp lệ !');
             }
 
-            // Chuyển đổi doctorId sang number
             if (isNaN(doctorId)) {
                 throw new Error('Mã bác sĩ không hợp lệ');
             }
@@ -144,12 +142,27 @@ export class AppointmentService {
     }
 
     async getTotalPatientInDay(doctorId: number): Promise<any> {
-        return this.appointmentRepository.getTotalPatientInDay(doctorId);
+        try {
+            if (!doctorId) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.appointmentRepository.getTotalPatientInDay(doctorId);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async getTotalAppointmentsCompleted(doctorId: number): Promise<any> {
-        return this.appointmentRepository.getTotalAppointmentsCompleted(
-            doctorId,
-        );
+        try {
+            if (!doctorId) {
+                throw new Error("Thiếu tham sô !")
+            }
+            return this.appointmentRepository.getTotalAppointmentsCompleted(
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+        
     }
 
     async getRevenueByMonth(month: number, year: number): Promise<any> {
@@ -177,15 +190,30 @@ export class AppointmentService {
         status: number,
         reason: string,
     ): Promise<any> {
-        return this.appointmentRepository.updateAppointmentStatus(
-            id,
-            status,
-            reason,
-        );
+        try {
+            if (!id && !status) {
+                throw new Error("Thiếu id và status!")
+            }
+            return this.appointmentRepository.updateAppointmentStatus(
+                id,
+                status,
+                reason,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+       
     }
 
     async getAppointmentById(id: number): Promise<any> {
-        return this.appointmentRepository.getAppointmentById(id);
+        try {
+            if (!id) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.appointmentRepository.getAppointmentById(id);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async getAppointmentAtInvoice(
         patientName: string,
@@ -193,14 +221,30 @@ export class AppointmentService {
         patientPhone: string,
         appointmentDate: Date,
     ): Promise<any> {
-        return this.appointmentRepository.getAppointmentAtInvoice(
-            patientName,
-            doctorName,
-            patientPhone,
-            appointmentDate,
-        );
+        try {
+            if (!patientName || !doctorName || !appointmentDate || !patientPhone)
+            {
+                throw new Error("Thiếu tham số")
+            }
+            return this.appointmentRepository.getAppointmentAtInvoice(
+                patientName,
+                doctorName,
+                patientPhone,
+                appointmentDate,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+       
     }
     async updateIsValuate(appointmentId: number): Promise<any> {
-        return this.appointmentRepository.updateIsValuate(appointmentId);
+        try {
+            if (!appointmentId) {
+                throw new Error("Thiếu tham số !")
+            }
+            return this.appointmentRepository.updateIsValuate(appointmentId);
+        } catch (err: any) {
+            throw err;
+        }
     }
 }

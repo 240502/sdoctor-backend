@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { DoctorService } from '../services/doctor.service';
-import { Doctor, DoctorInfo } from '../models/doctor';
+import { Doctor, DoctorCreateDto, DoctorInfo } from '../models/doctor';
 import { Request, Response } from 'express';
 @injectable()
 export class DoctorController {
@@ -23,7 +23,7 @@ export class DoctorController {
 
     async createDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const doctor = req.body as DoctorInfo;
+            const doctor = req.body as DoctorCreateDto;
             await this.doctorService.createDoctor(doctor);
             res.json({ message: 'Successfully created', result: true });
         } catch (err: any) {
