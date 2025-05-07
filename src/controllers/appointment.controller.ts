@@ -75,6 +75,7 @@ export class AppointmentController {
             res.status(400).json({ message: err.message });
         }
     }
+
     async getAppointmentsInDay(
         req: Request,
         res: Response,
@@ -90,6 +91,7 @@ export class AppointmentController {
             res.status(400).json({ message: err.message });
         }
     }
+
     async getWaitingPatientsCount(
         req: Request,
         res: Response,
@@ -116,6 +118,8 @@ export class AppointmentController {
                 pageIndex: number;
                 status: number;
                 userId: number;
+                fromDate: string;
+                toDate: string;
             };
             const results =
                 await this.appointmentService.getAppointmentWithOptions(
@@ -123,6 +127,8 @@ export class AppointmentController {
                     query.pageSize,
                     query.status,
                     query.userId,
+                    query.fromDate,
+                    query.toDate,
                 );
             if (!results) {
                 return res.status(404).json({ message: 'Không có dữ liệu !' });
@@ -139,6 +145,7 @@ export class AppointmentController {
             res.status(400).json({ message: err.message });
         }
     }
+
     async getAppointmentByUuid(
         req: Request,
         res: Response,
@@ -149,6 +156,8 @@ export class AppointmentController {
                 pageSize: number | null;
                 pageIndex: number | null;
                 statusId: number;
+                fromDate: string;
+                toDate: string;
             };
 
             const data = await this.appointmentService.getAppointmentByUuid(
@@ -156,6 +165,8 @@ export class AppointmentController {
                 query.pageSize,
                 query.pageIndex,
                 query.statusId,
+                query.fromDate,
+                query.toDate,
             );
             if (data) {
                 return res.json({
@@ -206,6 +217,7 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
+
     async getTotalPatientInDay(req: Request, res: Response): Promise<any> {
         try {
             const doctorId = Number(req.params.doctorId);
@@ -255,6 +267,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async orderAppointment(req: Request, res: any): Promise<void> {
         try {
             const appointment: AppointmentCreateDto =
@@ -285,6 +298,7 @@ export class AppointmentController {
             res.status(500).json({ message: err.message });
         }
     }
+
     async getAppointmentById(req: Request, res: Response): Promise<any> {
         try {
             const id: number = Number(req.params.id);
@@ -295,6 +309,7 @@ export class AppointmentController {
             res.json({ message: err.message });
         }
     }
+
     async getAppointmentAtInvoice(req: Request, res: Response): Promise<void> {
         try {
             const { patientName, doctorName, patientPhone, appointmentDate } =

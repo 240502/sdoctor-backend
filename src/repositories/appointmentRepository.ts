@@ -78,15 +78,19 @@ export class AppointmentRepository {
         pageSize: number | null,
         status: number | null,
         userId: number | null,
+        fromDate: string | null,
+        toDate: string | null,
     ) {
         try {
             const sql =
-                'CALL GetAppointmentWithOptions(?,?,?,?,@err_code,@err_msg)';
+                'CALL GetAppointmentWithOptions(?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 offset,
                 pageSize,
                 status,
                 userId,
+                fromDate,
+                toDate,
             ]);
             if (!Array.isArray(results) && results?.length === 0) {
                 return null;
@@ -102,14 +106,19 @@ export class AppointmentRepository {
         pageSize: number | null,
         offset: number | null,
         status: number | null,
+        fromDate: string | null,
+        toDate: string | null,
     ): Promise<AppointmentRes[] | null> {
         try {
-            const sql = 'CALL GetAppointmentByUuid(?,?,?,?,@err_code,@err_msg)';
+            const sql =
+                'CALL GetAppointmentByUuid(?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 uuid,
                 pageSize,
                 offset,
                 status,
+                fromDate,
+                toDate,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

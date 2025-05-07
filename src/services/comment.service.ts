@@ -1,12 +1,23 @@
 import { injectable } from 'tsyringe';
 import { CommentRepository } from '../repositories/commentRepository';
-import { Comment } from '../models/comment';
+import { Comment, CommentCreateDto } from '../models/comment';
 
 @injectable()
 export class CommentService {
     constructor(private commentRepository: CommentRepository) {}
-    async createComment(comment: Comment): Promise<any> {
-        return this.commentRepository.createComment(comment);
+    async createComment(comment: CommentCreateDto): Promise<any> {
+        try {
+            if (
+                !comment.commentableId ||
+                !comment.startCount ||
+                !comment.fullName
+            ) {
+                throw new Error('Thiếu tham số để thêm dữ liệu !');
+            }
+            return this.commentRepository.createComment(comment);
+        } catch (err: any) {
+            throw err;
+        }
     }
 
     async getCommentByCommentableIdAndType(

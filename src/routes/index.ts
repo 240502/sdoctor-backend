@@ -26,6 +26,9 @@ import departmentRouter from './departmentRouter';
 import degreesRouter from './degreesRouter';
 import scheduleRouter from './schedulesRouter';
 import mailerRouter from './mailerRouter';
+import workExperiencesRouter from './workExperienceRouter';
+import educationRouter from './educationRouter';
+import doctorExpertisesRouter from './doctorExertisesRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -55,4 +58,8 @@ appRouter.use('/payment-method', paymentMethodRouter);
 appRouter.use('/department', departmentRouter);
 appRouter.use('/degrees', degreesRouter);
 appRouter.use('/mailer', mailerRouter);
+appRouter.use('/work-experiences', workExperiencesRouter);
+appRouter.use('/education', educationRouter);
+appRouter.use('/doctor-expertises', doctorExpertisesRouter);
+
 export default appRouter;

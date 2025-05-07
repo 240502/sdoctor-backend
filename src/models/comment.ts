@@ -9,3 +9,12 @@ export interface Comment {
     type: string;
     user_id: number;
 }
+
+export interface CommentCreateDto {
+    content: string;
+    fullName: string;
+    commentableId: number;
+    startCount: number;
+    dateBooking: Date;
+    commentableType: string;
+}

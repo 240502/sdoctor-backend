@@ -58,6 +58,8 @@ export class UserService {
 
     async login(email: string, password: string): Promise<any> {
         const md5_password = md5(password);
+        console.log('mde 5', md5_password);
+
         const user = await this.userRepository.login(email, md5_password);
         const accessToken = jwt.sign(
             { id: user.userId, username: user.email } as TokenPayload,

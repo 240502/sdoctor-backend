@@ -1,12 +1,13 @@
 import { injectable } from 'tsyringe';
 import { CommentService } from '../services/comment.service';
-import { Comment } from '../models/comment';
+import { Comment, CommentCreateDto } from '../models/comment';
 import { Request, Response } from 'express';
 import { totalmem } from 'node:os';
 import { getSocket } from '../socket';
 import { DoctorService } from '../services/doctor.service';
 import { NotificationService } from '../services/notification.service';
 import { AppointmentService } from '../services/appointment.service';
+import { NotificationCreate } from '../models/notifications';
 @injectable()
 export class CommentController {
     constructor(
@@ -18,31 +19,32 @@ export class CommentController {
 
     async createComment(req: Request, res: Response): Promise<void> {
         try {
-            const { newComment, appointmentId } = req.body;
-            const lastComment =
-                await this.commentService.createComment(newComment);
+            const { newComment, appointmentId } = req.body as {
+                newComment: CommentCreateDto;
+                appointmentId: number;
+            };
+            await this.commentService.createComment(newComment);
             res.json({ message: 'successfully created ' });
-            if (lastComment) {
-                const io = getSocket();
+            const io = getSocket();
 
-                const newNotification: any = {
-                    user_id: lastComment.user_id,
-                    message: 'Có một bệnh nhân vừa nhận xét về dịch vụ!',
-                    appointment_id: null,
-                };
-                const result =
-                    await this.notificationService.createNotification(
-                        newNotification,
-                    );
-                await this.doctorService.updateAvgDoctorStar(
-                    lastComment.doctor_id,
+            const newNotification: NotificationCreate = {
+                userId: newComment.commentableId,
+                message: 'Có một bệnh nhân vừa nhận xét về dịch vụ!',
+                appointmentId: null,
+            };
+
+            const result =
+                await this.notificationService.createNotification(
+                    newNotification,
                 );
-                await this.appointmentService.updateIsValuate(appointmentId);
-                io.to(`doctor_${result.user_id}`).emit(
-                    'newNotification',
-                    result,
-                );
-            }
+
+            // await this.doctorService.updateAvgDoctorStar(lastComment.doctor_id);
+            await this.appointmentService.updateIsValuate(appointmentId);
+            io.to(`doctor_${newComment.commentableId}`).emit(
+                'newNotification',
+                result,
+            );
+            io.to(`room_${newComment.commentableId}`).emit('newComment', {});
         } catch (err: any) {
             res.status(500).json({ message: err.message });
         }

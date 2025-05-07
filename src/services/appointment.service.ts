@@ -86,6 +86,8 @@ export class AppointmentService {
         pageSize: number | null,
         status: number | null,
         userId: number | null,
+        fromDate: string | null,
+        toDate: string | null,
     ) {
         try {
             let offset: number | null = null;
@@ -97,6 +99,8 @@ export class AppointmentService {
                 pageSize ?? null,
                 status ?? null,
                 userId ?? null,
+                fromDate === 'null' ? null : fromDate,
+                toDate === 'null' ? null : toDate,
             );
         } catch (err: any) {
             throw err;
@@ -107,6 +111,8 @@ export class AppointmentService {
         pageSize: number | null,
         pageIndex: number | null,
         status: number | null,
+        fromDate: string,
+        toDate: string,
     ): Promise<AppointmentRes[] | null> {
         try {
             if (!uuid) {
@@ -122,6 +128,8 @@ export class AppointmentService {
                 pageSize ?? null,
                 offset,
                 status ?? null,
+                fromDate,
+                toDate,
             );
         } catch (err: any) {
             throw err;
@@ -144,7 +152,7 @@ export class AppointmentService {
     async getTotalPatientInDay(doctorId: number): Promise<any> {
         try {
             if (!doctorId) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
             return this.appointmentRepository.getTotalPatientInDay(doctorId);
         } catch (err: any) {
@@ -154,7 +162,7 @@ export class AppointmentService {
     async getTotalAppointmentsCompleted(doctorId: number): Promise<any> {
         try {
             if (!doctorId) {
-                throw new Error("Thiếu tham sô !")
+                throw new Error('Thiếu tham sô !');
             }
             return this.appointmentRepository.getTotalAppointmentsCompleted(
                 doctorId,
@@ -162,7 +170,6 @@ export class AppointmentService {
         } catch (err: any) {
             throw err;
         }
-        
     }
 
     async getRevenueByMonth(month: number, year: number): Promise<any> {
@@ -192,7 +199,7 @@ export class AppointmentService {
     ): Promise<any> {
         try {
             if (!id && !status) {
-                throw new Error("Thiếu id và status!")
+                throw new Error('Thiếu id và status!');
             }
             return this.appointmentRepository.updateAppointmentStatus(
                 id,
@@ -202,13 +209,12 @@ export class AppointmentService {
         } catch (err: any) {
             throw err;
         }
-       
     }
 
     async getAppointmentById(id: number): Promise<any> {
         try {
             if (!id) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
             return this.appointmentRepository.getAppointmentById(id);
         } catch (err: any) {
@@ -222,9 +228,13 @@ export class AppointmentService {
         appointmentDate: Date,
     ): Promise<any> {
         try {
-            if (!patientName || !doctorName || !appointmentDate || !patientPhone)
-            {
-                throw new Error("Thiếu tham số")
+            if (
+                !patientName ||
+                !doctorName ||
+                !appointmentDate ||
+                !patientPhone
+            ) {
+                throw new Error('Thiếu tham số');
             }
             return this.appointmentRepository.getAppointmentAtInvoice(
                 patientName,
@@ -235,12 +245,11 @@ export class AppointmentService {
         } catch (err: any) {
             throw err;
         }
-       
     }
     async updateIsValuate(appointmentId: number): Promise<any> {
         try {
             if (!appointmentId) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
             return this.appointmentRepository.updateIsValuate(appointmentId);
         } catch (err: any) {

@@ -9,5 +9,5 @@ export interface Notifications {
 export interface NotificationCreate {
     userId: number;
     message: string;
-    appointmentId: number;
+    appointmentId: number | null;
 }

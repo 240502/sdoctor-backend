@@ -7,7 +7,6 @@ export class InvoicesService {
     async createInvoice(invoice: InvoicesCreateDto): Promise<any> {
         try {
             return this.invoicesRepository.createInvoice(invoice);
-            
         } catch (err: any) {
             throw err;
         }
@@ -22,10 +21,9 @@ export class InvoicesService {
     async deleteInvoice(id: number): Promise<any> {
         try {
             if (!id) {
-                throw new Error("Thiếu tham số để xóa !")
+                throw new Error('Thiếu tham số để xóa !');
             }
             return this.invoicesRepository.deleteInvoice(id);
-            
         } catch (err: any) {
             throw err;
         }
@@ -49,12 +47,20 @@ export class InvoicesService {
         pageSize: number,
         status: string,
     ): Promise<any> {
-        return this.invoicesRepository.viewInvoice(pageIndex, pageSize, status);
+        try {
+            return this.invoicesRepository.viewInvoice(
+                pageIndex,
+                pageSize,
+                status,
+            );
+        } catch (err: any) {
+            throw err;
+        }
     }
     async updateInvoiceStatus(id: number, status: string): Promise<any> {
         try {
             if (!id || !status) {
-                throw new Error("Thiếu id và stauts")
+                throw new Error('Thiếu id và stauts');
             }
             return this.invoicesRepository.updateInvoiceStatus(id, status);
         } catch (err: any) {
@@ -66,10 +72,12 @@ export class InvoicesService {
     ): Promise<Invoices | null> {
         try {
             if (!appointmentId) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
-            return this.invoicesRepository.getInvoiceByAppointmentId(appointmentId);
-        } catch (err: any)  {
+            return this.invoicesRepository.getInvoiceByAppointmentId(
+                appointmentId,
+            );
+        } catch (err: any) {
             throw err;
         }
     }
