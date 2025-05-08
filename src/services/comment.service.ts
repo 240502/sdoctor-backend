@@ -9,7 +9,7 @@ export class CommentService {
         try {
             if (
                 !comment.commentableId ||
-                !comment.startCount ||
+                !comment.starCount ||
                 !comment.fullName
             ) {
                 throw new Error('Thiếu tham số để thêm dữ liệu !');

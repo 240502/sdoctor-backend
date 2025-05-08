@@ -14,7 +14,7 @@ export interface CommentCreateDto {
     content: string;
     fullName: string;
     commentableId: number;
-    startCount: number;
+    starCount: number;
     dateBooking: Date;
     commentableType: string;
 }

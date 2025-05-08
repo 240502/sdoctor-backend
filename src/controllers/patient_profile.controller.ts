@@ -6,7 +6,23 @@ import { Request, Response } from 'express';
 @injectable()
 export class PatientProfileController {
     constructor(private patientProfileService: PatientProfileService) {}
-
+    async getPatientProfiles(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const { uuids } = req.body as unknown as {
+                uuids: string[];
+            };
+            const results =
+                await this.patientProfileService.getPatientProfiles(uuids);
+            return results
+                ? res.status(200).json(results)
+                : res.status(404).json({ message: 'Không có dữ liệu hồ sơ !' });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async getProfileByPhoneOrEmail(req: Request, res: Response): Promise<void> {
         try {
             const { searchContent } = req.body;

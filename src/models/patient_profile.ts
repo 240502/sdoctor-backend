@@ -1,14 +1,14 @@
 export interface PatientProfile {
     id: string;
-    patient_name: string;
+    patientName: string;
     gender: string;
-    patient_phone: string;
-    patient_email: string;
+    patientPhone: string;
+    patientEmail: string;
     birthday: Date;
     province: string;
     district: string;
     commune: string;
-    created_at: Date;
-    updated_at: Date;
+    createdAt: Date;
+    updatedAt: Date;
     uuid: string;
 }

@@ -6,6 +6,19 @@ import { PatientProfile } from '../models/patient_profile';
 export class PatientProfileRepository {
     constructor(private db: Database) {}
 
+    async getPatientProfiles(uuid: string): Promise<PatientProfile[] | null> {
+        try {
+            const sql = 'CALL GetPatientProfiles(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [uuid]);
+            if (!Array.isArray(results) && results.length > 0) {
+                return null;
+            }
+            return results;
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
     async getProfileByPhoneOrEmail(
         searchContent: string,
     ): Promise<PatientProfile | null> {
@@ -36,10 +49,10 @@ export class PatientProfileRepository {
                 'CALL CreatePatientProfile(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 profile.id,
-                profile.patient_name,
+                profile.patientName,
                 profile.gender,
-                profile.patient_phone,
-                profile.patient_email,
+                profile.patientPhone,
+                profile.patientEmail,
                 profile.birthday,
                 profile.province,
                 profile.district,
@@ -56,10 +69,10 @@ export class PatientProfileRepository {
             const sql =
                 'CALL UpdatePatientProfile(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                profile.patient_name,
+                profile.patientName,
                 profile.gender,
-                profile.patient_phone,
-                profile.patient_email,
+                profile.patientPhone,
+                profile.patientEmail,
                 profile.birthday,
                 profile.province,
                 profile.district,

@@ -37,4 +37,9 @@ patientProfileRouter.get(
         patientProfileController,
     ),
 );
+
+patientProfileRouter.post(
+    '/get-patient-profiles',
+    patientProfileController.getPatientProfiles.bind(patientProfileController),
+);
 export default patientProfileRouter;

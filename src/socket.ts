@@ -29,28 +29,12 @@ export const initSocket = (server: http.Server) => {
 
     io.on('connection', (socket) => {
         console.log('A client connected: ' + socket.id);
-        socket.on('joinRoom', ({ userId }) => {
-            const accessToken = (socket.request as SocketRequest).cookies
-                .accessToken;
-            if (accessToken) {
-                try {
-                    const decoded = jwt.verify(
-                        accessToken,
-                        config.jwt.secret!,
-                    ) as { id: number; email: string };
-                    if (decoded.id === userId) {
-                        console.log(
-                            `User ${socket.id} joined room doctor_${userId}`,
-                        );
-                        socket.join(`doctor_${userId}`);
-                    } else {
-                        console.error('User ID mismatch');
-                    }
-                } catch (err) {
-                    console.error('Invalid token for joinRoom:', err);
-                }
-            } else {
-                console.error('No accessToken provided');
+        socket.on('joinRoom', ({ userId, roomName }) => {
+            try {
+                console.log(`User ${socket.id} joined room ${roomName}`);
+                socket.join(roomName);
+            } catch (err) {
+                console.error('Invalid token for joinRoom:', err);
             }
         });
         socket.on('disconnect', () => {

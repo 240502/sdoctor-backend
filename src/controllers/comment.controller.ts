@@ -12,7 +12,6 @@ import { NotificationCreate } from '../models/notifications';
 export class CommentController {
     constructor(
         private commentService: CommentService,
-        private doctorService: DoctorService,
         private notificationService: NotificationService,
         private appointmentService: AppointmentService,
     ) {}
@@ -23,30 +22,43 @@ export class CommentController {
                 newComment: CommentCreateDto;
                 appointmentId: number;
             };
-            await this.commentService.createComment(newComment);
-            res.json({ message: 'successfully created ' });
-            const io = getSocket();
 
+            // Tạo bình luận
+            await this.commentService.createComment(newComment);
+
+            // Tạo thông báo
+            const io = getSocket();
             const newNotification: NotificationCreate = {
                 userId: newComment.commentableId,
                 message: 'Có một bệnh nhân vừa nhận xét về dịch vụ!',
                 appointmentId: null,
             };
-
             const result =
                 await this.notificationService.createNotification(
                     newNotification,
                 );
 
-            // await this.doctorService.updateAvgDoctorStar(lastComment.doctor_id);
+            // Cập nhật trạng thái cuộc hẹn
             await this.appointmentService.updateIsValuate(appointmentId);
+
+            // Gửi sự kiện socket
             io.to(`doctor_${newComment.commentableId}`).emit(
                 'newNotification',
                 result,
             );
-            io.to(`room_${newComment.commentableId}`).emit('newComment', {});
+            console.log(`view_doctor_${newComment.commentableId}`);
+
+            io.to(`view_doctor_${newComment.commentableId}`).emit(
+                'newComment',
+                {},
+            );
+
+            res.status(201).json({
+                message: 'successfully created',
+                result: true,
+            });
         } catch (err: any) {
-            res.status(500).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         }
     }
     async getCommentByCommentableIdAndType(
@@ -63,7 +75,7 @@ export class CommentController {
                     type,
                 );
             if (results) {
-                res.status(200).json({
+                return res.status(200).json({
                     totalItems: Math.ceil(results[0].RecordCount),
                     pageIndex: pageIndex,
                     pageSize: pageSize,
@@ -73,7 +85,7 @@ export class CommentController {
                     pageCount: Math.ceil(results[0].RecordCount / pageSize),
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     message: 'Không tồn tại bình luận nào',
                     commentableId: commentableId,
                 });

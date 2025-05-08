@@ -5,7 +5,21 @@ import { PatientProfileRepository } from '../repositories/patient_profileReposit
 @injectable()
 export class PatientProfileService {
     constructor(private patientProfileRepository: PatientProfileRepository) {}
-
+    async getPatientProfiles(
+        uuids: string[],
+    ): Promise<PatientProfile[] | null> {
+        try {
+            if (!Array.isArray(uuids) || uuids.length === 0) {
+                throw new Error('uuid phải là 1 mảng !');
+            }
+            const uuidString = uuids.join(',');
+            return await this.patientProfileRepository.getPatientProfiles(
+                uuidString,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getProfileByPhoneOrEmail(
         searchContent: string,
     ): Promise<PatientProfile | null> {

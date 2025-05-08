@@ -11,7 +11,7 @@ export class CommentRepository {
                 comment.content,
                 comment.fullName,
                 comment.commentableId,
-                comment.startCount,
+                comment.starCount,
                 comment.dateBooking,
                 comment.commentableType,
             ]);
