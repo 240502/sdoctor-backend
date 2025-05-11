@@ -3,14 +3,46 @@ import upload from '../middlewares/multer';
 import { uploadImage } from '../controllers/upload_image_news.controller';
 import { cloudinary } from '../config/cloudinaryConfig';
 
+/**
+ * @swagger
+ * tags:
+ *   name: Upload
+ */
+
 const uploadRouter = Router();
 
-// // POST route để upload ảnh
-// Route để tải lên một hình ảnh với tên trường 'file'
-uploadRouter.post('/upload', upload.single('file'), uploadImage);
-// Route để tải lên nhiều hình ảnh
-// uploadRouter.post('/upload', upload.array('files', 10), uploadImages);
-
+/**
+ * @swagger
+ * /upload/upload-image:
+ *   post:
+ *     tags: [Upload]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: The image file to upload
+ *     responses:
+ *       200:
+ *         description: Successfully uploaded image
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 url:
+ *                   type: string
+ *                   description: URL of the uploaded image
+ *       400:
+ *         description: No file uploaded
+ *       500:
+ *         description: Error during image upload
+ */
 uploadRouter.post(
     '/upload-image',
     upload.single('file'),

@@ -35,7 +35,9 @@ export class PaymentController {
             const embed_data = {
                 // merchantinfo: 'embeddata123',
                 //sau khi hoàn tất thanh toán sẽ đi vào link này (thường là link web thanh toán thành công của mình)
-                redirecturl: 'http://localhost:5173/patient/appointment',
+                redirecturl:
+                    'http://localhost:5173/booking-success?appointment=' +
+                    appointmentId,
             };
 
             const items = invoice;
@@ -53,7 +55,7 @@ export class PaymentController {
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
                 callback_url:
-                    'https://e90c-123-18-141-213.ngrok-free.app/api/payment/callback',
+                    'https://cbcf-14-228-106-238.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
                 bank_code: 'zalopayapp',
                 mac: '',
