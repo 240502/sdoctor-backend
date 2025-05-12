@@ -22,7 +22,7 @@ export class DoctorService {
             if (
                 !doctor.fullName ||
                 !doctor.phone ||
-                !doctor.serviceId ||
+                !doctor.department ||
                 !doctor.clinicId
             ) {
                 throw new Error('Thiếu thông tin để thêm dữ liêu !');
@@ -42,7 +42,7 @@ export class DoctorService {
     async deleteDoctor(id: Number): Promise<any> {
         try {
             if (!id) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
             return this.doctorRepository.deleteDoctor(id);
         } catch (err: any) {
@@ -53,7 +53,7 @@ export class DoctorService {
     async getDoctorById(id: number): Promise<any> {
         try {
             if (!id) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
             return this.doctorRepository.getDoctorById(id);
         } catch (err: any) {
@@ -92,8 +92,8 @@ export class DoctorService {
             pageSize ?? null,
             majorIdsString,
             clinicId ?? null,
-            doctorServiceIdsString ,
-            doctorTilesString ,
+            doctorServiceIdsString,
+            doctorTilesString,
             startPrice ?? null,
             endPrice ?? null,
             departmentId ?? null,
@@ -117,15 +117,13 @@ export class DoctorService {
         } catch (err: any) {
             throw err;
         }
-        
     }
     async updateViewsDoctor(id: number): Promise<any> {
         try {
             if (!id) {
-                throw new Error("Thiếu tham số để cập nhật dữ liệu !")
+                throw new Error('Thiếu tham số để cập nhật dữ liệu !');
             }
             return this.doctorRepository.updateViewDoctor(id);
-            
         } catch (err: any) {
             throw err;
         }
@@ -133,7 +131,7 @@ export class DoctorService {
     async updateAvgDoctorStar(doctorId: number): Promise<any> {
         try {
             if (!doctorId) {
-                throw new Error("Thiếu tham số !")
+                throw new Error('Thiếu tham số !');
             }
             return this.doctorRepository.updateAverageDoctorStar(doctorId);
         } catch (err: any) {

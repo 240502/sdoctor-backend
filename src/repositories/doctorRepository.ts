@@ -22,8 +22,8 @@ export class DoctorRepository {
     async createDoctor(doctor: DoctorCreateDto): Promise<any> {
         try {
             const sql =
-                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [
+                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const [result] = await this.db.query(sql, [
                 doctor.email,
                 doctor.gender,
                 doctor.phone,
@@ -34,14 +34,15 @@ export class DoctorRepository {
                 doctor.district,
                 doctor.commune,
                 doctor.clinicId,
-                doctor.majorId,
                 doctor.summary,
                 doctor.title,
                 doctor.introduction,
-                doctor.serviceId,
                 doctor.department,
             ]);
-            return true;
+            console.log(doctor);
+            console.log(result);
+
+            return result[0].lastUserId;
         } catch (err: any) {
             throw new Error(err.message);
         }

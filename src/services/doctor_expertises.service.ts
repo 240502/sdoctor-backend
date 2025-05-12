@@ -10,13 +10,11 @@ export class DoctorExpertisesService {
 
     async createDoctorExpertises(
         doctorId: number,
-        specialtyId: number,
-        expertises: DoctorExpertisesCreateDto[],
+        expertises: string[],
     ): Promise<any> {
         try {
             if (
                 !doctorId ||
-                !specialtyId ||
                 !Array.isArray(expertises) ||
                 expertises.length === 0
             ) {
@@ -24,7 +22,6 @@ export class DoctorExpertisesService {
             }
             return await this.doctorExpertisesRepository.createDoctorExpertises(
                 doctorId,
-                specialtyId,
                 expertises,
             );
         } catch (err: any) {

@@ -7,14 +7,12 @@ export class DoctorExpertisesRepository {
     constructor(private db: Database) {}
     async createDoctorExpertises(
         doctorId: number,
-        specialtyId: number,
-        expertises: DoctorExpertisesCreateDto[],
+        expertises: string[],
     ): Promise<any> {
         try {
             const sql = 'CALL CreateDoctorExpertise(?,?,@err_code,@err_msg)';
             const result = await this.db.query(sql, [
                 doctorId,
-                specialtyId,
                 JSON.stringify(expertises),
             ]);
             return result;

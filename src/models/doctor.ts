@@ -52,10 +52,8 @@ export interface DoctorCreateDto {
     district: string;
     commune: string;
     clinicId: number;
-    majorId: number;
     summary: string;
     title: string;
     introduction: string;
-    serviceId: number;
     department: number;
 }

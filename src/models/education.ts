@@ -8,7 +8,6 @@ export interface Education {
 }
 
 export interface EducationCreateDto {
-    doctorId: number;
     degree: string;
     institution: string;
     startDate: Date;

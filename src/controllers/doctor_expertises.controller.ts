@@ -10,15 +10,13 @@ export class DoctorExpertisesController {
         res: Response,
     ): Promise<void | Response> {
         try {
-            const { doctorId, specialtyId, expertises } = req.body as {
+            const { doctorId, expertises } = req.body as {
                 doctorId: number;
-                specialtyId: number;
-                expertises: DoctorExpertisesCreateDto[];
+                expertises: string[];
             };
             const reuslt =
                 await this.doctorExpertisesService.createDoctorExpertises(
                     doctorId,
-                    specialtyId,
                     expertises,
                 );
             res.status(201).json({ message: 'Created successful', reuslt });

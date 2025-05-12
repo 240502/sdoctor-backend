@@ -8,7 +8,6 @@ export interface WorkExperience {
 }
 
 export interface WorkExperienceCreateDto {
-    doctorId: number;
     workplace: string;
     position: string;
     startDate: Date;
