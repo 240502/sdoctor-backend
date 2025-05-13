@@ -22,7 +22,7 @@ export class DoctorRepository {
     async createDoctor(doctor: DoctorCreateDto): Promise<any> {
         try {
             const sql =
-                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [result] = await this.db.query(sql, [
                 doctor.email,
                 doctor.gender,
@@ -38,10 +38,8 @@ export class DoctorRepository {
                 doctor.title,
                 doctor.introduction,
                 doctor.department,
+                doctor.servicePrice,
             ]);
-            console.log(doctor);
-            console.log(result);
-
             return result[0].lastUserId;
         } catch (err: any) {
             throw new Error(err.message);
@@ -109,28 +107,24 @@ export class DoctorRepository {
     async getListDoctorsWithPaginationAndFilters(
         pageIndex: number | null,
         pageSize: number | null,
-        majorIds: string | null,
+        departmentIds: string | null,
         clinicId: number | null,
-        doctorServiceIds: string | null,
         doctorTitles: string | null,
         startPrice: number | null,
         endPrice: number | null,
-        departmentId: number | null,
         gender: string | null,
     ): Promise<any> {
         try {
             const sql =
-                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL GetListDoctorsWithPaginationAndFilters(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
-                majorIds,
+                departmentIds,
                 clinicId,
-                doctorServiceIds,
                 doctorTitles,
                 startPrice,
                 endPrice,
-                departmentId,
                 gender,
             ]);
             if (Array.isArray(results) && results.length > 0) {

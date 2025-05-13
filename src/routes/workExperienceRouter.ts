@@ -48,10 +48,38 @@ const workExperiencesController = container.resolve(WorkExperiencesController);
  */
 workExperiencesRouter.post(
     '/create',
-    authenticate,
+    // authenticate,
     workExperiencesController.createWorkExperiences.bind(
         workExperiencesController,
     ),
 );
 
+/**
+ * @swagger
+ * /work-experiences/{doctorId}:
+ *   get:
+ *     tags: [WorkExperience]
+ *     security:
+ *       - Bearer: []
+ *     parameters:
+ *       - in: path
+ *         name: doctorId
+ *         required: true
+ *         description: ID of the doctor
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Work experience retrieved successfully
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+workExperiencesRouter.get(
+    '/get-work-experience-by-doctorId/:doctorId',
+    workExperiencesController.getWorkExperienceByDoctorId.bind(
+        workExperiencesController,
+    ),
+);
 export default workExperiencesRouter;

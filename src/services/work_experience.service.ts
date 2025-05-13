@@ -5,7 +5,18 @@ import { WorkExperienceCreateDto } from '../models/work_experience';
 @injectable()
 export class WorkExperiencesService {
     constructor(private workExperienceRepository: WorkExperienceRepository) {}
-
+    async getWorkExperienceByDoctorId(doctorId: number): Promise<any> {
+        try {
+            if (!doctorId) {
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
+            }
+            return await this.workExperienceRepository.getWorkExperienceByDoctorId(
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async createWorkExperiences(
         doctorId: number,
         workExperiences: WorkExperienceCreateDto[],

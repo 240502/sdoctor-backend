@@ -71,26 +71,23 @@ export class DoctorController {
             const object = req.body as {
                 pageIndex: number | null;
                 pageSize: number | null;
-                majorIds: number[] | null;
+                departmentIds: number[] | null;
                 clinicId: number | null;
                 doctorServiceIds: number[] | null;
                 doctorTitles: number[] | null;
                 startPrice: number | null;
                 endPrice: number | null;
-                departmentId: number | null;
                 gender: string | null;
             };
             const data =
                 await this.doctorService.getListDoctorsWithPaginationAndFilters(
                     object.pageIndex,
                     object.pageSize,
-                    object.majorIds,
                     object.clinicId,
-                    object.doctorServiceIds,
                     object.doctorTitles,
                     object.startPrice,
                     object.endPrice,
-                    object.departmentId,
+                    object.departmentIds,
                     object.gender,
                 );
             if (!data) {
@@ -105,7 +102,7 @@ export class DoctorController {
                     ? Math.ceil(data[0].RecordCount / object?.pageSize)
                     : null,
                 data: data,
-                majorIds: object.majorIds,
+                departmentIds: object.departmentIds,
                 clinicId: object.clinicId,
                 doctocServiceIds: object.doctorServiceIds,
                 doctorTiles: object.doctorTitles,
@@ -113,7 +110,7 @@ export class DoctorController {
                 endPrice: object.endPrice,
             });
         } catch (err: any) {
-            res.status(500).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         }
     }
     async getQuantityDoctor(req: Request, res: Response): Promise<void> {

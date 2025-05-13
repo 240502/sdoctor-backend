@@ -5,6 +5,24 @@ import { DoctorExpertisesCreateDto } from '../models/doctor_expertises';
 @injectable()
 export class DoctorExpertisesController {
     constructor(private doctorExpertisesService: DoctorExpertisesService) {}
+    async getDoctorExpertisesByDoctorId(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const doctorId = Number(req.params.doctorId);
+            if (!doctorId) {
+                return res.status(400).json({ message: 'Missing doctorId' });
+            }
+            const result =
+                await this.doctorExpertisesService.getDoctorExpertisesByDoctorId(
+                    doctorId,
+                );
+            res.status(200).json(result);
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async createDoctorExpertises(
         req: Request,
         res: Response,

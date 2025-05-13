@@ -7,7 +7,18 @@ export class DoctorExpertisesService {
     constructor(
         private doctorExpertisesRepository: DoctorExpertisesRepository,
     ) {}
-
+    async getDoctorExpertisesByDoctorId(doctorId: number): Promise<any> {
+        try {
+            if (!doctorId) {
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
+            }
+            return await this.doctorExpertisesRepository.getDoctorExpertisesByDoctorId(
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async createDoctorExpertises(
         doctorId: number,
         expertises: string[],

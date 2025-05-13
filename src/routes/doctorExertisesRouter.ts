@@ -42,10 +42,37 @@ const doctorExpertisesController = container.resolve(
  */
 doctorExpertisesRouter.post(
     '/create',
-    authenticate,
+    // authenticate,
     doctorExpertisesController.createDoctorExpertises.bind(
         doctorExpertisesController,
     ),
 );
-
+/**
+ * @swagger
+ * /doctor-expertise/{doctorId}:
+ *   get:
+ *     tags: [DoctorExertises]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: doctorId
+ *         required: true
+ *         description: ID of the doctor
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Doctor expertise retrieved successfully
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
+doctorExpertisesRouter.get(
+    '/get-expertises-by-doctorId/:doctorId',
+    doctorExpertisesController.getDoctorExpertisesByDoctorId.bind(
+        doctorExpertisesController,
+    ),
+);
 export default doctorExpertisesRouter;

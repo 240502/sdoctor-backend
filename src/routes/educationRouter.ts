@@ -44,8 +44,33 @@ const educationController = container.resolve(EducationController);
  */
 educationRouter.post(
     '/create',
-    authenticate,
-    educationController.createDoctorExpertises.bind(educationController),
+    // authenticate,
+    educationController.createDoctorEducation.bind(educationController),
+);
+
+/**
+ * @swagger
+ * /education/{doctorId}:
+ *   get:
+ *     tags: [Education]
+ *     parameters:
+ *       - in: path
+ *         name: doctorId
+ *         required: true
+ *         description: ID of the doctor
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Education records retrieved successfully
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
+educationRouter.get(
+    '/get-education-by-doctorId/:doctorId',
+    educationController.getEducationByDoctorId.bind(educationController),
 );
 
 export default educationRouter;

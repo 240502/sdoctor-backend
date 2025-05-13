@@ -3,13 +3,13 @@ export interface Education {
     doctorId: number;
     degree: string;
     institution: string;
-    startDate: Date;
-    endDate: Date;
+    fromYear: number;
+    toYear: number;
 }
 
 export interface EducationCreateDto {
     degree: string;
     institution: string;
-    startDate: Date;
-    endDate: Date;
+    fromYear: number;
+    toYear: number;
 }

@@ -42,7 +42,7 @@ const doctorController = container.resolve(DoctorController);
  */
 doctorRouter.post(
     '/create',
-    authenticate,
+    // authenticate,
     doctorController.createDoctor.bind(doctorController),
 );
 

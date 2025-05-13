@@ -63,24 +63,17 @@ export class DoctorService {
     async getListDoctorsWithPaginationAndFilters(
         pageIndex: number | null,
         pageSize: number | null,
-        majorIds: number[] | null,
         clinicId: number | null,
-        doctorServiceIds: number[] | null,
         doctorTitles: number[] | null,
         startPrice: number | null,
         endPrice: number | null,
-        departmentId: number | null,
+        departmentIds: number[] | null,
         gender: string | null,
     ): Promise<any> {
-        let majorIdsString: string | null = null;
-        let doctorServiceIdsString: string | null = null;
+        let departmentIdsString: string | null = null;
         let doctorTilesString: string | null = null;
-        if (majorIds && majorIds?.length > 0) {
-            majorIdsString = majorIds?.join(',');
-        }
-
-        if (doctorServiceIds && doctorServiceIds?.length > 0) {
-            doctorServiceIdsString = doctorServiceIds?.join(',');
+        if (departmentIds && departmentIds?.length > 0) {
+            departmentIdsString = departmentIds?.join(',');
         }
 
         if (doctorTitles && doctorTitles?.length > 0) {
@@ -90,13 +83,11 @@ export class DoctorService {
         return this.doctorRepository.getListDoctorsWithPaginationAndFilters(
             pageIndex ?? null,
             pageSize ?? null,
-            majorIdsString,
+            departmentIdsString,
             clinicId ?? null,
-            doctorServiceIdsString,
             doctorTilesString,
             startPrice ?? null,
             endPrice ?? null,
-            departmentId ?? null,
             gender ?? null,
         );
     }
