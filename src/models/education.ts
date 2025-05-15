@@ -13,3 +13,11 @@ export interface EducationCreateDto {
     fromYear: number;
     toYear: number;
 }
+
+export interface EducationUpdateDto {
+    id: number;
+    degree: string;
+    institution: string;
+    fromYear: number;
+    toYear: number;
+}

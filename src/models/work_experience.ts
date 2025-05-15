@@ -13,3 +13,11 @@ export interface WorkExperienceCreateDto {
     fromYear: number;
     toYear: number;
 }
+
+export interface WorkExperienceUpdateDto {
+    id: number;
+    workplace: string;
+    position: string;
+    fromYear: number;
+    toYear: number;
+}

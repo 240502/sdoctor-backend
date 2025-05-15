@@ -1,6 +1,11 @@
 import { injectable } from 'tsyringe';
 import { DoctorRepository } from '../repositories/doctorRepository';
-import { Doctor, DoctorCreateDto, DoctorInfo } from '../models/doctor';
+import {
+    Doctor,
+    DoctorCreateDto,
+    DoctorInfo,
+    DoctorUpdateDto,
+} from '../models/doctor';
 
 @injectable()
 export class DoctorService {
@@ -32,7 +37,7 @@ export class DoctorService {
             throw err;
         }
     }
-    async updateDoctor(doctor: DoctorInfo): Promise<any> {
+    async updateDoctor(doctor: DoctorUpdateDto): Promise<any> {
         try {
             return this.doctorRepository.updateDoctor(doctor);
         } catch (err) {

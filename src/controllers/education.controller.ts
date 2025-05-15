@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Request, Response } from 'express';
-import { EducationCreateDto } from '../models/education';
+import { EducationCreateDto, EducationUpdateDto } from '../models/education';
 import { EducationService } from '../services/education.service';
 
 @injectable()
@@ -38,6 +38,32 @@ export class EducationController {
             res.status(201).json({ message: 'Created successful', reuslt });
         } catch (err: any) {
             res.status(400).json({ message: err.message });
+        }
+    }
+    async deleteEducation(req: Request, res: Response): Promise<any> {
+        try {
+            const id: number = Number(req.params.id);
+            const result = await this.educationService.deleteEducation(id);
+            res.status(200).json({ message: 'Deleted successful', result });
+        } catch (err: any) {
+            res.status(400).json({
+                message: 'Error!',
+                error: err,
+            });
+        }
+    }
+    async updateEducation(req: Request, res: Response): Promise<any> {
+        try {
+            const workExperience: EducationUpdateDto =
+                req.body as EducationUpdateDto;
+            const result =
+                await this.educationService.updateEducation(workExperience);
+            res.status(200).json({ message: 'Updated successful', result });
+        } catch (err: any) {
+            res.status(400).json({
+                message: 'Error!',
+                error: err,
+            });
         }
     }
 }

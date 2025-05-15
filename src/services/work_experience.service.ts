@@ -1,6 +1,9 @@
 import { injectable } from 'tsyringe';
 import { WorkExperienceRepository } from '../repositories/work_experienceRepository';
-import { WorkExperienceCreateDto } from '../models/work_experience';
+import {
+    WorkExperienceCreateDto,
+    WorkExperienceUpdateDto,
+} from '../models/work_experience';
 
 @injectable()
 export class WorkExperiencesService {
@@ -19,20 +22,48 @@ export class WorkExperiencesService {
     }
     async createWorkExperiences(
         doctorId: number,
-        workExperiences: WorkExperienceCreateDto[],
+        workExperience: WorkExperienceCreateDto[],
     ): Promise<any> {
         try {
             if (
                 !doctorId ||
-                !Array.isArray(workExperiences) ||
-                workExperiences.length === 0
+                !Array.isArray(workExperience) ||
+                workExperience.length === 0
             ) {
                 throw new Error('Thiếu tham số để  thêm dữ liệu !');
             }
             return await this.workExperienceRepository.createWorkExperiences(
                 doctorId,
-                workExperiences,
+                workExperience,
             );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async updateWorkExperience(
+        workExperience: WorkExperienceUpdateDto,
+    ): Promise<any> {
+        try {
+            if (
+                !workExperience.id ||
+                !workExperience.position ||
+                !workExperience.workplace
+            ) {
+                throw new Error('Thiếu tham số để cập nhật!');
+            }
+            return await this.workExperienceRepository.updateWorkExperience(
+                workExperience,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async deleteWorkExperience(id: number): Promise<any> {
+        try {
+            if (!id) {
+                throw new Error('Thiếu tham số để xóa!');
+            }
+            return await this.workExperienceRepository.deleteWorkExperience(id);
         } catch (err: any) {
             throw err;
         }

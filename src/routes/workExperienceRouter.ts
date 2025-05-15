@@ -82,4 +82,18 @@ workExperiencesRouter.get(
         workExperiencesController,
     ),
 );
+
+workExperiencesRouter.put(
+    '/update',
+    workExperiencesController.updateWorkExperience.bind(
+        workExperiencesController,
+    ),
+);
+
+workExperiencesRouter.delete(
+    '/delete/:id',
+    workExperiencesController.deleteWorkExperience.bind(
+        workExperiencesController,
+    ),
+);
 export default workExperiencesRouter;

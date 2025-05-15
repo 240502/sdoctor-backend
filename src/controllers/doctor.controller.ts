@@ -1,6 +1,11 @@
 import { injectable } from 'tsyringe';
 import { DoctorService } from '../services/doctor.service';
-import { Doctor, DoctorCreateDto, DoctorInfo } from '../models/doctor';
+import {
+    Doctor,
+    DoctorCreateDto,
+    DoctorInfo,
+    DoctorUpdateDto,
+} from '../models/doctor';
 import { Request, Response } from 'express';
 @injectable()
 export class DoctorController {
@@ -33,7 +38,7 @@ export class DoctorController {
     }
     async updateDoctor(req: Request, res: Response): Promise<void> {
         try {
-            const doctor = req.body as DoctorInfo;
+            const doctor = req.body as DoctorUpdateDto;
             await this.doctorService.updateDoctor(doctor);
             res.json({ message: 'Successfully updated', result: true });
         } catch (err: any) {

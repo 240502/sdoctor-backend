@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { EducationCreateDto } from '../models/education';
+import { EducationCreateDto, EducationUpdateDto } from '../models/education';
 import { EducationRepository } from '../repositories/eduationRepository';
 
 @injectable()
@@ -29,10 +29,30 @@ export class EducationService {
             ) {
                 throw new Error('Thiếu tham số để  thêm dữ liệu !');
             }
-            return await this.educationRepository.createDoctorExpertises(
+            return await this.educationRepository.createEducation(
                 doctorId,
                 educations,
             );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async updateEducation(education: EducationUpdateDto): Promise<any> {
+        try {
+            if (!education.id || !education.institution || !education.degree) {
+                throw new Error('Thiếu tham số để cập nhật dữ liệu!');
+            }
+            return await this.educationRepository.updateEducation(education);
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async deleteEducation(id: number): Promise<any> {
+        try {
+            if (!id) {
+                throw new Error('Thiếu tham số để xóa !');
+            }
+            return await this.educationRepository.deleteEducation(id);
         } catch (err: any) {
             throw err;
         }

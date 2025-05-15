@@ -42,4 +42,35 @@ export class DoctorExpertisesController {
             res.status(400).json({ message: err.message });
         }
     }
+
+    async deleteEducation(req: Request, res: Response): Promise<any> {
+        try {
+            const id: number = Number(req.params.id);
+            const result =
+                await this.doctorExpertisesService.deleteDoctorExpertise(id);
+            res.status(200).json({ message: 'Deleted successful', result });
+        } catch (err: any) {
+            res.status(400).json({
+                message: 'Error!',
+                error: err.message,
+            });
+        }
+    }
+    async updateDoctorExpertise(req: Request, res: Response): Promise<any> {
+        try {
+            const { id, expertise }: { id: number; expertise: string } =
+                req.body;
+            const result =
+                await this.doctorExpertisesService.updateDoctorExpertise(
+                    id,
+                    expertise,
+                );
+            res.status(200).json({ message: 'Updated successful', result });
+        } catch (err: any) {
+            res.status(400).json({
+                message: 'Error!',
+                error: err.message,
+            });
+        }
+    }
 }

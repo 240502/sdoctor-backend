@@ -73,4 +73,13 @@ educationRouter.get(
     educationController.getEducationByDoctorId.bind(educationController),
 );
 
+educationRouter.put(
+    '/update',
+    educationController.updateEducation.bind(educationController),
+);
+
+educationRouter.delete(
+    '/delete/:id',
+    educationController.deleteEducation.bind(educationController),
+);
 export default educationRouter;

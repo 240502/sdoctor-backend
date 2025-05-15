@@ -58,3 +58,22 @@ export interface DoctorCreateDto {
     department: number;
     servicePrice: number;
 }
+
+export interface DoctorUpdateDto {
+    doctorId: number;
+    image: string;
+    clinicId: number;
+    department: number;
+    fullName: string;
+    gender: number;
+    phone: string;
+    email: string;
+    city: string;
+    district: string;
+    commune: string;
+    title: number;
+    birthday: string;
+    servicePrice: number;
+    summary: string;
+    introduction: string;
+}

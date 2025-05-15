@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { EducationCreateDto } from '../models/education';
+import { EducationCreateDto, EducationUpdateDto } from '../models/education';
 
 @injectable()
 export class EducationRepository {
@@ -14,7 +14,7 @@ export class EducationRepository {
             throw new Error(err);
         }
     }
-    async createDoctorExpertises(
+    async createEducation(
         doctorId: number,
         educations: EducationCreateDto[],
     ): Promise<any> {
@@ -24,6 +24,30 @@ export class EducationRepository {
                 doctorId,
                 JSON.stringify(educations),
             ]);
+            return result;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+    async updateEducation(education: EducationUpdateDto): Promise<any> {
+        try {
+            const sql = 'CALL UpdateEducation(?,?,?,?,?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [
+                education.id,
+                education.degree,
+                education.institution,
+                education.fromYear,
+                education.toYear,
+            ]);
+            return result;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+    async deleteEducation(id: number): Promise<any> {
+        try {
+            const sql = 'CALL DeleteEducation(?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [id]);
             return result;
         } catch (err: any) {
             throw new Error(err);

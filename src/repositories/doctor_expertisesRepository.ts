@@ -31,4 +31,22 @@ export class DoctorExpertisesRepository {
             throw new Error(err);
         }
     }
+    async updateDoctorExpertise(id: number, expertise: string): Promise<any> {
+        try {
+            const sql = 'CALL UpdateDoctorExpertise(?,?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [id, expertise]);
+            return result;
+        } catch (error: any) {
+            throw new Error(error);
+        }
+    }
+    async deleteDoctorExpertise(id: number): Promise<any> {
+        try {
+            const sql = 'CALL DeleteDoctorExpertise(?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [id]);
+            return result;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
 }

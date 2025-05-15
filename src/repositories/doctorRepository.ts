@@ -1,6 +1,11 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Doctor, DoctorCreateDto, DoctorInfo } from '../models/doctor';
+import {
+    Doctor,
+    DoctorCreateDto,
+    DoctorInfo,
+    DoctorUpdateDto,
+} from '../models/doctor';
 @injectable()
 export class DoctorRepository {
     constructor(private db: Database) {}
@@ -45,28 +50,27 @@ export class DoctorRepository {
             throw new Error(err.message);
         }
     }
-    async updateDoctor(doctor: DoctorInfo): Promise<any> {
+    async updateDoctor(doctor: DoctorUpdateDto): Promise<any> {
         try {
             const sql =
-                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
+                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
             await this.db.query(sql, [
-                doctor.doctor_id,
-                doctor.user_id,
-                doctor.full_name,
-                doctor.clinic_id,
-                doctor.major_id,
-                doctor.summary,
+                doctor.doctorId,
                 doctor.image,
-                doctor.email,
-                doctor.phone,
+                doctor.clinicId,
+                doctor.department,
+                doctor.fullName,
                 doctor.gender,
-                doctor.title,
-                doctor.introduction,
-                doctor.birthday,
-                doctor.service_id,
+                doctor.phone,
+                doctor.email,
                 doctor.city,
                 doctor.district,
                 doctor.commune,
+                doctor.title,
+                doctor.birthday,
+                doctor.servicePrice,
+                doctor.summary,
+                doctor.introduction,
             ]);
             return true;
         } catch (err: any) {

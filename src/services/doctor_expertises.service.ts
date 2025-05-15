@@ -39,4 +39,29 @@ export class DoctorExpertisesService {
             throw err;
         }
     }
+    async updateDoctorExpertise(id: number, expertise: string): Promise<any> {
+        try {
+            if (!id || !expertise) {
+                throw new Error('Thiếu tham số để cập nhật');
+            }
+            return await this.doctorExpertisesRepository.updateDoctorExpertise(
+                id,
+                expertise,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async deleteDoctorExpertise(id: number): Promise<any> {
+        try {
+            if (!id) {
+                throw new Error('Thiếu tham số !');
+            }
+            return await this.doctorExpertisesRepository.deleteDoctorExpertise(
+                id,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
 }

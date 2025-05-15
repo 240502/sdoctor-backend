@@ -75,4 +75,16 @@ doctorExpertisesRouter.get(
         doctorExpertisesController,
     ),
 );
+
+doctorExpertisesRouter.put(
+    '/update',
+    doctorExpertisesController.updateDoctorExpertise.bind(
+        doctorExpertisesController,
+    ),
+);
+
+doctorExpertisesRouter.delete(
+    '/delete/:id',
+    doctorExpertisesController.deleteEducation.bind(doctorExpertisesController),
+);
 export default doctorExpertisesRouter;
