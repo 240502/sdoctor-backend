@@ -83,6 +83,7 @@ export class DoctorController {
                 startPrice: number | null;
                 endPrice: number | null;
                 gender: string | null;
+                searchContent: string;
             };
             const data =
                 await this.doctorService.getListDoctorsWithPaginationAndFilters(
@@ -94,6 +95,7 @@ export class DoctorController {
                     object.endPrice,
                     object.departmentIds,
                     object.gender,
+                    object.searchContent,
                 );
             if (!data) {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
