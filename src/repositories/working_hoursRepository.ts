@@ -49,7 +49,10 @@ export class WorkingHoursRepository {
     async getWorkingHoursByClinicId(clinicId: number) {
         try {
             const sql = 'CALL GetWorkingHoursByClinicId(?,@err_code,@err_msg)';
-            const result = await this.db.query(sql, [clinicId]);
+            const [result] = await this.db.query(sql, [clinicId]);
+            if (!Array.isArray(result) || result.length === 0) {
+                return null;
+            }
             return result;
         } catch (err: any) {
             throw err;

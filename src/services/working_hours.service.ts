@@ -55,12 +55,10 @@ export class WorkingHoursService {
 
     async getWorkingHoursByClinicId(clinicId: number): Promise<any> {
         try {
-            // Input validation
             if (!Number.isInteger(clinicId) || clinicId <= 0) {
                 throw new Error('clinicId phải là số nguyên dương');
             }
 
-            // Call repository to fetch records
             const result =
                 await this.workingHoursRepository.getWorkingHoursByClinicId(
                     clinicId,
