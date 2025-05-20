@@ -7,14 +7,14 @@ export class ClinicRepository {
     async createClinic(clinic: Clinic): Promise<any> {
         try {
             const sql = 'CALL CreateClinic(?,?,?,?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [
+            const [reuslt] = await this.db.query(sql, [
                 clinic.name,
                 clinic.description,
                 clinic.location,
                 clinic.avatar,
-                clinic.cover_image,
+                clinic.coverImage,
             ]);
-            return true;
+            return reuslt;
         } catch (err: any) {
             throw new Error(err.message);
         }
@@ -37,7 +37,7 @@ export class ClinicRepository {
                 clinic.description,
                 clinic.location,
                 clinic.avatar,
-                clinic.cover_image,
+                clinic.coverImage,
                 clinic.created_at,
             ]);
             return true;

@@ -4,9 +4,8 @@ export interface Clinic {
     description: String;
     location: String;
     avatar: String;
-    cover_image: String;
+    coverImage: String;
     created_at: Date;
     updated_at: Date;
     view: number;
-    major_list: string;
 }

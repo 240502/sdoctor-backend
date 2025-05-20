@@ -8,10 +8,10 @@ export class ClinicController {
     async createClinic(req: Request, res: Response): Promise<void> {
         try {
             const clinic: Clinic = req.body as Clinic;
-            await this.clinicService.createClinic(clinic);
+            const result = await this.clinicService.createClinic(clinic);
             res.status(200).json({
                 message: 'successfully created!',
-                result: true,
+                result,
             });
         } catch (err: any) {
             res.json({ message: err.message });

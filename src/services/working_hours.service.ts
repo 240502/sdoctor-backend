@@ -22,7 +22,7 @@ export class WorkingHoursService {
             throw err;
         }
     }
-    async updateMedicalEquipment(workingHours: WorkingHours): Promise<any> {
+    async updateWorkingHours(workingHours: WorkingHours): Promise<any> {
         try {
             if (!workingHours.id) {
                 throw new Error('Thiếu id');

@@ -20,7 +20,7 @@ workingHoursRouter.delete(
 workingHoursRouter.put(
     '/update/',
     authenticate,
-    workingHoursController.updateMedicalEquipment.bind(workingHoursController),
+    workingHoursController.updateWorkingHours.bind(workingHoursController),
 );
 
 workingHoursRouter.get(

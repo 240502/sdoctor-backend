@@ -30,6 +30,8 @@ import workExperiencesRouter from './workExperienceRouter';
 import educationRouter from './educationRouter';
 import doctorExpertisesRouter from './doctorExertisesRouter';
 import clinicSpecialtyRouter from './clinic_specialtyRouter';
+import medicalEquipmentRouter from './medical_equipmentRouter';
+import workingHoursRouter from './working_hoursRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -63,7 +65,7 @@ appRouter.use('/work-experiences', workExperiencesRouter);
 appRouter.use('/education', educationRouter);
 appRouter.use('/doctor-expertises', doctorExpertisesRouter);
 appRouter.use('/clinic-specialty', clinicSpecialtyRouter);
-appRouter.use('/medical-equipment', clinicSpecialtyRouter);
-appRouter.use('/working-hours', clinicSpecialtyRouter);
+appRouter.use('/medical-equipment', medicalEquipmentRouter);
+appRouter.use('/working-hours', workingHoursRouter);
 
 export default appRouter;
