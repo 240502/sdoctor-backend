@@ -56,7 +56,7 @@ export class ClinicSpecialtyController {
                 );
             if (!result) {
                 return res
-                    .json(404)
+                    .status(404)
                     .json({ message: 'Not found', result: false });
             }
             res.status(200).json(result);
