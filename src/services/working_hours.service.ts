@@ -63,7 +63,22 @@ export class WorkingHoursService {
                 await this.workingHoursRepository.getWorkingHoursByClinicId(
                     clinicId,
                 );
-            return result;
+                const dayOrder: { [key: string]: number } = {
+                    'Thứ Hai': 1,
+                    'Thứ Ba': 2,
+                    'Thứ Tư': 3,
+                    'Thứ Năm': 4,
+                    'Thứ Sáu': 5,
+                    'Thứ Bảy': 6,
+                    'Chủ Nhật': 7,
+                };
+        
+                // Sắp xếp result theo dayOfWeek
+                const sortedResult = result?.sort((a: any, b: any) => {
+                    return dayOrder[a.dayOfWeek] - dayOrder[b.dayOfWeek];
+                });
+        
+                return sortedResult;
         } catch (err: any) {
             throw new Error(
                 `Không thể lấy danh sách clinicSpecialty: ${err.message}`,

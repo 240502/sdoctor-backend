@@ -12,8 +12,6 @@ export class WorkingHoursController {
                 req.body as WorkingHoursCreateDto;
             const result =
                 await this.workingHoursService.createWorkingHours(workingHours);
-            console.log(workingHours);
-
             res.status(201).json({ message: 'Created successful', result });
         } catch (err: any) {
             res.status(400).json({ message: err.message, result: false });

@@ -32,7 +32,7 @@ medicalEquipmentRouter.delete(
     ),
 );
 
-medicalEquipmentRouter.delete(
+medicalEquipmentRouter.get(
     '/get-medical-equipment-by-clinicid/:clinicId',
     medicalEquipmentController.getMedicalEquipmentByClinicId.bind(
         medicalEquipmentController,
