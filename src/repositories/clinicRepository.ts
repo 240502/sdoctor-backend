@@ -30,7 +30,7 @@ export class ClinicRepository {
     }
     async updateClinic(clinic: Clinic): Promise<any> {
         try {
-            const sql = 'CALL UpdateClinic(?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL UpdateClinic(?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 clinic.id,
                 clinic.name,
@@ -38,7 +38,6 @@ export class ClinicRepository {
                 clinic.location,
                 clinic.avatar,
                 clinic.coverImage,
-                clinic.created_at,
             ]);
             return true;
         } catch (err: any) {

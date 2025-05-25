@@ -19,6 +19,7 @@ export interface User {
     token: string;
     functions: Functions[];
     active: number;
+    roleName: string;
 }
 
 export interface TokenPayload {

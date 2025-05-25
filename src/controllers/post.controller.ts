@@ -51,6 +51,7 @@ export class PostController {
                 pageSize,
                 status,
                 authorId,
+                position,
             } = req.query as {
                 searchContent?: string;
                 categoryId?: number;
@@ -58,6 +59,7 @@ export class PostController {
                 pageSize?: number;
                 status?: string;
                 authorId?: number;
+                position?: string;
             };
 
             const data = await this.postService.getPostWithOptions(
@@ -67,6 +69,7 @@ export class PostController {
                 pageSize,
                 status,
                 authorId,
+                position,
             );
             if (data) {
                 res.json({

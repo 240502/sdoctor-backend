@@ -2,7 +2,6 @@ import { injectable } from 'tsyringe';
 import { UserService } from '../services/user.service';
 import { LoginResponse, User } from '../models/user';
 import { Request, Response } from 'express';
-const md5 = require('md5');
 import * as jwt from 'jsonwebtoken';
 @injectable()
 export class UserController {

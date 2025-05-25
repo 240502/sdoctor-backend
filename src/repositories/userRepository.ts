@@ -70,6 +70,7 @@ export class UserRepository {
                         updated_at: results[0].updated_at,
                         birthday: results[0].birthday,
                         functions: functions,
+                        roleName: results[0].name,
                         token: '',
                         active: results[0].active,
                     };
@@ -190,6 +191,7 @@ export class UserRepository {
                     functions: functions,
                     token: '',
                     active: results[0].active,
+                    roleName: results[0].name,
                 };
                 return user;
             } else {

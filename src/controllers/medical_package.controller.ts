@@ -1,6 +1,10 @@
 import { injectable } from 'tsyringe';
 import { MedicalPackageService } from '../services/medical_package.service';
-import { Service } from '../models/service';
+import {
+    MedicalPackage,
+    MedicalPackageCreateDTO,
+    MedicalPackageUpdateDTO,
+} from '../models/medical_package';
 import { Request, Response } from 'express';
 
 @injectable()
@@ -27,7 +31,8 @@ export class MedicalPackageController {
     }
     async createService(req: Request, res: Response): Promise<any> {
         try {
-            const service: Service = req.body as Service;
+            const service: MedicalPackageCreateDTO =
+                req.body as MedicalPackageCreateDTO;
             const newService =
                 await this.medicalPackageService.createService(service);
             res.json({ message: 'success', result: newService });
@@ -37,7 +42,8 @@ export class MedicalPackageController {
     }
     async updateService(req: Request, res: Response): Promise<void> {
         try {
-            const service: Service = req.body as Service;
+            const service: MedicalPackageUpdateDTO =
+                req.body as MedicalPackageUpdateDTO;
             await this.medicalPackageService.updateService(service);
             res.json({ message: 'success', result: true });
         } catch (err: any) {

@@ -32,6 +32,7 @@ import doctorExpertisesRouter from './doctorExertisesRouter';
 import clinicSpecialtyRouter from './clinic_specialtyRouter';
 import medicalEquipmentRouter from './medical_equipmentRouter';
 import workingHoursRouter from './working_hoursRouter';
+import supportStaffRouter from './support_staffRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -67,5 +68,5 @@ appRouter.use('/doctor-expertises', doctorExpertisesRouter);
 appRouter.use('/clinic-specialty', clinicSpecialtyRouter);
 appRouter.use('/medical-equipment', medicalEquipmentRouter);
 appRouter.use('/working-hours', workingHoursRouter);
-
+appRouter.use('/support-staff', supportStaffRouter);
 export default appRouter;

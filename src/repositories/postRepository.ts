@@ -59,6 +59,7 @@ export class PostRepository {
         pageSize?: number | null,
         status?: string | null,
         authorId?: number | null,
+        position?: string | null,
     ): Promise<any> {
         try {
             const sql = 'CALL ViewPost(?,?,?,?,?,?,@err_code,@err_msg)';
@@ -68,7 +69,7 @@ export class PostRepository {
                 pageIndex,
                 pageSize,
                 status,
-                authorId,
+                position === 'admin' ? null : authorId,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

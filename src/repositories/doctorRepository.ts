@@ -6,6 +6,7 @@ import {
     DoctorInfo,
     DoctorUpdateDto,
 } from '../models/doctor';
+const md5 = require('md5');
 @injectable()
 export class DoctorRepository {
     constructor(private db: Database) {}
@@ -27,7 +28,7 @@ export class DoctorRepository {
     async createDoctor(doctor: DoctorCreateDto): Promise<any> {
         try {
             const sql =
-                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [result] = await this.db.query(sql, [
                 doctor.email,
                 doctor.gender,
@@ -44,6 +45,7 @@ export class DoctorRepository {
                 doctor.introduction,
                 doctor.department,
                 doctor.servicePrice,
+                md5(doctor.email),
             ]);
             return result[0].lastUserId;
         } catch (err: any) {

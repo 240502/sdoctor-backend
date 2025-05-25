@@ -1,7 +1,9 @@
 import { injectable } from 'tsyringe';
 import { MedicalPackageRepository } from '../repositories/medical_packageRepository';
-import { Service } from '../models/service';
-import { page } from 'pdfkit';
+import {
+    MedicalPackageUpdateDTO,
+    MedicalPackageCreateDTO,
+} from '../models/medical_package';
 
 @injectable()
 export class MedicalPackageService {
@@ -15,10 +17,10 @@ export class MedicalPackageService {
             clinicId,
         );
     }
-    async createService(service: Service): Promise<any> {
+    async createService(service: MedicalPackageCreateDTO): Promise<any> {
         return this.medicalPackageRepository.createService(service);
     }
-    async updateService(service: Service): Promise<any> {
+    async updateService(service: MedicalPackageUpdateDTO): Promise<any> {
         return this.medicalPackageRepository.updateService(service);
     }
     async deleteService(id: number): Promise<any> {

@@ -1,6 +1,9 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { Service } from '../models/service';
+import {
+    MedicalPackageCreateDTO,
+    MedicalPackageUpdateDTO,
+} from '../models/medical_package';
 
 @injectable()
 export class MedicalPackageRepository {
@@ -19,39 +22,39 @@ export class MedicalPackageRepository {
             throw err;
         }
     }
-    async createService(service: Service): Promise<any> {
+    async createService(service: MedicalPackageCreateDTO): Promise<any> {
         try {
             const sql =
-                'CALL CreateService(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL CreateMedicalPackage(?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const newService = await this.db.query(sql, [
                 service.name,
                 service.summary,
                 service.price,
-                service.clinic_id,
-                service.category_id,
+                service.clinicId,
+                service.categoryId,
                 service.image,
-                service.preparation_process,
-                service.service_detail,
+                service.preparationProcess,
+                service.serviceDetail,
             ]);
             return newService;
         } catch (err: any) {
             throw new Error(err);
         }
     }
-    async updateService(service: Service): Promise<any> {
+    async updateService(service: MedicalPackageUpdateDTO): Promise<any> {
         try {
             const sql =
-                'CALL UpdateService(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL UpdateMedicalPackage(?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
                 service.id,
                 service.name,
                 service.summary,
                 service.price,
-                service.clinic_id,
-                service.category_id,
+                service.clinicId,
+                service.categoryId,
                 service.image,
-                service.preparation_process,
-                service.service_detail,
+                service.preparationProcess,
+                service.serviceDetail,
             ]);
             return true;
         } catch (err: any) {
@@ -60,7 +63,7 @@ export class MedicalPackageRepository {
     }
     async deleteService(id: number): Promise<any> {
         try {
-            const sql = 'CALL DeleteService(?,@err_code,@err_msg)';
+            const sql = 'CALL DeleteMedicalPackage(?,@err_code,@err_msg)';
             await this.db.query(sql, [id]);
             return true;
         } catch (err: any) {

@@ -31,6 +31,7 @@ export class PostService {
         pageSize?: number,
         status?: string,
         authorId?: number,
+        position?: string | null,
     ): Promise<any> {
         try {
             return this.postRepository.getPostWithOptions(
@@ -44,6 +45,7 @@ export class PostService {
                 typeof authorId === 'string' && authorId === 'null'
                     ? null
                     : Number(authorId),
+                position,
             );
         } catch (err: any) {
             throw err;
