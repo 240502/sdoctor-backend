@@ -73,6 +73,7 @@ export class UserRepository {
                         roleName: results[0].name,
                         token: '',
                         active: results[0].active,
+                        supporterId: results[0].supporterId,
                     };
                     return user;
                 } else return null;
@@ -192,6 +193,7 @@ export class UserRepository {
                     token: '',
                     active: results[0].active,
                     roleName: results[0].name,
+                    supporterId: results[0].supporterId,
                 };
                 return user;
             } else {

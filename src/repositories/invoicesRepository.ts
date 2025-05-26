@@ -6,6 +6,20 @@ import { Invoices, InvoicesCreateDto } from '../models/invoices';
 export class InvoicesRepository {
     constructor(private db: Database) {}
 
+    async getInvoiceById(id: number): Promise<Invoices | null> {
+        try {
+            const sql = 'CALL GetInvoiceById(?,@err_code,@err_msg)';
+            const [results] = await this.db.query(sql, [id]);
+            if (Array.isArray(results) && results.length > 0) {
+                return results[0];
+            } else {
+                return null;
+            }
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+
     async getInvoiceByAppointmentId(
         appointmentId: number,
     ): Promise<Invoices | null> {
@@ -99,19 +113,27 @@ export class InvoicesRepository {
         pageIndex: number,
         pageSize: number,
         status: string,
+        doctorId?: number,
+        fromDate?: Date,
+        toDate?: Date,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewInvoice(?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewInvoice(?,?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 status,
+                doctorId,
+                fromDate,
+                toDate,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;
             } else return null;
         } catch (err: any) {
-            throw new Error(err.message);
+            console.log('Có lõi khi lấy danh sách hóa đơn:', err);
+
+            throw new Error(err);
         }
     }
     async updateInvoiceStatus(id: number, status: string) {

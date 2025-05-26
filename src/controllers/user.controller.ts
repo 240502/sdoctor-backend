@@ -55,7 +55,6 @@ export class UserController {
             const results: any =
                 await this.userService.refreshToken(refreshToken);
 
-            // Cập nhật accessToken trong cookie
             res.cookie('accessToken', results.accessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',

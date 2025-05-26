@@ -9,6 +9,19 @@ import path from 'path';
 export class InvoiceController {
     constructor(private invoicesService: InvoicesService) {}
 
+    async getInvoiceById(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            const invoice = await this.invoicesService.getInvoiceById(id);
+            if (invoice) {
+                res.json(invoice);
+            } else {
+                res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
+            }
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
     async createInvoicePdf(req: Request, res: Response): Promise<void> {
         const invoiceData = req.body;
 
@@ -143,11 +156,15 @@ export class InvoiceController {
     }
     async viewInvoice(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, status } = req.body;
+            const { pageIndex, pageSize, status, doctorId, fromDate, toDate } =
+                req.body;
             const data = await this.invoicesService.viewInvoice(
                 pageIndex,
                 pageSize,
                 status,
+                doctorId,
+                fromDate,
+                toDate,
             );
             if (data) {
                 res.status(200).json({
@@ -156,6 +173,8 @@ export class InvoiceController {
                     pageSize: pageSize,
                     totalItems: data[0].RecordCount,
                     pageCount: Math.ceil(data[0].RecordCount / pageSize),
+                    fromDate,
+                    toDate,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });

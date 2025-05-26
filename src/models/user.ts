@@ -20,6 +20,7 @@ export interface User {
     functions: Functions[];
     active: number;
     roleName: string;
+    supporterId?: number;
 }
 
 export interface TokenPayload {
