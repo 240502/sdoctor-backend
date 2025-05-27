@@ -13,6 +13,60 @@ import { authenticate } from '../middlewares/authMiddleware';
 const invoiceRouter = Router();
 const invoiceController = container.resolve(InvoiceController);
 
+/**
+ * @swagger
+ * /invoice/create-detail:
+ *   post:
+ *     tags: [Invoices]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               invoiceId:
+ *                 type: string
+ *               serviceId:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *                 format: float
+ *     responses:
+ *       201:
+ *         description: Invoice detail created successfully
+ *       400:
+ *         description: Invalid request body
+ */
+invoiceRouter.post(
+    '/create-detail',
+    authenticate,
+    invoiceController.createInvoiceDetail.bind(invoiceController),
+);
+
+/**
+ * @swagger
+ * /invoice/delete-detail/{id}:
+ *   delete:
+ *     tags: [Invoices]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Invoice detail deleted successfully
+ *       404:
+ *         description: Invoice detail not found
+ */
+invoiceRouter.delete(
+    '/delete-detail/:id',
+    authenticate,
+    invoiceController.deleteInvoiceDetail.bind(invoiceController),
+);
+
 invoiceRouter.get(
     '/get-by-id/:id',
     invoiceController.getInvoiceById.bind(invoiceController),

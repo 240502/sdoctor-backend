@@ -5,6 +5,31 @@ import { Invoices, InvoicesCreateDto } from '../models/invoices';
 export class InvoicesService {
     constructor(private invoicesRepository: InvoicesRepository) {}
 
+    async createInvoiceDetail(
+        data: [
+            {
+                invoiceId: number;
+                serviceId: number;
+                price: number;
+            },
+        ],
+    ): Promise<any> {
+        try {
+            return this.invoicesRepository.createInvoiceDetail(data);
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async deleteInvoiceDetail(id: number): Promise<any> {
+        try {
+            if (!id) {
+                throw new Error('Thiếu tham số để xóa !');
+            }
+            return this.invoicesRepository.deleteInvoiceDetail(id);
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getInvoiceById(id: number): Promise<Invoices | null> {
         try {
             if (!id) {
@@ -22,7 +47,10 @@ export class InvoicesService {
             throw err;
         }
     }
-    async updateInvoice(invoice: Invoices): Promise<any> {
+    async updateInvoice(invoice: {
+        invoiceId: number;
+        paymentMethod: number;
+    }): Promise<any> {
         try {
             return this.invoicesRepository.updateInvoice(invoice);
         } catch (err: any) {
@@ -58,8 +86,7 @@ export class InvoicesService {
         pageSize: number,
         status: string,
         doctorId: number,
-        fromDate: Date,
-        toDate: Date,
+        createdAt: Date,
     ): Promise<any> {
         try {
             return this.invoicesRepository.viewInvoice(
@@ -67,8 +94,7 @@ export class InvoicesService {
                 pageSize,
                 status,
                 doctorId,
-                fromDate,
-                toDate,
+                createdAt,
             );
         } catch (err: any) {
             throw err;

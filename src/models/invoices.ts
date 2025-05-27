@@ -16,7 +16,7 @@ export interface Invoices {
 export interface InvoicesCreateDto {
     appointmentId: number;
     doctorId: number;
-    serviceId: number;
     amount: number;
     paymentMethod: number;
+    services: [{ serviceId: number; price: number }];
 }

@@ -5,7 +5,34 @@ import { Invoices, InvoicesCreateDto } from '../models/invoices';
 @injectable()
 export class InvoicesRepository {
     constructor(private db: Database) {}
+    async createInvoiceDetail(
+        data: [
+            {
+                invoiceId: number;
+                serviceId: number;
+                price: number;
+            },
+        ],
+    ): Promise<any> {
+        try {
+            const sql = 'CALL CreateInvoiceDetail(?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [JSON.stringify(data)]);
+            return result;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+    async deleteInvoiceDetail(id: number): Promise<any> {
+        try {
+            const sql = 'CALL DeleteInvoiceDetail(?,@err_code,@err_msg)';
+            const result = await this.db.query(sql, [id]);
+            console.log('Kết quả xóa hóa đơn:', result);
 
+            return true;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
     async getInvoiceById(id: number): Promise<Invoices | null> {
         try {
             const sql = 'CALL GetInvoiceById(?,@err_code,@err_msg)';
@@ -41,8 +68,8 @@ export class InvoicesRepository {
             const newInvoice = await this.db.query(sql, [
                 invoice.appointmentId,
                 invoice.doctorId,
-                invoice.serviceId,
                 invoice.amount,
+                JSON.stringify(invoice.services),
                 invoice.paymentMethod,
             ]);
             return newInvoice;
@@ -50,17 +77,15 @@ export class InvoicesRepository {
             throw new Error(err);
         }
     }
-    async updateInvoice(invoice: Invoices): Promise<any> {
+    async updateInvoice(invoice: {
+        invoiceId: number;
+        paymentMethod: number;
+    }): Promise<any> {
         try {
-            const sql = 'CALL UpdateInvoices(?,?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL UpdateInvoices(?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                invoice.id,
-                invoice.service_id,
-                invoice.amount,
-                invoice.status,
-                invoice.payment_method,
-                invoice.patient_name,
-                invoice.patient_phone,
+                invoice.invoiceId,
+                invoice.paymentMethod,
             ]);
             return true;
         } catch (err: any) {
@@ -114,18 +139,16 @@ export class InvoicesRepository {
         pageSize: number,
         status: string,
         doctorId?: number,
-        fromDate?: Date,
-        toDate?: Date,
+        createdAt?: Date,
     ): Promise<any> {
         try {
-            const sql = 'CALL ViewInvoice(?,?,?,?,?,?,@err_code,@err_msg)';
+            const sql = 'CALL ViewInvoice(?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 pageIndex,
                 pageSize,
                 status,
                 doctorId,
-                fromDate,
-                toDate,
+                createdAt,
             ]);
             if (Array.isArray(results) && results.length > 0) {
                 return results;

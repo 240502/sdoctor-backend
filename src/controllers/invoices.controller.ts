@@ -8,6 +8,28 @@ import path from 'path';
 @injectable()
 export class InvoiceController {
     constructor(private invoicesService: InvoicesService) {}
+    async createInvoiceDetail(req: Request, res: Response): Promise<void> {
+        try {
+            const data: any = req.body;
+            const result = await this.invoicesService.createInvoiceDetail(data);
+            res.json({ message: 'Success', result });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async deleteInvoiceDetail(req: Request, res: Response): Promise<void> {
+        try {
+            const id: number = Number(req.params.id);
+            if (!id) {
+                res.status(400).json({ message: 'Thiếu tham số để xóa !' });
+                return;
+            }
+            await this.invoicesService.deleteInvoiceDetail(id);
+            res.json({ message: 'Success', result: true });
+        } catch (err: any) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 
     async getInvoiceById(req: Request, res: Response): Promise<void> {
         try {
@@ -103,7 +125,8 @@ export class InvoiceController {
     }
     async updateInvoice(req: Request, res: Response): Promise<void> {
         try {
-            const invoice: Invoices = req.body as Invoices;
+            const invoice: { invoiceId: number; paymentMethod: number } =
+                req.body as { invoiceId: number; paymentMethod: number };
             await this.invoicesService.updateInvoice(invoice);
             res.json({ message: 'Success', result: true });
         } catch (err: any) {
@@ -156,15 +179,14 @@ export class InvoiceController {
     }
     async viewInvoice(req: Request, res: Response): Promise<void> {
         try {
-            const { pageIndex, pageSize, status, doctorId, fromDate, toDate } =
+            const { pageIndex, pageSize, status, doctorId, createdAt } =
                 req.body;
             const data = await this.invoicesService.viewInvoice(
                 pageIndex,
                 pageSize,
                 status,
                 doctorId,
-                fromDate,
-                toDate,
+                createdAt,
             );
             if (data) {
                 res.status(200).json({
@@ -173,8 +195,7 @@ export class InvoiceController {
                     pageSize: pageSize,
                     totalItems: data[0].RecordCount,
                     pageCount: Math.ceil(data[0].RecordCount / pageSize),
-                    fromDate,
-                    toDate,
+                    createdAt,
                 });
             } else {
                 res.status(404).json({ message: 'Không tồn tại bản ghi nào!' });
