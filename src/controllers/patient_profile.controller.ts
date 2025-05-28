@@ -51,7 +51,7 @@ export class PatientProfileController {
         }
     }
 
-    async createPatientProfile(req: Request, res: Response): Promise<void> {
+    async createPatientProfile(req: Request, res: Response): Promise<any> {
         try {
             const profile: PatientProfile = req.body as PatientProfile;
             const recentPatient: PatientProfile | null =
@@ -71,16 +71,19 @@ export class PatientProfileController {
                 newPatientId = 'P' + newPatientId;
                 const newProfile = { ...profile, id: newPatientId };
 
-                await this.patientProfileService.createPatientProfile(
-                    newProfile,
-                );
+                const results =
+                    await this.patientProfileService.createPatientProfile(
+                        newProfile,
+                    );
+                return res.json({ message: 'Created successfully', results });
             } else {
                 const newProfile = { ...profile, id: 'P001' };
-                await this.patientProfileService.createPatientProfile(
-                    newProfile,
-                );
+                const results =
+                    await this.patientProfileService.createPatientProfile(
+                        newProfile,
+                    );
+                return res.json({ message: 'Created successfully', results });
             }
-            res.json({ message: 'Created successfully' });
         } catch (err: any) {
             res.status(500).json({ message: err.message });
         }

@@ -47,7 +47,7 @@ export class PatientProfileRepository {
         try {
             const sql =
                 'CALL CreatePatientProfile(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
-            await this.db.query(sql, [
+            const [results] = await this.db.query(sql, [
                 profile.id,
                 profile.patientName,
                 profile.gender,
@@ -59,7 +59,7 @@ export class PatientProfileRepository {
                 profile.commune,
                 profile.uuid,
             ]);
-            return true;
+            return results[0];
         } catch (err: any) {
             throw new Error(err.message);
         }
