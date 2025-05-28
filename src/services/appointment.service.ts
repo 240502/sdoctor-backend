@@ -8,8 +8,18 @@ export class AppointmentService {
     constructor(
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
-    ) {}
-
+    ) { }
+    
+    async getTotalAppointmentByStatus(doctorId: number): Promise<any>{
+        try {
+            if (!doctorId) {
+                throw new Error("Thiếu tham số để lấy dữ liệu !");
+            }
+            return await this.appointmentRepository.getTotalAppointmentByStatus(doctorId);
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getRecentAppointments(
         entityId: number | null,
         limit: number | null,

@@ -5,7 +5,29 @@ import { Response, Request } from 'express';
 @injectable()
 export class DepartmentController {
     constructor(private departmentService: DepartmentService) {}
+    async getDepartmentWithPagination(req: Request, res: Response) {
+        try {
+            const { pageIndex, pageSize, name } = req.query as unknown as {
+                pageIndex: number;
+                pageSize: number;
+                name: string;
+            }
+            const results = await this.departmentService.getDepartmentsWithPagination(pageIndex, pageSize, name);
+            if (!results) {
+                return  res.status(404).json({message:"Not found",results:[]})
+            }
+            res.status(200).json({
+                pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                data: results,
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                name:name
+            })
 
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async getAllDepartment(
         req: Request,
         res: Response,

@@ -6,6 +6,17 @@ import { DepartmentResponse } from '../models/department';
 export class DepartmentService {
     constructor(private departmentRepository: DepartmentRepository) {}
 
+    async getDepartmentsWithPagination(pageIndex:number,pageSize:number,name:string): Promise<DepartmentResponse[] | null>{
+        try {
+            let offset: number = 0;
+            if (pageIndex && pageSize) {
+                offset = (pageIndex - 1) * pageSize;
+            }
+            return await this.departmentRepository.getDepartmentsWithPagination(pageSize,offset,name)
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAllDepartments(): Promise<DepartmentResponse[] | null> {
         return await this.departmentRepository.getAllDepartment();
     }

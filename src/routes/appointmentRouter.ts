@@ -11,6 +11,8 @@ const appointmentController = container.resolve(AppointmentController);
  *   name: Appointment
  */
 
+appointmentRouter.get("/get-total-by-status/:doctorId", appointmentController.getTotalAppointmentByStatus.bind(appointmentController));
+
 /**
  * @swagger
  * /appointment/get-by-id/{id}:

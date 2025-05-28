@@ -10,6 +10,10 @@ const departmentController = container.resolve(DepartmentController);
  * tags:
  *   name: Department
  */
+departmentRouter.get(
+    '/get-departments-with-pagination',
+    departmentController.getDepartmentWithPagination.bind(departmentController),
+);
 
 /**
  * @swagger

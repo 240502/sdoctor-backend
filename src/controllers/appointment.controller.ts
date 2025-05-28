@@ -10,7 +10,20 @@ import {
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
+    async getTotalAppointmentByStatus(req: Request, res: Response): Promise<void|Response>{
+        try {
+            const doctorId = Number(req.params.doctorId); 
+            const result = await this.appointmentService.getTotalAppointmentByStatus(doctorId)
+            if (!result) {
+                return res.status(404).json({message:"Không có dữ liệu"});
 
+            }
+            return res.status(200).json(result);
+            
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async getRecentAppointments(
         req: Request,
         res: Response,
