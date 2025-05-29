@@ -12,7 +12,7 @@ export class DepartmentController {
                 pageSize: number;
                 name: string;
             }
-            const results = await this.departmentService.getDepartmentsWithPagination(pageIndex, pageSize, name);
+            const results = await this.departmentService.getDepartmentsWithPagination(Number(pageIndex), Number(pageSize), name);
             if (!results) {
                 return  res.status(404).json({message:"Not found",results:[]})
             }

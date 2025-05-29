@@ -7,7 +7,6 @@ export class DepartmentRepository {
     constructor(private db: Database) {}
     async getDepartmentsWithPagination(pageSize:number,offset:number,name:string|null):Promise<DepartmentResponse[]|null> {
         try {
-
             const sql = `Call GetDepartments(?,?,?,@err_code,@err_msg)`;
             const [results] = await this.db.query(sql, [pageSize, offset, name])
             if (!Array.isArray(results) && results.length > 0) {
