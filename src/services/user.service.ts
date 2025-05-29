@@ -1,6 +1,11 @@
 import { injectable } from 'tsyringe';
 import { UserRepository } from '../repositories/userRepository';
-import { User, TokenPayload, LoginResponse } from '../models/user';
+import {
+    User,
+    TokenPayload,
+    LoginResponse,
+    UserUpdateDTO,
+} from '../models/user';
 import { config } from '../config/config';
 var md5 = require('md5');
 import jwt from 'jsonwebtoken';
@@ -94,8 +99,15 @@ export class UserService {
         user.password = md5(user.password);
         return this.userRepository.createUser(user);
     }
-    async updateUser(user: User): Promise<any> {
-        return this.userRepository.updateUser(user);
+    async updateUser(user: UserUpdateDTO): Promise<any> {
+        try {
+            if (!user.id) {
+                throw new Error('Thiếu tham số để cập nhật dữ liệu!');
+            }
+            return this.userRepository.updateUser(user);
+        } catch (err: any) {
+            throw err;
+        }
     }
     async deleteUser(id: Number): Promise<any> {
         return this.userRepository.deleteUser(id);

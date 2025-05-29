@@ -55,7 +55,7 @@ export class DoctorRepository {
     async updateDoctor(doctor: DoctorUpdateDto): Promise<any> {
         try {
             const sql =
-                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
+                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
             await this.db.query(sql, [
                 doctor.doctorId,
                 doctor.image,
@@ -70,7 +70,6 @@ export class DoctorRepository {
                 doctor.commune,
                 doctor.title,
                 doctor.birthday,
-                doctor.servicePrice,
                 doctor.summary,
                 doctor.introduction,
             ]);

@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { UserService } from '../services/user.service';
-import { LoginResponse, User } from '../models/user';
+import { LoginResponse, User, UserUpdateDTO } from '../models/user';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 @injectable()
@@ -185,7 +185,7 @@ export class UserController {
 
     async updateUser(req: Request, res: Response): Promise<void> {
         try {
-            const user = req.body as User;
+            const user = req.body as UserUpdateDTO;
             await this.userService.updateUser(user);
             res.status(200).json({
                 message: 'Successfully updated',

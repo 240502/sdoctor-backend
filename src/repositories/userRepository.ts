@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
-import { User } from '../models/user';
+import { User, UserUpdateDTO } from '../models/user';
 import { Functions } from '../models/functions';
 import md5 from 'md5';
 @injectable()
@@ -124,22 +124,21 @@ export class UserRepository {
             throw new Error(err.message);
         }
     }
-    async updateUser(user: User): Promise<any> {
+    async updateUser(user: UserUpdateDTO): Promise<any> {
         try {
             const sql =
-                'CALL UpdateUser(?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL UpdateUser(?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             await this.db.query(sql, [
-                user.userId,
+                user.id,
                 user.fullName,
                 user.image,
                 user.phone,
                 user.gender,
-                user.city,
                 user.email,
-                user.password,
-                user.roleId,
-                user.created_at,
                 user.birthday,
+                user.city,
+                user.district,
+                user.commune,
             ]);
             return true;
         } catch (err: any) {

@@ -84,7 +84,7 @@ userRouter.post('/create', userController.createUser.bind(userController));
  *       200:
  *         description: User details updated
  */
-userRouter.post(
+userRouter.put(
     '/update',
     authenticate,
     userController.updateUser.bind(userController),

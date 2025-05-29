@@ -33,3 +33,16 @@ export interface LoginResponse {
     accessToken: string;
     refreshToken: string;
 }
+
+export interface UserUpdateDTO {
+    id: number;
+    fullName: string;
+    image: string;
+    phone: string;
+    gender: number;
+    email: string;
+    birthday: string;
+    city: string;
+    district: string;
+    commune: string;
+}
