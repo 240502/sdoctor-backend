@@ -135,4 +135,43 @@ export class MailerService {
             console.log(err.message);
         }
     }
+
+    async sendPaymentSuccessMail(
+        email: string,
+        patientName: string,
+        doctorName: string,
+        appointmentDate: string,
+        paymentAmount: number,
+        transactionId: string,
+    ) {
+        try {
+            await transporter.sendMail({
+                from: 'sanghip200@gmail.com',
+                to: email,
+                subject: 'Thông báo thanh toán thành công',
+                html: `<div>
+                        Kính gửi ${patientName},
+                        <br>
+                        Chúng tôi xin chân thành cảm ơn Quý khách đã tin tưởng và lựa chọn dịch vụ tại SDOCTOR.
+                        <br>Chúng tôi xin thông báo rằng thanh toán cho lịch hẹn khám bệnh của Quý khách đã được thực hiện thành công. Chi tiết thanh toán như sau:
+                        <ul>
+                            <li>Tên bác sĩ: ${doctorName}</li>
+                            <li>Ngày hẹn: ${new Date(appointmentDate).toLocaleDateString('vi-VN')}</li>
+                            <li>Số tiền thanh toán: ${paymentAmount.toLocaleString('vi-VN')} VNĐ</li>
+                            <li>Mã giao dịch: ${transactionId}</li>
+                        </ul>
+                        <br>Nếu cần thêm thông tin hoặc hỗ trợ, vui lòng liên hệ với chúng tôi qua:
+                        <br>Số điện thoại: 0777435783
+                        <br>Email: sanghip200@gmail.com
+                        <br>Chúng tôi rất mong được phục vụ Quý khách và chúc Quý khách một buổi khám bệnh hiệu quả.
+        
+                        <p>Trân trọng,</p>
+                        <p>SDOCTOR</p>
+                </div>`,
+            });
+            console.log('Gửi email thông báo thanh toán thành công');
+        } catch (err: any) {
+            console.error('Lỗi khi gửi email:', err.message);
+        }
+    }
 }

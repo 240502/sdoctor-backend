@@ -56,7 +56,6 @@ export interface DoctorCreateDto {
     title: string;
     introduction: string;
     department: number;
-    servicePrice: number;
 }
 
 export interface DoctorUpdateDto {

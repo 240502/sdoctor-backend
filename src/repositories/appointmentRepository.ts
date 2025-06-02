@@ -5,12 +5,32 @@ import { AppointmentCreateDto, AppointmentRes } from '../models';
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
-    async getTotalAppointmentByStatus(doctorId: number): Promise<any>{
+    async getAppointmentsByMonthAndYear(
+        fromDate: string,
+        toDate: string,
+        doctorId: number,
+    ): Promise<any> {
+        try {
+            const sql = ` CALL GetAppointmentByMonthAndYear(?,?,?,@err_code,@err_msg)`;
+            const [results] = await this.db.query(sql, [
+                fromDate,
+                toDate,
+                doctorId,
+            ]);
+            if (!Array.isArray(results) && results.length === 0) {
+                return null;
+            }
+            return results;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+    async getTotalAppointmentByStatus(doctorId: number): Promise<any> {
         try {
             const sql = `CALL GetTotalAppointmentsByStatus(?,@err_code,@err_msg)`;
             const [results] = await this.db.query(sql, [doctorId]);
             console.log(results);
-            
+
             if (!Array.isArray(results) && results.length === 0) {
                 return null;
             }

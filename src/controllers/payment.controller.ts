@@ -6,7 +6,16 @@ const CryptoJS = require('crypto-js'); // npm install crypto-js
 const qs = require('qs');
 import { InvoicesService } from '../services/invoices.service';
 import { Invoices } from '../models/invoices';
-
+import {
+    HashAlgorithm,
+    ProductCode,
+    VNPay,
+    VnpLocale,
+    dateFormat,
+    ignoreLogger,
+} from 'vnpay';
+import { MailerService } from '../services/mailer.service';
+import { AppointmentService } from '../services/appointment.service';
 const config: any = {
     app_id: '2553',
     key1: 'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL',
@@ -15,11 +24,13 @@ const config: any = {
 };
 @injectable()
 export class PaymentController {
-    constructor(private invoiceService: InvoicesService) {}
+    constructor(
+        private invoiceService: InvoicesService,
+        private mailService: MailerService,
+        private appointmentService: AppointmentService,
+    ) {}
     async createPayment(req: Request, res: Response): Promise<any> {
         try {
-            console.log(req);
-
             const appointmentId: number = Number(req.params.appointmentId);
             if (!appointmentId) {
                 throw new Error('Thiếu thông tin để tạo đơn hàng !');
@@ -55,7 +66,7 @@ export class PaymentController {
                 //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
                 //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
                 callback_url:
-                    'https://f420-113-175-241-16.ngrok-free.app/api/payment/callback',
+                    'https://b6ff-14-244-119-216.ngrok-free.app/api/payment/callback',
                 description: `Thanh toán phí hẹn khám`,
                 bank_code: 'zalopayapp',
                 mac: '',
@@ -126,5 +137,110 @@ export class PaymentController {
 
         // thông báo kết quả cho ZaloPay server
         res.json(result);
+    }
+
+    async createPaymentVnPay(req: Request, res: Response): Promise<any> {
+        try {
+            const appointmentId: number = Number(req.params.appointmentId);
+            if (!appointmentId) {
+                throw new Error('Thiếu thông tin để tạo đơn hàng !');
+            }
+            const invoice: Invoices | null =
+                await this.invoiceService.getInvoiceByAppointmentId(
+                    appointmentId,
+                );
+
+            if (!invoice) {
+                throw new Error('Không có dữ liệu hóa đơn !');
+            }
+            const vnpay = new VNPay({
+                tmnCode: 'PIGNCXT4',
+                secureSecret: '2GXHP71JZA295D7B26C9TIPRTNUFL72H',
+                vnpayHost: 'https://sandbox.vnpayment.vn',
+                queryDrAndRefundHost: 'https://sandbox.vnpayment.vn',
+                // Cấu hình tùy chọn
+                testMode: true, // Chế độ test
+                hashAlgorithm: HashAlgorithm.SHA512,
+                enableLog: true, // Bật/tắt ghi log
+                loggerFn: ignoreLogger, // Hàm xử lý log tùy chỉnh
+            });
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 2);
+            const vnpayResponse = await vnpay.buildPaymentUrl({
+                vnp_Amount: invoice.amount,
+                vnp_IpAddr: '127.0.0.1',
+                vnp_TxnRef: `#IV${invoice.id}`,
+                vnp_OrderInfo: `Thanh toán cho hóa đơn ${invoice.id.toString()}`,
+                vnp_OrderType: ProductCode.Other,
+                vnp_ReturnUrl: `http://localhost:400/api/payment/vnpay/check-payment?appointmentId=${appointmentId}`,
+                vnp_Locale: VnpLocale.VN,
+                vnp_CreateDate: dateFormat(new Date()),
+                vnp_ExpireDate: dateFormat(now),
+            });
+            res.status(200).json(vnpayResponse);
+            return;
+        } catch (err: any) {
+            res.status(400).json({ error: err.message });
+        }
+    }
+
+    async checkPaymentVnpay(req: Request, res: Response): Promise<any> {
+        try {
+            console.log(req.query);
+            const {
+                vnp_ResponseCode,
+                vnp_OrderInfo,
+                vnp_BankTranNo,
+                vnp_TxnRef,
+                appointmentId,
+            } = req.query as unknown as {
+                vnp_ResponseCode: string;
+                vnp_OrderInfo: string;
+                vnp_TxnRef: string;
+                appointmentId: string;
+                vnp_BankTranNo: string;
+            };
+            if (vnp_ResponseCode === '00') {
+                const invoiceId = vnp_TxnRef.slice(3, vnp_TxnRef.length);
+                await this.invoiceService.updateInvoiceStatus(
+                    Number(invoiceId),
+                    'Đã thanh toán',
+                );
+                const appointment =
+                    await this.appointmentService.getAppointmentById(
+                        Number(appointmentId),
+                    );
+                await this.mailService.sendPaymentSuccessMail(
+                    appointment.patientEmail,
+                    appointment.patientName,
+                    appointment.doctorName,
+                    appointment.appointmentDate,
+                    appointment.amount,
+                    vnp_BankTranNo,
+                );
+                res.redirect(
+                    `http://localhost:5173/booking-success?appointment=${
+                        appointmentId
+                    }`,
+                );
+                return;
+            }
+            if (vnp_ResponseCode === '24')
+                res.redirect(
+                    `http://localhost:5173/booking-success?appointment=${
+                        appointmentId
+                    }`,
+                );
+
+            if (vnp_ResponseCode === '15') {
+                res.redirect(
+                    `http://localhost:5173/booking-success?appointment=${
+                        appointmentId
+                    }`,
+                );
+            }
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
     }
 }

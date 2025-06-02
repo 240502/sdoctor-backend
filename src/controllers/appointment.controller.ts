@@ -10,16 +10,45 @@ import {
 @injectable()
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
-    async getTotalAppointmentByStatus(req: Request, res: Response): Promise<void|Response>{
-        try {
-            const doctorId = Number(req.params.doctorId); 
-            const result = await this.appointmentService.getTotalAppointmentByStatus(doctorId)
-            if (!result) {
-                return res.status(404).json({message:"Không có dữ liệu"});
 
+    async getAppointmentByYearAndMonth(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const { fromDate, toDate, doctorId } = req.query as unknown as {
+                fromDate: string;
+                toDate: string;
+                doctorId: Number;
+            };
+            const results =
+                await this.appointmentService.getAppointmentsByMonthAndYear(
+                    fromDate,
+                    toDate,
+                    Number(doctorId),
+                );
+            if (!results) {
+                return res.status(404).json({ message: 'Not found' });
+            }
+            res.status(200).json(results);
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+    async getTotalAppointmentByStatus(
+        req: Request,
+        res: Response,
+    ): Promise<void | Response> {
+        try {
+            const doctorId = Number(req.params.doctorId);
+            const result =
+                await this.appointmentService.getTotalAppointmentByStatus(
+                    doctorId,
+                );
+            if (!result) {
+                return res.status(404).json({ message: 'Không có dữ liệu' });
             }
             return res.status(200).json(result);
-            
         } catch (err: any) {
             res.status(400).json({ message: err.message });
         }

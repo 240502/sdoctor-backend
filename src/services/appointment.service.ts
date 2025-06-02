@@ -8,14 +8,34 @@ export class AppointmentService {
     constructor(
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
-    ) { }
-    
-    async getTotalAppointmentByStatus(doctorId: number): Promise<any>{
+    ) {}
+
+    async getAppointmentsByMonthAndYear(
+        fromDate: string,
+        toDate: string,
+        doctorId: number,
+    ): Promise<any> {
+        try {
+            if (!doctorId || !fromDate || !toDate) {
+                throw new Error('Thiếu tham số để lấy dữ liệu!');
+            }
+            return await this.appointmentRepository.getAppointmentsByMonthAndYear(
+                fromDate,
+                toDate,
+                doctorId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+    async getTotalAppointmentByStatus(doctorId: number): Promise<any> {
         try {
             if (!doctorId) {
-                throw new Error("Thiếu tham số để lấy dữ liệu !");
+                throw new Error('Thiếu tham số để lấy dữ liệu !');
             }
-            return await this.appointmentRepository.getTotalAppointmentByStatus(doctorId);
+            return await this.appointmentRepository.getTotalAppointmentByStatus(
+                doctorId,
+            );
         } catch (err: any) {
             throw err;
         }

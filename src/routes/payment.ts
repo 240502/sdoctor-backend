@@ -81,4 +81,13 @@ paymentRouter.post(
     paymentController.callBack.bind(paymentController),
 );
 
+paymentRouter.post(
+    '/vnpay/create/:appointmentId',
+    paymentController.createPaymentVnPay.bind(paymentController),
+);
+paymentRouter.get(
+    '/vnpay/check-payment',
+    paymentController.checkPaymentVnpay.bind(paymentController),
+);
+
 export default paymentRouter;
