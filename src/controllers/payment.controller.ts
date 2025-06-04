@@ -165,7 +165,7 @@ export class PaymentController {
                 loggerFn: ignoreLogger, // Hàm xử lý log tùy chỉnh
             });
             const now = new Date();
-            now.setMinutes(now.getMinutes() + 2);
+            now.setMinutes(now.getMinutes() + 15);
             const vnpayResponse = await vnpay.buildPaymentUrl({
                 vnp_Amount: invoice.amount,
                 vnp_IpAddr: '127.0.0.1',

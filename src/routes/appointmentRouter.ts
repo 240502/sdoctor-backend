@@ -11,6 +11,22 @@ const appointmentController = container.resolve(AppointmentController);
  *   name: Appointment
  */
 
+/**
+ * @swagger
+ * /appointment/get-appointments-by-month-year:
+ *   get:
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Trả về thông tin lịch hẹn
+ */
+
 appointmentRouter.get(
     '/get-appointments-by-month-year',
     appointmentController.getAppointmentByYearAndMonth.bind(
