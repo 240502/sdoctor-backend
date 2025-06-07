@@ -13,6 +13,11 @@ import { authenticate } from '../middlewares/authMiddleware';
 const invoiceRouter = Router();
 const invoiceController = container.resolve(InvoiceController);
 
+invoiceRouter.get(
+    '/get-invoice-detail-by-appointment/:appointmentId',
+    invoiceController.getInvoiceDetailByAppointment.bind(invoiceController),
+);
+
 /**
  * @swagger
  * /invoice/create-detail:

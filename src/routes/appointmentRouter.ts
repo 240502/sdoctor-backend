@@ -13,6 +13,27 @@ const appointmentController = container.resolve(AppointmentController);
 
 /**
  * @swagger
+ * /appointment/get-appointments-for-doctor:
+ *   get:
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: doctorId
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Trả về thông tin lịch hẹn
+ */
+
+appointmentRouter.get(
+    '/get-appointments-for-doctor',
+    appointmentController.getAppointmentsForDoctor.bind(appointmentController),
+);
+
+/**
+ * @swagger
  * /appointment/get-appointments-by-month-year:
  *   get:
  *     tags: [Appointment]
@@ -35,7 +56,7 @@ appointmentRouter.get(
 );
 
 appointmentRouter.get(
-    '/get-total-by-status/:doctorId',
+    '/get-total-by-status',
     appointmentController.getTotalAppointmentByStatus.bind(
         appointmentController,
     ),

@@ -11,6 +11,38 @@ import {
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async getAppointmentsForDoctor(req: Request, res: Response): Promise<any> {
+        try {
+            const { doctorId, status, appointmentDate, pageSize, pageIndex } =
+                req.query as unknown as {
+                    doctorId: number;
+                    status: number;
+                    appointmentDate: string;
+                    pageSize: number;
+                    pageIndex: number;
+                };
+            const results =
+                await this.appointmentService.getAppointmentsForDoctor(
+                    doctorId,
+                    status,
+                    appointmentDate,
+                    pageSize,
+                    pageIndex,
+                );
+            if (!results) {
+                return res.status(404).json({ message: 'Không có dữ liệu!' });
+            }
+            res.status(200).json({
+                data: results,
+                pageCount: Math.ceil(results[0].RecordCount / pageSize),
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                appointmentDate,
+            });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async getAppointmentByYearAndMonth(
         req: Request,
         res: Response,
@@ -40,10 +72,14 @@ export class AppointmentController {
         res: Response,
     ): Promise<void | Response> {
         try {
-            const doctorId = Number(req.params.doctorId);
+            const { doctorId, appointmentDate } = req.query as unknown as {
+                doctorId: number;
+                appointmentDate: string;
+            };
             const result =
                 await this.appointmentService.getTotalAppointmentByStatus(
                     doctorId,
+                    appointmentDate,
                 );
             if (!result) {
                 return res.status(404).json({ message: 'Không có dữ liệu' });
@@ -160,8 +196,7 @@ export class AppointmentController {
                 pageIndex: number;
                 status: number;
                 userId: number;
-                fromDate: string;
-                toDate: string;
+                appointmentDate: string;
             };
             const results =
                 await this.appointmentService.getAppointmentWithOptions(
@@ -169,8 +204,7 @@ export class AppointmentController {
                     query.pageSize,
                     query.status,
                     query.userId,
-                    query.fromDate,
-                    query.toDate,
+                    query.appointmentDate,
                 );
             if (!results) {
                 return res.status(404).json({ message: 'Không có dữ liệu !' });

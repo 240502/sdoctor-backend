@@ -9,6 +9,29 @@ export class AppointmentService {
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
     ) {}
+    async getAppointmentsForDoctor(
+        doctorId: number,
+        status: number,
+        appointmentDate: string,
+        pageSize: number | null,
+        pageIndex: number | null,
+    ): Promise<any> {
+        try {
+            let offset: number = 0;
+            if (pageSize && pageIndex) {
+                offset = (pageIndex - 1) * pageSize;
+            }
+            return await this.appointmentRepository.getAppointmentsForDoctor(
+                doctorId,
+                status,
+                appointmentDate,
+                pageSize,
+                offset,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
 
     async getAppointmentsByMonthAndYear(
         fromDate: string,
@@ -28,13 +51,17 @@ export class AppointmentService {
             throw err;
         }
     }
-    async getTotalAppointmentByStatus(doctorId: number): Promise<any> {
+    async getTotalAppointmentByStatus(
+        doctorId: number,
+        appointmentDate: string,
+    ): Promise<any> {
         try {
             if (!doctorId) {
                 throw new Error('Thiếu tham số để lấy dữ liệu !');
             }
             return await this.appointmentRepository.getTotalAppointmentByStatus(
                 doctorId,
+                appointmentDate,
             );
         } catch (err: any) {
             throw err;
@@ -116,8 +143,7 @@ export class AppointmentService {
         pageSize: number | null,
         status: number | null,
         userId: number | null,
-        fromDate: string | null,
-        toDate: string | null,
+        appointmentDate: string | null,
     ) {
         try {
             let offset: number | null = null;
@@ -129,8 +155,7 @@ export class AppointmentService {
                 pageSize ?? null,
                 status ?? null,
                 userId ?? null,
-                fromDate === 'null' ? null : fromDate,
-                toDate === 'null' ? null : toDate,
+                appointmentDate === 'null' ? null : appointmentDate,
             );
         } catch (err: any) {
             throw err;

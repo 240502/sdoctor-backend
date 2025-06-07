@@ -8,6 +8,26 @@ import path from 'path';
 @injectable()
 export class InvoiceController {
     constructor(private invoicesService: InvoicesService) {}
+
+    async getInvoiceDetailByAppointment(
+        req: Request,
+        res: Response,
+    ): Promise<any> {
+        try {
+            const results =
+                await this.invoicesService.getInvoiceDetailByAppointment(
+                    Number(req.params.appointmentId),
+                );
+            if (!results) {
+                return res
+                    .status(404)
+                    .json({ message: 'Not found', results: [] });
+            }
+            res.status(200).json(results);
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
     async createInvoiceDetail(req: Request, res: Response): Promise<void> {
         try {
             const data: any = req.body;

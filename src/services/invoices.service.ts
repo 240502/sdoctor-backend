@@ -5,6 +5,16 @@ import { Invoices, InvoicesCreateDto } from '../models/invoices';
 export class InvoicesService {
     constructor(private invoicesRepository: InvoicesRepository) {}
 
+    async getInvoiceDetailByAppointment(appointmentId: number): Promise<any> {
+        try {
+            return await this.invoicesRepository.getInvoiceDetailByAppointment(
+                appointmentId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
     async createInvoiceDetail(
         data: [
             {

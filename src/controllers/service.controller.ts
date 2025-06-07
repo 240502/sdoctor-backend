@@ -5,6 +5,30 @@ import { ServicesService } from '../services/services.service';
 @injectable()
 export class ServiceController {
     constructor(private doctorServiceService: ServicesService) {}
+
+    async getServiceByDepartmentAndDoctor(
+        req: Request,
+        res: Response,
+    ): Promise<any> {
+        try {
+            const { department, doctorId } = req.query as unknown as {
+                department: number;
+                doctorId: number;
+            };
+            const results =
+                await this.doctorServiceService.getServiceByDepartmentAndDoctor(
+                    department,
+                    doctorId,
+                );
+            if (!results) {
+                return res.status(404).json('Not found');
+            }
+            return res.status(200).json(results);
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+
     async getAllDoctorServices(req: Request, res: Response): Promise<void> {
         try {
             const result =

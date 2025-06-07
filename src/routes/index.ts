@@ -35,6 +35,7 @@ import workingHoursRouter from './working_hoursRouter';
 import supportStaffRouter from './support_staffRouter';
 import doctorServiceRouter from './doctor_serviceRouter';
 import axios from 'axios';
+import examinationResultRouter from './examination_resultRouter';
 let appRouter = Router();
 appRouter.use('/status', statusRouter);
 appRouter.use('/appointment', appointmentRouter);
@@ -72,6 +73,7 @@ appRouter.use('/medical-equipment', medicalEquipmentRouter);
 appRouter.use('/working-hours', workingHoursRouter);
 appRouter.use('/support-staff', supportStaffRouter);
 appRouter.use('/doctor-service', doctorServiceRouter);
+appRouter.use('/results', examinationResultRouter);
 
 appRouter.get('/province', async (req, res) => {
     try {

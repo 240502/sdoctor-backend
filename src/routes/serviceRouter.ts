@@ -51,4 +51,9 @@ serviceRouter.get(
     '/get-by-department/:departmentId',
     serviceController.getServiceByDepartmentId.bind(serviceController),
 );
+
+serviceRouter.get(
+    '/get-by-department-doctor',
+    serviceController.getServiceByDepartmentAndDoctor.bind(serviceController),
+);
 export default serviceRouter;

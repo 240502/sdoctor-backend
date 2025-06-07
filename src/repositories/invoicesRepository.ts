@@ -5,6 +5,21 @@ import { Invoices, InvoicesCreateDto } from '../models/invoices';
 @injectable()
 export class InvoicesRepository {
     constructor(private db: Database) {}
+    async getInvoiceDetailByAppointment(appointmentId: number): Promise<any> {
+        try {
+            const sql = ` CALL  GetInvoiceDetailsByAppointment(?,@err_code,@err_msg)`;
+            const [results] = await this.db.query(sql, [appointmentId]);
+
+            if (!Array.isArray(results) && results.length === 0) {
+                return null;
+            }
+
+            return results;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+
     async createInvoiceDetail(
         data: [
             {

@@ -5,6 +5,31 @@ import { AppointmentCreateDto, AppointmentRes } from '../models';
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
+    async getAppointmentsForDoctor(
+        doctorId: number,
+        status: number,
+        appointmentDate: string,
+        pageSize: number | null,
+        offset: number | null,
+    ) {
+        try {
+            const sql = `CALL GetAppointmentsForDoctor(?,?,?,?,?,@err_code,@err_msg)`;
+            const [results] = await this.db.query(sql, [
+                doctorId,
+                status,
+                appointmentDate,
+                pageSize,
+                offset,
+            ]);
+            if (!Array.isArray(results) || results.length === 0) {
+                return null;
+            }
+            return results;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+
     async getAppointmentsByMonthAndYear(
         fromDate: string,
         toDate: string,
@@ -25,11 +50,16 @@ export class AppointmentRepository {
             throw new Error(err);
         }
     }
-    async getTotalAppointmentByStatus(doctorId: number): Promise<any> {
+    async getTotalAppointmentByStatus(
+        doctorId: number,
+        appointmentDate: string,
+    ): Promise<any> {
         try {
-            const sql = `CALL GetTotalAppointmentsByStatus(?,@err_code,@err_msg)`;
-            const [results] = await this.db.query(sql, [doctorId]);
-            console.log(results);
+            const sql = `CALL GetTotalAppointmentsByStatus(?,?,@err_code,@err_msg)`;
+            const [results] = await this.db.query(sql, [
+                doctorId,
+                appointmentDate,
+            ]);
 
             if (!Array.isArray(results) && results.length === 0) {
                 return null;
@@ -112,19 +142,17 @@ export class AppointmentRepository {
         pageSize: number | null,
         status: number | null,
         userId: number | null,
-        fromDate: string | null,
-        toDate: string | null,
+        appointmentDate: string | null,
     ) {
         try {
             const sql =
-                'CALL GetAppointmentWithOptions(?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL GetAppointmentWithOptions(?,?,?,?,?,@err_code,@err_msg)';
             const [results] = await this.db.query(sql, [
                 offset,
                 pageSize,
                 status,
                 userId,
-                fromDate,
-                toDate,
+                appointmentDate,
             ]);
             if (!Array.isArray(results) && results?.length === 0) {
                 return null;
@@ -277,6 +305,7 @@ export class AppointmentRepository {
             throw new Error(err.message);
         }
     }
+
     async getAppointmentAtInvoice(
         patientName: string,
         doctorName: string,
@@ -301,6 +330,7 @@ export class AppointmentRepository {
             throw new Error(err);
         }
     }
+
     async updateIsValuate(appointmentId: number): Promise<any> {
         try {
             const sql = 'CALL UpdateIsEvaluate(?,@err_code,@err_msg)';
