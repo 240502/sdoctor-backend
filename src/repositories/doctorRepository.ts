@@ -28,7 +28,7 @@ export class DoctorRepository {
     async createDoctor(doctor: DoctorCreateDto): Promise<any> {
         try {
             const sql =
-                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
+                'CALL CreateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg)';
             const [result] = await this.db.query(sql, [
                 doctor.email,
                 doctor.gender,
@@ -45,6 +45,7 @@ export class DoctorRepository {
                 doctor.introduction,
                 doctor.department,
                 md5(doctor.email),
+                doctor.roomId,
             ]);
             return result[0].lastUserId;
         } catch (err: any) {
@@ -54,8 +55,8 @@ export class DoctorRepository {
     async updateDoctor(doctor: DoctorUpdateDto): Promise<any> {
         try {
             const sql =
-                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
-            await this.db.query(sql, [
+                'CALL UpdateDoctor(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@err_code,@err_msg )';
+            const result = await this.db.query(sql, [
                 doctor.doctorId,
                 doctor.image,
                 doctor.clinicId,
@@ -71,7 +72,10 @@ export class DoctorRepository {
                 doctor.birthday,
                 doctor.summary,
                 doctor.introduction,
+                doctor.roomId,
             ]);
+            console.log(doctor);
+
             return true;
         } catch (err: any) {
             throw new Error(err.message);

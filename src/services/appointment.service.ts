@@ -9,6 +9,19 @@ export class AppointmentService {
         private appointmentRepository: AppointmentRepository,
         private scheduleRepository: ScheduleRepository,
     ) {}
+
+    async updateIsConclusion(appointmentId: number): Promise<any> {
+        try {
+            if (!appointmentId) {
+                throw new Error('Thiếu tham số để cập nhật dữ liệu!');
+            }
+            return await this.appointmentRepository.updateIsConclusion(
+                appointmentId,
+            );
+        } catch (err: any) {
+            throw err;
+        }
+    }
     async getAppointmentsForDoctor(
         doctorId: number,
         status: number,

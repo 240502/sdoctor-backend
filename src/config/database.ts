@@ -29,8 +29,6 @@ export class Database {
             );
 
             const err: any = outParam;
-            console.log(err[0]['@err_msg']);
-
             if (err[0]['@err_code'] === 0) {
                 return results;
             } else if (err[0]['@err_code'] === -1) {

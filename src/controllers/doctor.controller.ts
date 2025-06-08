@@ -29,6 +29,7 @@ export class DoctorController {
     async createDoctor(req: Request, res: Response): Promise<void> {
         try {
             const doctor = req.body as DoctorCreateDto;
+
             const result = await this.doctorService.createDoctor(doctor);
             res.json({ message: 'Successfully created', result: result });
         } catch (err: any) {

@@ -11,6 +11,17 @@ import {
 export class AppointmentController {
     constructor(private appointmentService: AppointmentService) {}
 
+    async updateIsConclusion(req: Request, res: Response): Promise<any> {
+        try {
+            const appointmentId: number = Number(req.params.appointmentId);
+            const result =
+                await this.appointmentService.updateIsConclusion(appointmentId);
+            res.status(200).json({ message: 'updated successfully', result });
+        } catch (err: any) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+
     async getAppointmentsForDoctor(req: Request, res: Response): Promise<any> {
         try {
             const { doctorId, status, appointmentDate, pageSize, pageIndex } =

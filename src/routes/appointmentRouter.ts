@@ -11,6 +11,11 @@ const appointmentController = container.resolve(AppointmentController);
  *   name: Appointment
  */
 
+appointmentRouter.put(
+    '/update-is-conclusion/:appointmentId',
+    appointmentController.updateIsConclusion.bind(appointmentController),
+);
+
 /**
  * @swagger
  * /appointment/get-appointments-for-doctor:

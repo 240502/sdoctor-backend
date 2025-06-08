@@ -5,6 +5,16 @@ import { AppointmentCreateDto, AppointmentRes } from '../models';
 export class AppointmentRepository {
     constructor(private db: Database) {}
 
+    async updateIsConclusion(appointmentId: number): Promise<any> {
+        try {
+            const sql = `CALL updateIsConclusion(?,@err_code,@err_msg);`;
+            const result = await this.db.query(sql, [appointmentId]);
+            return result;
+        } catch (err: any) {
+            throw new Error(err);
+        }
+    }
+
     async getAppointmentsForDoctor(
         doctorId: number,
         status: number,
